@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHFXGHOST</title>
+    <style>
+        body { background: #121214; color: #e2e8f0; font-family: sans-serif; padding: 15px; text-align: center; }
+        .banner { width: 100%; max-width: 400px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto; }
+        #status-board { font-family: monospace; font-size: 16px; margin-bottom: 15px; padding: 10px; border: 1px solid #2d3748; border-radius: 5px; }
+        .card { background: #1a1a1e; border: 1px solid #2d3748; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: left; }
+        .insight-box { background: #1f1f24; border: 1px solid #ecc94b; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: left; color: #ecc94b; }
+        .access-box { background: #1a1a1e; border: 1px solid #38a169; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; color: #38a169; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 5px; font-family: monospace; }
+        h1 { color: #fff; margin: 10px 0; font-size: 20px; }
+        h2 { color: #fff; margin-top: 0; font-size: 16px; }
+        .red { color: #e53e3e; } .green { color: #38a169; }
+        a { color: #38a169; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <img src="banner.jpg" class="banner">
+    <h1>FOREX MATRIX</h1>
+    
+    <div id="status-board">Loading...</div>
+
+    <div class="insight-box">
+        <h2>ARCHITECT'S INSIGHT</h2>
+        <p id="report-text" style="font-family: monospace; font-size: 14px; margin: 0;"></p>
+        <hr style="border:0; border-top:1px solid #ecc94b; margin: 10px 0;">
+        <h2 style="color: #ecc94b; margin-bottom: 5px;">WEEKLY W/L TRACKER</h2>
+        <div id="wl-stats" style="font-family: monospace;"></div>
+    </div>
+
+    <script>
+        // --- QUICK-EDIT ZONE ---
+        const USDCHF_H = 0.79772; const USDCHF_L = 0.79404;
+        const EURGBP_H = 0.86420; const EURGBP_L = 0.85980;
+        const NZDUSD_H = 0.61250; const NZDUSD_L = 0.60810;
+        
+        const REPORT = "Market analysis: Liquidity sweep anticipated at 1:00 AM open.";
+        const WINS = 4; const LOSSES = 1;
+        // -----------------------
+
+        document.getElementById('report-text').innerHTML = REPORT;
+        document.getElementById('wl-stats').innerHTML = `WINS: ${WINS} | LOSSES: ${LOSSES} | RATE: ${((WINS/(WINS+LOSSES))*100).toFixed(0)}%`;
+
+        function updateClock() {
+            const now = new Date();
+            const target = new Date();
+            let dayUntilMonday = (8 - now.getDay()) % 7;
+            if (dayUntilMonday === 0 && (now.getHours() >= 1)) dayUntilMonday = 7;
+            target.setDate(now.getDate() + dayUntilMonday);
+            target.setHours(1, 0, 0, 0);
+            
+            const diff = target - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const hour = now.getHours();
+            const day = now.getDay();
+
+            if (day === 1 && hour >= 1 && hour < 5) {
+                document.getElementById('status-board').innerHTML = '<span style="color:#38a169">● LONDON KILLZONE ACTIVE</span>';
+            } else {
+                document.getElementById('status-board').innerHTML = `○ KILLZONE IN: ${days}d ${h}h ${m}m ${s}s`;
+            }
+        }
+        setInterval(updateClock, 1000);
+
+        function writeCard(name, h, l) {
+            document.write(`
+            <div class="card">
+                <h2>${name}</h2>
+                <div class="row red"><span>SELL ENTRY (Ceiling):</span> <span>${h.toFixed(5)}</span></div>
+                <div class="row"><span>TP:</span> <span>${(h-0.0012).toFixed(5)}</span> | <span>SL:</span> <span>${(h+0.0004).toFixed(5)}</span></div>
+                <hr style="border:0; border-top:1px solid #2d3748; margin: 10px 0;">
+                <div class="row green"><span>BUY ENTRY (Floor):</span> <span>${l.toFixed(5)}</span></div>
+                <div class="row"><span>TP:</span> <span>${(l+0.0012).toFixed(5)}</span> | <span>SL:</span> <span>${(l-0.0004).toFixed(5)}</span></div>
+            </div>`);
+        }
+
+        writeCard("USD/CHF", USDCHF_H, USDCHF_L);
+        writeCard("EUR/GBP", EURGBP_H, EURGBP_L);
+        writeCard("NZD/USD", NZDUSD_H, NZDUSD_L);
+    </script>
+
+    <div class="access-box">
+        <h2>ACCESS THE MATRIX</h2>
+        <p style="font-size: 14px; margin-bottom: 10px;"><strong>What You Get:</strong> You receive a screenshot every Monday & Tuesday at 1:05 AM. It includes the exact <strong>Buy & Sell Triggers</strong>, consisting of the Ceiling/Floor Price, Take Profit (TP), and Stop Loss (SL) coordinates for you to execute in your own account. On off-days, check here for the latest market analysis.</p>
+        
+        <p style="font-size: 14px;">Option 1: Referral Link</p>
+        <a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">WEBULL REFERRAL</a>
+        
+        <p style="font-size: 14px; margin-top: 15px;">Option 2: Weekly Access ($10/wk)</p>
+        <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank">PAYPAL WEEKLY ACCESS</a>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
