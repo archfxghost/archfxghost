@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHFXGHOST Terminal</title>
+    <title>ARCHFX👻 Terminal</title>
     <style>
         body { background: #000; color: #0f0; font-family: 'Courier New', monospace; padding: 10px; text-align: center; }
         .container { border: 2px solid #0f0; padding: 15px; max-width: 500px; margin: auto; background: #0a0a0a; }
@@ -21,13 +21,14 @@
 <body>
 
     <div class="container">
-        <img src="banner.jpg" class="banner" alt="ARCHFXGHOST">
+        <img src="banner.jpg" class="banner" alt="ARCHFX👻">
 
         <div class="insight-box">
-            <div><strong>KILLZONE IN:</strong> <span id="countdown">Calculating...</span></div>
+            <div><strong>LONDON KILLZONE IN:</strong> <span id="countdown">Calculating...</span></div>
             <hr style="border:0; border-top:1px solid #d69e2e; margin: 5px 0;">
-            <div><strong>ARCHITECT'S INSIGHT:</strong> Liquidity sweep anticipated at 1:00 AM open.</div>
-            <div><strong>WEEKLY W/L TRACKER:</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
+            <div><strong>ARCHFX👻 INSIGHT:</strong> Liquidity sweep anticipated at 1:00 AM <span id="target-day"></span>.</div>
+            <!-- Weekly tracker display -->
+            <div id="wl-tracker"><strong>WEEKLY W/L TRACKER:</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
         </div>
 
         <div class="currency-box">
@@ -60,12 +61,30 @@
 
     <script>
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         
+        // Auto-Reset Tracker Logic
+        function checkWeeklyReset() {
+            const now = new Date();
+            // If it is Monday, reset the display
+            if (now.getDay() === 1) {
+                document.getElementById('wl-tracker').innerHTML = "<strong>WEEKLY W/L TRACKER:</strong> WINS: 0 | LOSSES: 0 | RATE: 0%";
+            }
+        }
+
         function updateCountdown() {
             const now = new Date();
             const target = new Date();
             target.setHours(1, 0, 0, 0);
-            if (now > target) target.setDate(target.getDate() + 1);
+
+            let day = target.getDay();
+            if (day === 0 || day === 6 || (day >= 1 && day <= 5 && now >= target)) {
+                let daysToAdd = (day === 6) ? 2 : (day === 0) ? 1 : 1;
+                target.setDate(target.getDate() + daysToAdd);
+            }
+
+            document.getElementById('target-day').innerText = daysOfWeek[target.getDay()];
+
             const diff = target - now;
             const h = Math.floor(diff / 3600000);
             const m = Math.floor((diff % 3600000) / 60000);
@@ -89,6 +108,8 @@
             }
         }
 
+        // Initialize
+        checkWeeklyReset();
         setInterval(updateCountdown, 1000);
         updatePrices();
         setInterval(updatePrices, 60000);
