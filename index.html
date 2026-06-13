@@ -14,8 +14,8 @@
         .price-display { font-size: 1.3em; margin: 2px 0; }
         .levels { font-size: 0.8em; color: #888; }
         .value-prop { font-size: 0.8em; color: #aaa; margin: 15px 0; padding: 5px; border-top: 1px solid #333; }
-        .footer-links { margin-top: 10px; font-size: 0.8em; }
-        .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 5px; font-weight: bold; }
+        .footer-links { margin-top: 20px; font-size: 0.8em; }
+        .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 10px; font-weight: bold; padding: 5px; border: 1px solid #0f0; }
     </style>
 </head>
 <body>
@@ -46,6 +46,19 @@
             <div class="symbol-name">NZD/USD</div>
             <div id="price-nzd" class="price-display">FETCHING...</div>
             <div class="levels">CEILING: 0.6150 | FLOOR: 0.6110</div>
+        </div>
+
+        <div class="insight-box" style="margin-top: 20px; text-align: left;">
+            <h3 style="color: #0f0; margin-top: 0; font-size: 1em;">ARCHFX👻 STRATEGY GUIDE</h3>
+            <p style="font-size: 0.8em; color: #aaa;">
+                <strong>KILLZONE:</strong> Monitoring the London Open (1:00 AM). Liquidity sweeps here often dictate the daily trend.
+            </p>
+            <p style="font-size: 0.8em; color: #aaa;">
+                <strong>CEILING & FLOOR:</strong> My daily Sell and Buy entry zones based on live order flow. <strong>TP and SL levels are updated post-1:00 AM analysis.</strong>
+            </p>
+            <p style="font-size: 0.8em; color: #aaa;">
+                <strong>WEEKLY W/L:</strong> Transparency in performance. Tracking strategy efficacy; resets every Monday.
+            </p>
         </div>
 
         <div class="value-prop">
@@ -98,7 +111,6 @@
         }
 
         async function updatePrices() {
-            // Staggered requests to avoid rate limits
             await fetchPrice({ sym: 'EUR/GBP', id: 'price-eur' });
             setTimeout(() => fetchPrice({ sym: 'USD/CHF', id: 'price-usd' }), 2000);
             setTimeout(() => fetchPrice({ sym: 'NZD/USD', id: 'price-nzd' }), 4000);
@@ -108,7 +120,6 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
         updatePrices();
-        // Increased interval to 5 minutes to stay well within free API limits
         setInterval(updatePrices, 300000);
     </script>
 </body>
