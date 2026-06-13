@@ -26,8 +26,7 @@
         <div class="insight-box">
             <div><strong>LONDON KILLZONE IN:</strong> <span id="countdown">Calculating...</span></div>
             <hr style="border:0; border-top:1px solid #d69e2e; margin: 5px 0;">
-            <div><strong>ARCHFX👻 INSIGHT:</strong> Liquidity sweep anticipated at 1:00 AM <span id="target-day"></span>.</div>
-            <!-- Weekly tracker display -->
+            <div><strong>ARCHFX👻 INSIGHT:</strong> Liquidity sweep anticipated at 1:00 AM <span id="target-day">...</span>.</div>
             <div id="wl-tracker"><strong>WEEKLY W/L TRACKER:</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
         </div>
 
@@ -63,10 +62,8 @@
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         
-        // Auto-Reset Tracker Logic
         function checkWeeklyReset() {
             const now = new Date();
-            // If it is Monday, reset the display
             if (now.getDay() === 1) {
                 document.getElementById('wl-tracker').innerHTML = "<strong>WEEKLY W/L TRACKER:</strong> WINS: 0 | LOSSES: 0 | RATE: 0%";
             }
@@ -92,27 +89,27 @@
             document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
         }
 
-        const symbols = [
-            { sym: 'EUR/GBP', id: 'price-eur' },
-            { sym: 'USD/CHF', id: 'price-usd' },
-            { sym: 'NZD/USD', id: 'price-nzd' }
-        ];
-
-        async function updatePrices() {
-            for (let pair of symbols) {
-                try {
-                    const response = await fetch(`https://api.twelvedata.com/price?symbol=${pair.sym}&apikey=${apiKey}`);
-                    const data = await response.json();
-                    document.getElementById(pair.id).innerText = data.price ? parseFloat(data.price).toFixed(5) : 'LIMIT';
-                } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
-            }
+        async function fetchPrice(pair) {
+            try {
+                const response = await fetch(`https://api.twelvedata.com/price?symbol=${pair.sym}&apikey=${apiKey}`);
+                const data = await response.json();
+                document.getElementById(pair.id).innerText = data.price ? parseFloat(data.price).toFixed(5) : 'LIMIT';
+            } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
         }
 
-        // Initialize
+        async function updatePrices() {
+            // Staggered requests to avoid rate limits
+            await fetchPrice({ sym: 'EUR/GBP', id: 'price-eur' });
+            setTimeout(() => fetchPrice({ sym: 'USD/CHF', id: 'price-usd' }), 2000);
+            setTimeout(() => fetchPrice({ sym: 'NZD/USD', id: 'price-nzd' }), 4000);
+        }
+
         checkWeeklyReset();
+        updateCountdown();
         setInterval(updateCountdown, 1000);
         updatePrices();
-        setInterval(updatePrices, 60000);
+        // Increased interval to 5 minutes to stay well within free API limits
+        setInterval(updatePrices, 300000);
     </script>
 </body>
 </html>
