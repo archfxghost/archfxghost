@@ -26,11 +26,10 @@
         <img src="banner.jpg" class="banner" alt="ARCHFX👻">
         
         <div class="insight-box">
-            <div style="color: #ff0000; font-weight: bold; text-transform: uppercase;">[MARKET STATUS: CLOSED]</div>
-            <div style="margin-top: 10px;"><strong>[FOREX MARKET OPEN IN]</strong> <span id="countdown" style="color: #0f0;">Calculating...</span></div>
+            <div id="session-status" style="color: #0f0; font-weight: bold; text-transform: uppercase;">[STATUS: MONITORING]</div>
+            <div style="margin-top: 10px;"><strong>[FOREX MARKET OPEN]</strong> <span id="countdown" style="color: #0f0;">Calculating...</span></div>
             <div style="font-size: 0.8em; margin-top: 5px; color: #ccc;">
-                Markets are offline for the weekend. Live data will resume automatically at 5:00 PM CDT. 
-                Signals and real-time scaling alerts are paused until then.
+                Tracking Sydney / Tokyo / London liquidity flow. 1,000 unit scaling active.
             </div>
         </div>
 
@@ -39,34 +38,35 @@
                 <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span></div>
                 <div id="price-eur" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small>TP: <span id="tp-sell-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></small></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small>TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-buy-eur">--</span></small></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small>TP (1k): <span id="tp-sell-eur">--</span><br>SL (1k): <span id="sl-sell-eur">--</span></small></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small>TP (1k): <span id="tp-buy-eur">--</span><br>SL (1k): <span id="sl-buy-eur">--</span></small></div>
                 </div>
             </div>
             <div class="currency-box" id="box-usd">
                 <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span></div>
                 <div id="price-usd" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small>TP: <span id="tp-sell-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></small></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small>TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-buy-usd">--</span></small></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small>TP (1k): <span id="tp-sell-usd">--</span><br>SL (1k): <span id="sl-sell-usd">--</span></small></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small>TP (1k): <span id="tp-buy-usd">--</span><br>SL (1k): <span id="sl-buy-usd">--</span></small></div>
                 </div>
             </div>
             <div class="currency-box" id="box-nzd">
                 <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span></div>
                 <div id="price-nzd" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small>TP: <span id="tp-sell-nzd">--</span><br>SL: <span id="sl-sell-nzd">--</span></small></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small>TP: <span id="tp-buy-nzd">--</span><br>SL: <span id="sl-buy-nzd">--</span></small></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small>TP (1k): <span id="tp-sell-nzd">--</span><br>SL (1k): <span id="sl-nzd">--</span></small></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small>TP (1k): <span id="tp-buy-nzd">--</span><br>SL (1k): <span id="sl-buy-nzd">--</span></small></div>
                 </div>
             </div>
         </div>
 
         <div class="sub-box">
-            <div class="sub-desc" style="margin-bottom: 15px;">Disciplined scaling strategy - Support the mission</div>
+            <div style="margin-bottom: 15px; font-size: 0.9em; color: #aaa; text-align: left; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <strong>MISSION BRIEF:</strong><br>
+                Monitoring <strong>1,000 unit positions</strong> per zone at a <strong>3:1 risk-reward</strong>. When price hits a BUY FLOOR or SELL CEILING, the box will <strong>lock in (glow green)</strong>. Execute your scaling plan mechanically.
+            </div>
             <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank" style="display: inline-block; padding: 15px 30px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 5px;">DONATE VIA PAYPAL</a>
         </div>
-
-        <div class="footer-links"><a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">REFERRAL PORTAL</a></div>
     </div>
 
     <script>
@@ -74,6 +74,11 @@
         const vol = 0.001; 
         
         async function fetchAndCalculate(pair) {
+            const isLive = document.getElementById('countdown').innerText === "LIVE";
+            if (!isLive) {
+                document.getElementById(pair.id).innerText = 'OFFLINE';
+                return;
+            }
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
                 const data = await res.json();
@@ -92,8 +97,6 @@
                     const box = document.getElementById(`box-${pair.short}`);
                     if (p >= sellZone || p <= buyZone) box.classList.add('locked-border');
                     else box.classList.remove('locked-border');
-                } else {
-                    document.getElementById(pair.id).innerText = 'OFFLINE';
                 }
             } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
         }
@@ -106,17 +109,28 @@
 
         setInterval(() => {
             const now = new Date();
+            const hour = now.getHours();
             const target = new Date();
             target.setUTCHours(22, 0, 0, 0);
             let day = target.getUTCDay();
             let daysUntilSunday = (7 - day) % 7;
             target.setUTCDate(target.getUTCDate() + daysUntilSunday);
             let distance = target - now;
-            if (distance < 0) { target.setUTCDate(target.getUTCDate() + 7); distance = target - now; }
-            const h = Math.floor(distance / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
+            
+            if (distance < 0) {
+                let session = "SYDNEY OPEN";
+                if (hour >= 19 || hour < 3) session = "TOKYO / ASIAN OPEN";
+                if (hour >= 3 && hour < 8) session = "LONDON KILL ZONE";
+                document.getElementById('session-status').innerText = `[SESSION: ${session}]`;
+                document.getElementById('countdown').innerText = "LIVE";
+                updateDashboard(); 
+            } else {
+                document.getElementById('session-status').innerText = "[STATUS: MONITORING]";
+                const h = Math.floor(distance / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
+            }
         }, 1000);
 
         updateDashboard();
@@ -124,3 +138,4 @@
     </script>
 </body>
 </html>
+
