@@ -28,6 +28,9 @@
         
         .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 20px 0; font-weight: bold; padding: 15px; border: 2px solid #0f0; text-transform: uppercase; font-size: 1.1em; }
         .footer-links a:hover { background: #0f0; color: #000; }
+        
+        /* Highlight style for TikTok text */
+        .tiktok-hl { background: #fff; color: #000; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -84,7 +87,7 @@
 
         <div class="insight-box" style="margin-top: 25px;">
             <p style="font-size: 1em; color: #d69e2e;">
-                <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. <strong>The final locked screenshot for this trade is uploaded to our Private TikTok Signal Room at 1:07 AM (Mon/Tue/Thu).</strong>
+                <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. <strong>The final locked screenshot for this trade is uploaded to our Private <span class="tiktok-hl">TikTok</span> Signal Room (@archfxghost1) at 1:07 AM (Mon/Tue/Thu).</strong>
             </p>
         </div>
 
@@ -99,7 +102,6 @@
 
         function handleLockState() {
             const now = new Date();
-            // Lock visual if it's Mon(1), Tue(2), Thu(4) and time is 1:07 AM or later
             if ([1, 2, 4].includes(now.getDay()) && (now.getHours() > 1 || (now.getHours() === 1 && now.getMinutes() >= 7))) {
                 document.querySelectorAll('.zone, .param').forEach(el => el.classList.add('locked-border'));
             }
@@ -141,4 +143,3 @@
     </script>
 </body>
 </html>
-
