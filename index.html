@@ -6,20 +6,25 @@
     <title>ARCHFX👻 | HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
         body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
         .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.15); text-align: left; }
-        .sub-box { border: 2px solid #0f0; padding: 20px; margin-top: 15px; text-align: center; background: #0a0a00; }
+        .sub-box { border: 2px solid #0f0; padding: 20px; margin-top: 15px; text-align: left; background: #0a0a00; }
         .currency-box { border: 2px solid #333; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.5); transition: all 0.3s ease; }
-        .locked-border { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
+        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15) !important; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
         .symbol-name { font-weight: bold; color: #fff; font-size: 1.2em; }
         .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 15px #0f0; }
         .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
         .zone { background: #111; border: 1px solid #444; padding: 10px; font-size: 0.8em; color: #ccc; flex: 1; }
+        .hidden-tp { display: none; margin-top: 5px; color: #fff; font-size: 0.9em; border-top: 1px solid #444; padding-top: 5px; }
+        .locked-short .hidden-tp, .locked-long .hidden-tp { display: block; }
         .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; }
-        .footer-link { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 5px; text-transform: uppercase; margin-bottom: 10px; }
-        .ref-link { display: block; color: #aaa; font-size: 0.7em; margin-top: 10px; text-decoration: none; }
+        .footer-link { display: block; margin-top: 20px; padding: 15px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 5px; text-transform: uppercase; margin-bottom: 10px; width: 100%; max-width: 100%; text-align: center; }
+        .ref-link { display: block; color: #aaa; font-size: 0.7em; margin-top: 10px; text-decoration: none; text-align: center; }
+        .timestamp { font-size: 0.7em; color: #888; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -28,44 +33,42 @@
         
         <div class="insight-box">
             <div id="session-status" style="color: #0f0; font-weight: bold; text-transform: uppercase;">[STATUS: MONITORING]</div>
-            <div style="margin-top: 10px;"><strong>[FOREX MARKET OPEN]</strong> <span id="countdown" style="color: #0f0;">Calculating...</span></div>
-            <div style="font-size: 0.8em; margin-top: 5px; color: #ccc;">
-                Tracking Sydney / Tokyo / London liquidity flow.
-            </div>
+            <div style="font-size: 0.8em; margin-top: 10px; color: #ccc;">Tracking Sydney / Tokyo / London liquidity flow.</div>
         </div>
 
         <div id="pairs-container">
             <div class="currency-box" id="box-eur">
-                <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span></div>
+                <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span><span id="ts-eur" class="timestamp"></span></div>
                 <div id="price-eur" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small>TP: <span id="tp-sell-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></small></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small>TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-buy-eur">--</span></small></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small id="prox-sell-eur"></small><div class="hidden-tp">TP: <span id="tp-sell-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small id="prox-buy-eur"></small><div class="hidden-tp">TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-buy-eur">--</span></div></div>
                 </div>
             </div>
             <div class="currency-box" id="box-usd">
-                <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span></div>
+                <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span><span id="ts-usd" class="timestamp"></span></div>
                 <div id="price-usd" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small>TP: <span id="tp-sell-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></small></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small>TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-buy-usd">--</span></small></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small id="prox-sell-usd"></small><div class="hidden-tp">TP: <span id="tp-sell-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small id="prox-buy-usd"></small><div class="hidden-tp">TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-buy-usd">--</span></div></div>
                 </div>
             </div>
             <div class="currency-box" id="box-nzd">
-                <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span></div>
+                <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span><span id="ts-nzd" class="timestamp"></span></div>
                 <div id="price-nzd" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small>TP: <span id="tp-sell-nzd">--</span><br>SL: <span id="sl-nzd">--</span></small></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small>TP: <span id="tp-buy-nzd">--</span><br>SL: <span id="sl-buy-nzd">--</span></small></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small id="prox-sell-nzd"></small><div class="hidden-tp">TP: <span id="tp-sell-nzd">--</span><br>SL: <span id="sl-nzd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small id="prox-buy-nzd"></small><div class="hidden-tp">TP: <span id="tp-buy-nzd">--</span><br>SL: <span id="sl-nzd">--</span></div></div>
                 </div>
             </div>
         </div>
 
         <div class="sub-box">
-            <div style="margin-bottom: 15px; font-size: 0.9em; color: #aaa; text-align: left; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <strong>MISSION BRIEF:</strong><br>
-                Monitoring range-trading positions at a <strong>3:1 risk-reward</strong>. When price hits a <strong>BUY FLOOR</strong> or <strong>SELL CEILING</strong>, the box will <strong>lock in (glow green)</strong>. Reference the <strong>TP</strong> and <strong>SL</strong> values displayed to execute your range-trap mechanically.
-            </div>
+            <strong>MISSION BRIEF:</strong><br>
+            • <strong>Strategy:</strong> 3:1 Range Trap.<br>
+            • <strong>Trigger:</strong> Box Lock = Execution Zone.<br>
+            • <strong>Action:</strong> Execute on Reversion.<br>
+            • <strong>Risk Control:</strong> Mechanical TP/SL entry mandatory.<br>
             <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank" class="footer-link">SUPPORT ARCHFX👻</a>
             <a href="https://www.webull.com/s/FCxusy4fc5lMXBdVcb" target="_blank" class="ref-link">TRADING PARTNER: WEBULL</a>
         </div>
@@ -74,31 +77,50 @@
     <script>
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
         const vol = 0.001; 
+        let priceMemory = {};
         
         async function fetchAndCalculate(pair) {
-            const isLive = document.getElementById('countdown').innerText === "LIVE";
-            if (!isLive) {
-                document.getElementById(pair.id).innerText = 'OFFLINE';
-                return;
-            }
+            const isLive = document.getElementById('session-status').innerText.includes("LIVE");
+            if (!isLive) return;
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
                 const data = await res.json();
                 if (data.close) {
                     const p = parseFloat(data.close);
-                    document.getElementById(pair.id).innerText = p.toFixed(5);
+                    const now = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    let arrowHTML = "";
+                    if (priceMemory[pair.short]) {
+                        const diff = Math.abs(p - priceMemory[pair.short]);
+                        const size = Math.min(2 + (diff * 5000), 5); // Dynamic scaling
+                        const opacity = Math.min(0.5 + (diff * 2000), 1.0);
+                        const symbol = p > priceMemory[pair.short] ? "↑" : "↓";
+                        const color = p > priceMemory[pair.short] ? "#0f0" : "#f00";
+                        arrowHTML = `<span style="font-size: ${size}em; color: ${color}; opacity: ${opacity}; text-shadow: 0 0 10px ${color};">${symbol}</span>`;
+                    }
+                    priceMemory[pair.short] = p;
+
+                    document.getElementById(pair.id).innerHTML = `${p.toFixed(5)} ${arrowHTML}`;
+                    document.getElementById(`ts-${pair.short}`).innerText = now;
+                    
                     const risk = (p * vol);
                     const sellZone = p + risk;
                     const buyZone = p - risk;
+                    
                     document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
                     document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
                     document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (risk * 3)).toFixed(4);
                     document.getElementById(`sl-sell-${pair.short}`).innerText = (sellZone + risk).toFixed(4);
                     document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (risk * 3)).toFixed(4);
                     document.getElementById(`sl-buy-${pair.short}`).innerText = (buyZone - risk).toFixed(4);
+                    
+                    document.getElementById(`prox-sell-${pair.short}`).innerText = (((sellZone - p) / p) * 100).toFixed(3) + "% to Ceiling";
+                    document.getElementById(`prox-buy-${pair.short}`).innerText = (((p - buyZone) / p) * 100).toFixed(3) + "% to Floor";
+                    
                     const box = document.getElementById(`box-${pair.short}`);
-                    if (p >= sellZone || p <= buyZone) box.classList.add('locked-border');
-                    else box.classList.remove('locked-border');
+                    box.classList.remove('locked-short', 'locked-long');
+                    if (p >= sellZone) box.classList.add('locked-short');
+                    else if (p <= buyZone) box.classList.add('locked-long');
                 }
             } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
         }
@@ -111,7 +133,6 @@
 
         setInterval(() => {
             const now = new Date();
-            const hour = now.getHours();
             const target = new Date();
             target.setUTCHours(22, 0, 0, 0);
             let day = target.getUTCDay();
@@ -120,26 +141,21 @@
             let distance = target - now;
             
             if (distance < 0) {
-                let session = "SYDNEY OPEN";
-                if (hour >= 19 || hour < 3) session = "TOKYO / ASIAN OPEN";
-                if (hour >= 3 && hour < 8) session = "LONDON KILL ZONE";
-                document.getElementById('session-status').innerText = `[SESSION: ${session}]`;
-                document.getElementById('countdown').innerText = "LIVE";
+                document.getElementById('session-status').innerText = "[STATUS: LIVE]";
                 updateDashboard(); 
             } else {
-                document.getElementById('session-status').innerText = "[STATUS: MONITORING]";
                 const h = Math.floor(distance / (1000 * 60 * 60));
                 const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
+                document.getElementById('session-status').innerText = `[MONITORING] OPEN IN: ${h}h ${m}m ${s}s`;
             }
         }, 1000);
 
-        updateDashboard();
-        setInterval(updateDashboard, 60000);
+        setInterval(updateDashboard, 50000);
     </script>
 </body>
 </html>
+
 
 
 
