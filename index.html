@@ -28,7 +28,7 @@
         <div class="insight-box">
             <div style="color: #ff0000; font-weight: bold; text-transform: uppercase;">[MARKET STATUS: CLOSED]</div>
             <div style="margin-top: 10px;"><strong>[FOREX MARKET OPEN IN]</strong> <span id="countdown" style="color: #0f0;">Calculating...</span></div>
-            <div style="font-size: 0.8em; margin-top: 5px; color: #ccc;">Markets are offline for the weekend. Live data resumes at 5:00 PM EST.</div>
+            <div style="font-size: 0.8em; margin-top: 5px; color: #ccc;">Markets are offline for the weekend. Live data resumes at 5:00 PM CDT.</div>
         </div>
 
         <div id="pairs-container">
@@ -104,13 +104,15 @@
         setInterval(() => {
             const now = new Date();
             const target = new Date();
-            target.setUTCHours(22, 0, 0, 0); 
+            target.setUTCHours(22, 0, 0, 0);
             let day = target.getUTCDay();
-            let distance = (0 - day) * 86400000 + (target - now);
-            if (distance < 0) distance += 604800000;
-            const h = Math.floor((distance % 86400000) / 3600000);
-            const m = Math.floor((distance % 3600000) / 60000);
-            const s = Math.floor((distance % 60000) / 1000);
+            let daysUntilSunday = (7 - day) % 7;
+            target.setUTCDate(target.getUTCDate() + daysUntilSunday);
+            let distance = target - now;
+            if (distance < 0) { target.setUTCDate(target.getUTCDate() + 7); distance = target - now; }
+            const h = Math.floor(distance / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
             document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
         }, 1000);
 
@@ -119,5 +121,3 @@
     </script>
 </body>
 </html>
-
-
