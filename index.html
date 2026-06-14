@@ -2,48 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARCHFX👻 | HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
         body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
-        .insight-box { border: 1px solid #d69e2e; color: #d69e2e; padding: 15px; margin-bottom: 25px; font-size: 1.1em; text-align: left; background: rgba(214, 158, 46, 0.05); }
-        
+        .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.15); text-align: left; }
         .sub-box { border: 2px solid #0f0; padding: 20px; margin-top: 15px; text-align: center; background: #0a0a00; }
-        .sub-desc { color: #0f0; font-size: 0.9em; margin-bottom: 15px; }
-        
-        .currency-box { border: 2px solid #333; padding: 20px; transition: all 0.3s ease; margin-bottom: 15px; background: rgba(0, 0, 0, 0.5); }
+        .currency-box { border: 2px solid #333; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.5); transition: all 0.3s ease; }
         .locked-border { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
-        .symbol-name { font-weight: bold; color: #fff; letter-spacing: 3px; margin-bottom: 10px; font-size: 1.2em; }
+        .symbol-name { font-weight: bold; color: #fff; font-size: 1.2em; }
         .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 15px #0f0; }
-        .range-info { font-size: 0.7em; color: #888; margin-bottom: 10px; }
         .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
         .zone { background: #111; border: 1px solid #444; padding: 10px; font-size: 0.8em; color: #ccc; flex: 1; }
-        
-        .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; vertical-align: middle; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-        
-        .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 20px 0; font-weight: bold; padding: 15px; border: 2px solid #0f0; text-transform: uppercase; font-size: 1.1em; }
+        .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; }
+        .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 20px 0; padding: 15px; border: 2px solid #0f0; text-transform: uppercase; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <img src="banner.jpg" class="banner" alt="ARCHFX👻">
-
+        
         <div class="insight-box">
-            <div><strong>[FOREX MARKET OPEN IN]</strong> <span id="countdown">Calculating...</span></div>
-            <div id="wl-tracker" style="margin-top: 10px;"><strong>[W/L TRACKER]</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
+            <div style="color: #ff0000; font-weight: bold; text-transform: uppercase;">[MARKET STATUS: CLOSED]</div>
+            <div style="margin-top: 10px;"><strong>[FOREX MARKET OPEN IN]</strong> <span id="countdown" style="color: #0f0;">Calculating...</span></div>
+            <div style="font-size: 0.8em; margin-top: 5px; color: #ccc;">Markets are offline for the weekend. Live data resumes at 5:00 PM EST.</div>
         </div>
 
         <div id="pairs-container">
             <div class="currency-box" id="box-eur">
                 <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span></div>
-                <div id="price-eur" class="price-display">0.00000</div>
-                <div class="range-info">Daily High: <span id="high-eur">--</span> | Low: <span id="low-eur">--</span></div>
+                <div id="price-eur" class="price-display">--</div>
                 <div class="zone-container">
                     <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small>TP: <span id="tp-sell-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></small></div>
                     <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small>TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-buy-eur">--</span></small></div>
@@ -51,8 +42,7 @@
             </div>
             <div class="currency-box" id="box-usd">
                 <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span></div>
-                <div id="price-usd" class="price-display">0.00000</div>
-                <div class="range-info">Daily High: <span id="high-usd">--</span> | Low: <span id="low-usd">--</span></div>
+                <div id="price-usd" class="price-display">--</div>
                 <div class="zone-container">
                     <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small>TP: <span id="tp-sell-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></small></div>
                     <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small>TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-buy-usd">--</span></small></div>
@@ -60,8 +50,7 @@
             </div>
             <div class="currency-box" id="box-nzd">
                 <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span></div>
-                <div id="price-nzd" class="price-display">0.00000</div>
-                <div class="range-info">Daily High: <span id="high-nzd">--</span> | Low: <span id="low-nzd">--</span></div>
+                <div id="price-nzd" class="price-display">--</div>
                 <div class="zone-container">
                     <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small>TP: <span id="tp-sell-nzd">--</span><br>SL: <span id="sl-sell-nzd">--</span></small></div>
                     <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small>TP: <span id="tp-buy-nzd">--</span><br>SL: <span id="sl-buy-nzd">--</span></small></div>
@@ -70,27 +59,17 @@
         </div>
 
         <div class="sub-box">
-            <div class="sub-desc">Disciplined scaling strategy - Private TikTok Signal Room Monthly Subscription</div>
-            <script src="https://www.paypal.com/sdk/js?client-id=BAA6lUIZrm8i_h5UP8HDWcWCAbVxXBW_WPKKJ6H5E8nTwYp7fNKcNuYnHaaqoDQo1To553V_w1op4sRtNY&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
-            <div id="paypal-container-CJWHTKHPBT82G"></div>
-            <script>
-              paypal.HostedButtons({
-                hostedButtonId: "CJWHTKHPBT82G",
-                commit: true,
-                style: { layout: 'vertical', label: 'pay', color: 'blue', shape: 'rect' }
-              }).render("#paypal-container-CJWHTKHPBT82G")
-            </script>
+            <div class="sub-desc" style="margin-bottom: 15px;">Disciplined scaling strategy - Support the mission</div>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank" style="display: inline-block; padding: 15px 30px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 5px;">DONATE VIA PAYPAL</a>
         </div>
 
-        <div class="footer-links">
-            <a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">REFERRAL PORTAL</a>
-        </div>
+        <div class="footer-links"><a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">REFERRAL PORTAL</a></div>
     </div>
-    
+
     <script>
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
         const vol = 0.001; 
-
+        
         async function fetchAndCalculate(pair) {
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
@@ -98,31 +77,25 @@
                 if (data.close) {
                     const p = parseFloat(data.close);
                     document.getElementById(pair.id).innerText = p.toFixed(5);
-                    document.getElementById(`high-${pair.short}`).innerText = parseFloat(data.high).toFixed(5);
-                    document.getElementById(`low-${pair.short}`).innerText = parseFloat(data.low).toFixed(5);
-                    
-                    const sellZone = p + (p * vol);
-                    const buyZone = p - (p * vol);
                     const risk = (p * vol);
-                    
+                    const sellZone = p + risk;
+                    const buyZone = p - risk;
                     document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
                     document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
-                    
-                    // 3:1 Bracket Calculations
                     document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (risk * 3)).toFixed(4);
                     document.getElementById(`sl-sell-${pair.short}`).innerText = (sellZone + risk).toFixed(4);
-                    
                     document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (risk * 3)).toFixed(4);
                     document.getElementById(`sl-buy-${pair.short}`).innerText = (buyZone - risk).toFixed(4);
-                    
                     const box = document.getElementById(`box-${pair.short}`);
                     if (p >= sellZone || p <= buyZone) box.classList.add('locked-border');
                     else box.classList.remove('locked-border');
+                } else {
+                    document.getElementById(pair.id).innerText = 'OFFLINE';
                 }
             } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
         }
 
-        async function updateDashboard() {
+        function updateDashboard() {
             fetchAndCalculate({ sym: 'EUR/GBP', id: 'price-eur', short: 'eur' });
             setTimeout(() => { fetchAndCalculate({ sym: 'USD/CHF', id: 'price-usd', short: 'usd' }); }, 500);
             setTimeout(() => { fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' }); }, 1000);
@@ -130,12 +103,10 @@
 
         setInterval(() => {
             const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const cst = new Date(utc - (6 * 3600000));
-            const target = new Date(cst);
+            const target = new Date();
             target.setUTCHours(22, 0, 0, 0); 
             let day = target.getUTCDay();
-            let distance = (0 - day) * 86400000 + (target - cst);
+            let distance = (0 - day) * 86400000 + (target - now);
             if (distance < 0) distance += 604800000;
             const h = Math.floor((distance % 86400000) / 3600000);
             const m = Math.floor((distance % 3600000) / 60000);
@@ -144,8 +115,9 @@
         }, 1000);
 
         updateDashboard();
-        setInterval(updateDashboard, 5000);
+        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>
+
 
