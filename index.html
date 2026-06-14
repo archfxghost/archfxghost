@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>ARCHFX👻 | HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
-        body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 20px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
-        .container { border: 1px solid #0f0; padding: 20px; max-width: 500px; margin: auto; background: rgba(0, 10, 0, 0.8); box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); backdrop-filter: blur(5px); }
-        .banner { width: 100%; max-width: 300px; margin-bottom: 15px; filter: drop-shadow(0 0 5px #0f0); }
-        .insight-box { border: 1px solid #d69e2e; color: #d69e2e; padding: 12px; margin-bottom: 20px; font-size: 0.9em; text-align: left; background: rgba(214, 158, 46, 0.05); }
-        .currency-box { border-bottom: 1px solid #222; padding: 15px 0; }
-        .symbol-name { font-weight: bold; color: #fff; letter-spacing: 2px; }
-        .price-display { font-size: 1.8em; margin: 8px 0; color: #0f0; text-shadow: 0 0 10px #0f0; }
+        body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
         
-        .levels { background: #000; border: 1px solid #333; padding: 8px; font-size: 0.85em; color: #666; margin-top: 5px; }
-        .levels.locked { border: 1px solid #0f0; color: #0f0; text-shadow: 0 0 5px #0f0; font-weight: bold; }
+        /* Container fills the screen width on mobile to make everything look closer/bigger */
+        .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         
-        /* Restored Pulsing LIVE Animation */
-        .live-tag { 
-            font-size: 0.6em; background: #0f0; color: #000; padding: 1px 6px; border-radius: 10px; 
-            font-weight: bold; vertical-align: middle; 
-            animation: pulse 1.5s infinite; 
-        }
+        .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
+        .insight-box { border: 1px solid #d69e2e; color: #d69e2e; padding: 15px; margin-bottom: 25px; font-size: 1.1em; text-align: left; background: rgba(214, 158, 46, 0.05); }
+        .currency-box { border-bottom: 1px solid #333; padding: 20px 0; }
+        
+        /* Larger text sizes for better visibility */
+        .symbol-name { font-weight: bold; color: #fff; letter-spacing: 3px; margin-bottom: 10px; font-size: 1.2em; }
+        .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 15px #0f0; }
+        
+        .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
+        .zone { background: #000; border: 1px solid #444; padding: 10px; font-size: 0.85em; color: #ccc; flex: 1; }
+        .trade-params { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; }
+        .param { background: #111; border: 1px solid #555; padding: 8px; font-size: 0.85em; color: #ccc; }
+        
+        .locked-border { border: 1px solid #0f0 !important; color: #0f0 !important; text-shadow: 0 0 8px #0f0; font-weight: bold; }
+        
+        .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; vertical-align: middle; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
         
-        .locked-tag { display: none; font-size: 0.6em; color: #0f0; margin-left: 5px; }
-        .locked-tag.show { display: inline; }
-        
-        .value-prop { font-size: 0.8em; color: #aaa; margin: 15px 0; padding: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333; }
-        .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 15px 0; font-weight: bold; padding: 10px; border: 1px solid #0f0; text-transform: uppercase; }
+        .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 20px 0; font-weight: bold; padding: 15px; border: 2px solid #0f0; text-transform: uppercase; font-size: 1.1em; }
         .footer-links a:hover { background: #0f0; color: #000; }
     </style>
 </head>
@@ -41,43 +41,58 @@
 
         <div class="insight-box">
             <div><strong>[LONDON KILLZONE IN]</strong> <span id="countdown">Calculating...</span></div>
-            <div id="status-display" style="margin-top: 5px; color: #666;"><strong>[STATUS]</strong> UPDATE: MON/TUE @ 1:05 AM</div>
-            <div id="wl-tracker" style="margin-top: 5px;"><strong>[W/L TRACKER]</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
+            <div id="wl-tracker" style="margin-top: 10px;"><strong>[W/L TRACKER]</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
         </div>
 
+        <!-- EUR/GBP -->
         <div class="currency-box">
-            <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span><span id="lock-eur" class="locked-tag">[LOCKED]</span></div>
+            <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span></div>
             <div id="price-eur" class="price-display">0.00000</div>
-            <div id="levels-eur" class="levels">CEILING: 0.8640 | FLOOR: 0.8610</div>
+            <div class="zone-container">
+                <div class="zone">SELL ZONE<br>0.8640</div>
+                <div class="zone">BUY ZONE<br>0.8610</div>
+            </div>
+            <div class="trade-params">
+                <div class="param">TP1: 0.8680</div>
+                <div class="param">TP2: 0.8710</div>
+                <div class="param">SL: 0.8590</div>
+            </div>
         </div>
 
+        <!-- USD/CHF -->
         <div class="currency-box">
-            <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span><span id="lock-usd" class="locked-tag">[LOCKED]</span></div>
+            <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span></div>
             <div id="price-usd" class="price-display">0.00000</div>
-            <div id="levels-usd" class="levels">CEILING: 0.7977 | FLOOR: 0.7940</div>
+            <div class="zone-container">
+                <div class="zone">SELL ZONE<br>0.7977</div>
+                <div class="zone">BUY ZONE<br>0.7940</div>
+            </div>
+            <div class="trade-params">
+                <div class="param">TP1: 0.7997</div>
+                <div class="param">TP2: 0.8017</div>
+                <div class="param">SL: 0.7920</div>
+            </div>
         </div>
 
+        <!-- NZD/USD -->
         <div class="currency-box">
-            <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span><span id="lock-nzd" class="locked-tag">[LOCKED]</span></div>
+            <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span></div>
             <div id="price-nzd" class="price-display">0.00000</div>
-            <div id="levels-nzd" class="levels">CEILING: 0.6150 | FLOOR: 0.6110</div>
+            <div class="zone-container">
+                <div class="zone">SELL ZONE<br>0.6150</div>
+                <div class="zone">BUY ZONE<br>0.6110</div>
+            </div>
+            <div class="trade-params">
+                <div class="param">TP1: 0.6190</div>
+                <div class="param">TP2: 0.6230</div>
+                <div class="param">SL: 0.6090</div>
+            </div>
         </div>
 
-        <div class="insight-box" style="margin-top: 20px;">
-            <h3 style="margin-top: 0; color: #d69e2e;">ARCHFX👻 STRATEGY GUIDE</h3>
-            <p style="font-size: 0.8em; color: #d69e2e;">
-                <strong>KILLZONE:</strong> Monitoring the London Open (1:00 AM). Liquidity sweeps here often dictate the daily trend.
+        <div class="insight-box" style="margin-top: 25px;">
+            <p style="font-size: 1em; color: #d69e2e;">
+                <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. Enter at <strong>Buy/Sell Zones</strong> and manage with <strong>TP1, TP2, and SL</strong>. <strong>Locked at 1:07 AM (Mon/Tue/Thu).</strong>
             </p>
-            <p style="font-size: 0.8em; color: #d69e2e;">
-                <strong>CEILING & FLOOR:</strong> My daily Sell and Buy entry zones. <strong>TP and SL levels are updated post-1:00 AM analysis.</strong>
-            </p>
-            <p style="font-size: 0.8em; color: #d69e2e;">
-                <strong>WEEKLY W/L:</strong> Transparency in performance. Tracking strategy efficacy; resets every Monday.
-            </p>
-        </div>
-
-        <div class="value-prop">
-            JOIN FOR INSIDE INFORMATION: Daily price ceilings, floors, Take Profit (TP), and Stop Loss (SL) levels.
         </div>
 
         <div class="footer-links">
@@ -85,18 +100,15 @@
             <a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">REFERRAL PORTAL</a>
         </div>
     </div>
-
+    
     <script>
-        const tradeStatus = 'WAITING'; 
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
 
-        if (tradeStatus === 'LOCKED') {
-            document.getElementById('status-display').innerHTML = "<strong>[STATUS]</strong> LEVELS LOCKED.";
-            document.getElementById('status-display').style.color = "#0f0";
-            ['eur', 'usd', 'nzd'].forEach(id => {
-                document.getElementById('levels-' + id).classList.add('locked');
-                document.getElementById('lock-' + id).classList.add('show');
-            });
+        function handleLockState() {
+            const now = new Date();
+            if ([1, 2, 4].includes(now.getDay()) && (now.getHours() > 1 || (now.getHours() === 1 && now.getMinutes() >= 7))) {
+                document.querySelectorAll('.zone, .param').forEach(el => el.classList.add('locked-border'));
+            }
         }
 
         async function fetchPrice(pair) {
@@ -111,7 +123,15 @@
             await fetchPrice({ sym: 'EUR/GBP', id: 'price-eur' });
             setTimeout(() => fetchPrice({ sym: 'USD/CHF', id: 'price-usd' }), 2000);
             setTimeout(() => fetchPrice({ sym: 'NZD/USD', id: 'price-nzd' }), 4000);
+            handleLockState(); 
         }
+
+        setInterval(() => {
+            const now = new Date();
+            if ([1, 2, 4].includes(now.getDay()) && now.getHours() === 1 && now.getMinutes() === 7) {
+                window.location.reload();
+            }
+        }, 60000);
 
         setInterval(() => {
             const now = new Date();
@@ -123,6 +143,7 @@
 
         updateDashboard();
         setInterval(updateDashboard, 300000);
+        handleLockState();
     </script>
 </body>
 </html>
