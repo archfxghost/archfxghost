@@ -8,24 +8,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
         body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
-        
-        /* Container fills the screen width on mobile to make everything look closer/bigger */
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
-        
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
         .insight-box { border: 1px solid #d69e2e; color: #d69e2e; padding: 15px; margin-bottom: 25px; font-size: 1.1em; text-align: left; background: rgba(214, 158, 46, 0.05); }
         .currency-box { border-bottom: 1px solid #333; padding: 20px 0; }
         
-        /* Larger text sizes for better visibility */
         .symbol-name { font-weight: bold; color: #fff; letter-spacing: 3px; margin-bottom: 10px; font-size: 1.2em; }
         .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 15px #0f0; }
         
         .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
         .zone { background: #000; border: 1px solid #444; padding: 10px; font-size: 0.85em; color: #ccc; flex: 1; }
-        .trade-params { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; }
+        .trade-params { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .param { background: #111; border: 1px solid #555; padding: 8px; font-size: 0.85em; color: #ccc; }
         
-        .locked-border { border: 1px solid #0f0 !important; color: #0f0 !important; text-shadow: 0 0 8px #0f0; font-weight: bold; }
+        .locked-border { border: 2px solid #0f0 !important; color: #fff !important; text-shadow: 0 0 10px #0f0; font-weight: bold; background: rgba(0, 50, 0, 0.2); }
         
         .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; vertical-align: middle; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
@@ -53,8 +49,7 @@
                 <div class="zone">BUY ZONE<br>0.8610</div>
             </div>
             <div class="trade-params">
-                <div class="param">TP1: 0.8680</div>
-                <div class="param">TP2: 0.8710</div>
+                <div class="param">TP: 0.8710</div>
                 <div class="param">SL: 0.8590</div>
             </div>
         </div>
@@ -68,8 +63,7 @@
                 <div class="zone">BUY ZONE<br>0.7940</div>
             </div>
             <div class="trade-params">
-                <div class="param">TP1: 0.7997</div>
-                <div class="param">TP2: 0.8017</div>
+                <div class="param">TP: 0.8017</div>
                 <div class="param">SL: 0.7920</div>
             </div>
         </div>
@@ -83,20 +77,19 @@
                 <div class="zone">BUY ZONE<br>0.6110</div>
             </div>
             <div class="trade-params">
-                <div class="param">TP1: 0.6190</div>
-                <div class="param">TP2: 0.6230</div>
+                <div class="param">TP: 0.6230</div>
                 <div class="param">SL: 0.6090</div>
             </div>
         </div>
 
         <div class="insight-box" style="margin-top: 25px;">
             <p style="font-size: 1em; color: #d69e2e;">
-                <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. Enter at <strong>Buy/Sell Zones</strong> and manage with <strong>TP1, TP2, and SL</strong>. <strong>Locked at 1:07 AM (Mon/Tue/Thu).</strong>
+                <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. <strong>The final locked screenshot for this trade is uploaded to our Private TikTok Signal Room at 1:07 AM (Mon/Tue/Thu).</strong>
             </p>
         </div>
 
         <div class="footer-links">
-            <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank">DONATION / ACCESS</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank" style="background: #d69e2e; color: #000; border: none;">JOIN PRIVATE SIGNAL ROOM</a>
             <a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">REFERRAL PORTAL</a>
         </div>
     </div>
@@ -106,6 +99,7 @@
 
         function handleLockState() {
             const now = new Date();
+            // Lock visual if it's Mon(1), Tue(2), Thu(4) and time is 1:07 AM or later
             if ([1, 2, 4].includes(now.getDay()) && (now.getHours() > 1 || (now.getHours() === 1 && now.getMinutes() >= 7))) {
                 document.querySelectorAll('.zone, .param').forEach(el => el.classList.add('locked-border'));
             }
@@ -147,3 +141,4 @@
     </script>
 </body>
 </html>
+
