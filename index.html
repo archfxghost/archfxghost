@@ -10,8 +10,8 @@
         body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
-        .notice-box { background: #330000; color: #ff0000; padding: 10px; border: 1px solid #ff0000; margin-bottom: 20px; font-size: 0.8em; }
         .insight-box { border: 1px solid #d69e2e; color: #d69e2e; padding: 15px; margin-bottom: 25px; font-size: 1.1em; text-align: left; background: rgba(214, 158, 46, 0.05); }
+        .notice-box { background: #330000; color: #ff0000; padding: 15px; border: 1px solid #ff0000; margin-top: 15px; font-size: 0.85em; text-align: center; }
         .currency-box { border-bottom: 1px solid #333; padding: 20px 0; }
         
         .symbol-name { font-weight: bold; color: #fff; letter-spacing: 3px; margin-bottom: 10px; font-size: 1.2em; }
@@ -37,11 +37,6 @@
 
     <div class="container">
         <img src="banner.jpg" class="banner" alt="ARCHFX👻">
-        
-        <!-- Browser compatibility notice -->
-        <div class="notice-box">
-            <strong>NOTICE:</strong> If payment fails, tap the 3 dots in the top right and select <strong>"Open in Chrome"</strong>.
-        </div>
 
         <div class="insight-box">
             <div><strong>[LONDON KILLZONE IN]</strong> <span id="countdown">Calculating...</span></div>
@@ -94,18 +89,21 @@
             <p style="font-size: 1em; color: #d69e2e;">
                 <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. <strong>The final locked screenshot for this trade is uploaded to our Private <span class="tiktok-hl">TikTok</span> Signal Room (@archfxghost1) at 1:07 AM (Mon/Tue/Thu).</strong>
             </p>
+            
+            <div class="notice-box">
+                <p>If payment fails, tap the 3 dots and select <strong>"Open in browser"</strong>.</p>
+                <script src="https://www.paypal.com/sdk/js?client-id=BAA6lUIZrm8i_h5UP8HDWcWCAbVxXBW_WPKKJ6H5E8nTwYp7fNKcNuYnHaaqoDQo1To553V_w1op4sRtNY&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
+                <div id="paypal-container-CJWHTKHPBT82G"></div>
+                <script>
+                  paypal.HostedButtons({
+                    hostedButtonId: "CJWHTKHPBT82G",
+                    style: { layout: 'horizontal', label: 'checkout', color: 'blue' }
+                  }).render("#paypal-container-CJWHTKHPBT82G")
+                </script>
+            </div>
         </div>
 
         <div class="footer-links">
-            <script src="https://www.paypal.com/sdk/js?client-id=BAA6lUIZrm8i_h5UP8HDWcWCAbVxXBW_WPKKJ6H5E8nTwYp7fNKcNuYnHaaqoDQo1To553V_w1op4sRtNY&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
-            <div id="paypal-container-CJWHTKHPBT82G"></div>
-            <script>
-              paypal.HostedButtons({
-                hostedButtonId: "CJWHTKHPBT82G",
-                style: { layout: 'horizontal', label: 'checkout', color: 'blue' }
-              }).render("#paypal-container-CJWHTKHPBT82G")
-            </script>
-            
             <a href="https://www.webull.com/s/FCxusy4fc5lMXBdZ67" target="_blank">REFERRAL PORTAL</a>
         </div>
     </div>
@@ -156,4 +154,3 @@
     </script>
 </body>
 </html>
-
