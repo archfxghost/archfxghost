@@ -32,9 +32,9 @@
         <img src="banner.jpg" class="banner" alt="ARCHFX👻">
         
         <div class="insight-box">
-            <div id="status-text" style="color: #0f0; font-weight: bold; letter-spacing: 1px;">[STATUS: MONITORING]</div>
+            <div id="status-text" style="color: #0f0; font-weight: bold; letter-spacing: 1px;">[STATUS: LIVE]</div>
             <div style="font-size: 0.9em; margin-top: 8px; color: #fff;">
-                <strong>SYDNEY SESSION:</strong> <span id="countdown">3h 14m 23s</span>
+                <strong>SYDNEY SESSION:</strong> ACTIVE
             </div>
             <div style="font-size: 0.75em; margin-top: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;">
                 // Tracking: Sydney · Tokyo · London Liquidity Flow
@@ -85,8 +85,6 @@
         let priceMemory = {};
         
         async function fetchAndCalculate(pair) {
-            const isLive = document.getElementById('status-text').innerText.includes("LIVE");
-            if (!isLive) return;
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
                 const data = await res.json();
@@ -136,26 +134,8 @@
             setTimeout(() => { fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' }); }, 1000);
         }
 
-        setInterval(() => {
-            const now = new Date();
-            const target = new Date();
-            target.setUTCHours(22, 0, 0, 0);
-            let day = target.getUTCDay();
-            let daysUntilSunday = (7 - day) % 7;
-            target.setUTCDate(target.getUTCDate() + daysUntilSunday);
-            let distance = target - now;
-            
-            if (distance < 0) {
-                document.getElementById('status-text').innerHTML = "[STATUS: LIVE]";
-                updateDashboard(); 
-            } else {
-                const h = Math.floor(distance / (1000 * 60 * 60));
-                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
-            }
-        }, 1000);
-
+        // Initialize and poll every 50 seconds
+        updateDashboard();
         setInterval(updateDashboard, 50000);
     </script>
 </body>
