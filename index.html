@@ -11,26 +11,26 @@
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
         .insight-box { border: 1px solid #d69e2e; color: #d69e2e; padding: 15px; margin-bottom: 25px; font-size: 1.1em; text-align: left; background: rgba(214, 158, 46, 0.05); }
-        .notice-box { background: #330000; color: #ff0000; padding: 15px; border: 1px solid #ff0000; margin-top: 15px; font-size: 0.85em; text-align: center; }
-        .currency-box { border-bottom: 1px solid #333; padding: 20px 0; }
+        
+        /* Updated Subscription Box matching 5846.jpg */
+        .sub-box { border: 2px solid #0f0; padding: 20px; margin-top: 15px; text-align: center; background: #0a0a00; }
+        .sub-warning { color: #f00; font-size: 0.8em; margin-bottom: 15px; font-weight: bold; }
+        .sub-title { color: #0f0; font-size: 1.4em; letter-spacing: 2px; }
+        .sub-price { color: #0f0; font-size: 2em; margin: 10px 0; }
+        .sub-desc { color: #0f0; font-size: 0.9em; margin-bottom: 20px; }
+        
+        .currency-box { border: 2px solid #333; padding: 20px; transition: all 0.3s ease; margin-bottom: 15px; background: rgba(0, 0, 0, 0.5); }
+        .locked-border { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
         
         .symbol-name { font-weight: bold; color: #fff; letter-spacing: 3px; margin-bottom: 10px; font-size: 1.2em; }
         .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 15px #0f0; }
-        
         .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
-        .zone { background: #000; border: 1px solid #444; padding: 10px; font-size: 0.85em; color: #ccc; flex: 1; }
-        .trade-params { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-        .param { background: #111; border: 1px solid #555; padding: 8px; font-size: 0.85em; color: #ccc; }
-        
-        .locked-border { border: 2px solid #0f0 !important; color: #fff !important; text-shadow: 0 0 10px #0f0; font-weight: bold; background: rgba(0, 50, 0, 0.2); }
+        .zone { background: #111; border: 1px solid #444; padding: 10px; font-size: 0.8em; color: #ccc; flex: 1; }
         
         .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; vertical-align: middle; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
         
         .footer-links a { color: #0f0; text-decoration: none; display: block; margin: 20px 0; font-weight: bold; padding: 15px; border: 2px solid #0f0; text-transform: uppercase; font-size: 1.1em; }
-        .footer-links a:hover { background: #0f0; color: #000; }
-        
-        .tiktok-hl { background: #fff; color: #000; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -39,68 +39,52 @@
         <img src="banner.jpg" class="banner" alt="ARCHFX👻">
 
         <div class="insight-box">
-            <div><strong>[LONDON KILLZONE IN]</strong> <span id="countdown">Calculating...</span></div>
+            <div><strong>[FOREX MARKET OPEN IN]</strong> <span id="countdown">Calculating...</span></div>
             <div id="wl-tracker" style="margin-top: 10px;"><strong>[W/L TRACKER]</strong> WINS: 4 | LOSSES: 1 | RATE: 80%</div>
         </div>
 
-        <!-- EUR/GBP -->
-        <div class="currency-box">
+        <div class="currency-box" id="box-eur">
             <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span></div>
             <div id="price-eur" class="price-display">0.00000</div>
             <div class="zone-container">
-                <div class="zone">SELL ZONE<br>0.8640</div>
-                <div class="zone">BUY ZONE<br>0.8610</div>
-            </div>
-            <div class="trade-params">
-                <div class="param">TP: 0.8710</div>
-                <div class="param">SL: 0.8590</div>
+                <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small>TP: <span id="tp-sell-eur">--</span></small></div>
+                <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small>TP: <span id="tp-buy-eur">--</span></small></div>
             </div>
         </div>
 
-        <!-- USD/CHF -->
-        <div class="currency-box">
+        <div class="currency-box" id="box-usd">
             <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span></div>
             <div id="price-usd" class="price-display">0.00000</div>
             <div class="zone-container">
-                <div class="zone">SELL ZONE<br>0.7977</div>
-                <div class="zone">BUY ZONE<br>0.7940</div>
-            </div>
-            <div class="trade-params">
-                <div class="param">TP: 0.8017</div>
-                <div class="param">SL: 0.7920</div>
+                <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small>TP: <span id="tp-sell-usd">--</span></small></div>
+                <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small>TP: <span id="tp-buy-usd">--</span></small></div>
             </div>
         </div>
 
-        <!-- NZD/USD -->
-        <div class="currency-box">
+        <div class="currency-box" id="box-nzd">
             <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span></div>
             <div id="price-nzd" class="price-display">0.00000</div>
             <div class="zone-container">
-                <div class="zone">SELL ZONE<br>0.6150</div>
-                <div class="zone">BUY ZONE<br>0.6110</div>
-            </div>
-            <div class="trade-params">
-                <div class="param">TP: 0.6230</div>
-                <div class="param">SL: 0.6090</div>
+                <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small>TP: <span id="tp-sell-nzd">--</span></small></div>
+                <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small>TP: <span id="tp-buy-nzd">--</span></small></div>
             </div>
         </div>
 
-        <div class="insight-box" style="margin-top: 25px;">
-            <p style="font-size: 1em; color: #d69e2e;">
-                <strong>3-1 BRACKET EXECUTION:</strong> Disciplined scaling strategy. <strong>The final locked screenshot for this trade is uploaded to our Private <span class="tiktok-hl">TikTok</span> Signal Room (@archfxghost1) at 1:07 AM (Mon/Tue/Thu).</strong>
-            </p>
-            
-            <div class="notice-box">
-                <p>If payment fails, tap the 3 dots and select <strong>"Open in browser"</strong>.</p>
-                <script src="https://www.paypal.com/sdk/js?client-id=BAA6lUIZrm8i_h5UP8HDWcWCAbVxXBW_WPKKJ6H5E8nTwYp7fNKcNuYnHaaqoDQo1To553V_w1op4sRtNY&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
-                <div id="paypal-container-CJWHTKHPBT82G"></div>
-                <script>
-                  paypal.HostedButtons({
-                    hostedButtonId: "CJWHTKHPBT82G",
-                    style: { layout: 'horizontal', label: 'checkout', color: 'blue' }
-                  }).render("#paypal-container-CJWHTKHPBT82G")
-                </script>
-            </div>
+        <!-- Subscription Block -->
+        <div class="sub-box">
+            <p class="sub-warning">If payment fails, tap the 3 dots and select "Open in browser".</p>
+            <div class="sub-title">ARCHFXGHOST</div>
+            <div class="sub-price">$10.00 USD</div>
+            <div class="sub-desc">Disciplined scaling strategy - Private TikTok Signal Room Monthly Subscription</div>
+            <script src="https://www.paypal.com/sdk/js?client-id=BAA6lUIZrm8i_h5UP8HDWcWCAbVxXBW_WPKKJ6H5E8nTwYp7fNKcNuYnHaaqoDQo1To553V_w1op4sRtNY&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
+            <div id="paypal-container-CJWHTKHPBT82G"></div>
+            <script>
+              paypal.HostedButtons({
+                hostedButtonId: "CJWHTKHPBT82G",
+                commit: true,
+                style: { layout: 'vertical', label: 'pay', color: 'blue', shape: 'rect' }
+              }).render("#paypal-container-CJWHTKHPBT82G")
+            </script>
         </div>
 
         <div class="footer-links">
@@ -110,47 +94,54 @@
     
     <script>
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
+        const vol = 0.001; 
 
-        function handleLockState() {
-            const now = new Date();
-            if ([1, 2, 4].includes(now.getDay()) && (now.getHours() > 1 || (now.getHours() === 1 && now.getMinutes() >= 7))) {
-                document.querySelectorAll('.zone, .param').forEach(el => el.classList.add('locked-border'));
-            }
-        }
-
-        async function fetchPrice(pair) {
+        async function fetchAndCalculate(pair) {
             try {
                 const res = await fetch(`https://api.twelvedata.com/price?symbol=${pair.sym}&apikey=${apiKey}`);
                 const data = await res.json();
-                document.getElementById(pair.id).innerText = data.price ? parseFloat(data.price).toFixed(5) : 'LIMIT';
+                if (data.price) {
+                    const p = parseFloat(data.price);
+                    document.getElementById(pair.id).innerText = p.toFixed(5);
+                    const sellZone = p + (p * vol);
+                    const buyZone = p - (p * vol);
+                    const risk = (p * vol);
+                    
+                    document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
+                    document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
+                    document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (risk * 3)).toFixed(4);
+                    document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (risk * 3)).toFixed(4);
+                    
+                    const box = document.getElementById(`box-${pair.short}`);
+                    if (p >= sellZone || p <= buyZone) box.classList.add('locked-border');
+                    else box.classList.remove('locked-border');
+                }
             } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
         }
 
         async function updateDashboard() {
-            await fetchPrice({ sym: 'EUR/GBP', id: 'price-eur' });
-            setTimeout(() => fetchPrice({ sym: 'USD/CHF', id: 'price-usd' }), 2000);
-            setTimeout(() => fetchPrice({ sym: 'NZD/USD', id: 'price-nzd' }), 4000);
-            handleLockState(); 
+            await fetchAndCalculate({ sym: 'EUR/GBP', id: 'price-eur', short: 'eur' });
+            await fetchAndCalculate({ sym: 'USD/CHF', id: 'price-usd', short: 'usd' });
+            await fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' });
         }
 
         setInterval(() => {
             const now = new Date();
-            if ([1, 2, 4].includes(now.getDay()) && now.getHours() === 1 && now.getMinutes() === 7) {
-                window.location.reload();
-            }
-        }, 60000);
-
-        setInterval(() => {
-            const now = new Date();
-            const target = new Date(); target.setHours(1,0,0,0);
-            const diff = target - now;
-            const h = Math.floor(diff/3600000); const m = Math.floor((diff%3600000)/60000); const s = Math.floor((diff%60000)/1000);
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const cst = new Date(utc - (6 * 3600000));
+            const target = new Date(cst);
+            target.setUTCHours(22, 0, 0, 0); 
+            let day = target.getUTCDay();
+            let distance = (0 - day) * 86400000 + (target - cst);
+            if (distance < 0) distance += 604800000;
+            const h = Math.floor((distance % 86400000) / 3600000);
+            const m = Math.floor((distance % 3600000) / 60000);
+            const s = Math.floor((distance % 60000) / 1000);
             document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
         }, 1000);
 
         updateDashboard();
-        setInterval(updateDashboard, 300000);
-        handleLockState();
+        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>
