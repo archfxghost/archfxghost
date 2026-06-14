@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHFX👻 | HUD</title>
+    <title>ARCHFX👻 | PRECISION HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         *, *::before, *::after { box-sizing: border-box; }
         body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
-        .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.15); text-align: left; }
+        .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.05); text-align: left; }
         .sub-box { border: 2px solid #0f0; padding: 20px; margin-top: 15px; text-align: left; background: #0a0a00; }
-        .currency-box { border: 2px solid #333; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.5); transition: all 0.3s ease; }
-        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15) !important; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
-        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
-        .symbol-name { font-weight: bold; color: #fff; font-size: 1.2em; }
-        .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 15px #0f0; }
+        .currency-box { border: 1px solid #222; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; }
+        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.1) !important; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.1) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.1); }
+        .symbol-name { font-weight: bold; color: #fff; font-size: 1.1em; letter-spacing: 2px; }
+        .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 8px #0f0; }
         .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
-        .zone { background: #111; border: 1px solid #444; padding: 10px; font-size: 0.8em; color: #ccc; flex: 1; }
-        .hidden-tp { display: none; margin-top: 5px; color: #fff; font-size: 0.9em; border-top: 1px solid #444; padding-top: 5px; }
+        .zone { background: #080808; border: 1px solid #222; padding: 10px; font-size: 0.75em; color: #888; flex: 1; }
+        .hidden-tp { display: none; margin-top: 8px; color: #fff; font-size: 1em; border-top: 1px solid #333; padding-top: 8px; font-weight: bold; }
         .locked-short .hidden-tp, .locked-long .hidden-tp { display: block; }
-        .live-tag { font-size: 0.7em; background: #0f0; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: bold; }
-        .footer-link { display: block; margin-top: 20px; padding: 15px; background: #0f0; color: #000; text-decoration: none; font-weight: bold; border-radius: 5px; text-transform: uppercase; margin-bottom: 10px; width: 100%; max-width: 100%; text-align: center; }
-        .ref-link { display: block; color: #aaa; font-size: 0.7em; margin-top: 10px; text-decoration: none; text-align: center; }
-        .timestamp { font-size: 0.7em; color: #888; margin-left: 10px; }
+        .live-tag { font-size: 0.6em; background: #0f0; color: #000; padding: 2px 6px; vertical-align: middle; border-radius: 2px; }
+        .footer-link { display: block; margin-top: 20px; padding: 12px; border: 1px solid #0f0; color: #0f0; text-decoration: none; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; width: 100%; text-align: center; }
+        .ref-link { display: block; color: #555; font-size: 0.7em; margin-top: 15px; text-decoration: none; text-align: center; }
+        .timestamp { font-size: 0.7em; color: #444; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -32,8 +32,13 @@
         <img src="banner.jpg" class="banner" alt="ARCHFX👻">
         
         <div class="insight-box">
-            <div id="session-status" style="color: #0f0; font-weight: bold; text-transform: uppercase;">[STATUS: MONITORING]</div>
-            <div style="font-size: 0.8em; margin-top: 10px; color: #ccc;">Tracking Sydney / Tokyo / London liquidity flow.</div>
+            <div id="status-text" style="color: #0f0; font-weight: bold; letter-spacing: 1px;">[STATUS: MONITORING]</div>
+            <div style="font-size: 0.9em; margin-top: 8px; color: #fff;">
+                <strong>SYDNEY SESSION:</strong> <span id="countdown">3h 14m 23s</span>
+            </div>
+            <div style="font-size: 0.75em; margin-top: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;">
+                // Tracking: Sydney · Tokyo · London Liquidity Flow
+            </div>
         </div>
 
         <div id="pairs-container">
@@ -42,7 +47,7 @@
                 <div id="price-eur" class="price-display">--</div>
                 <div class="zone-container">
                     <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small id="prox-sell-eur"></small><div class="hidden-tp">TP: <span id="tp-sell-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small id="prox-buy-eur"></small><div class="hidden-tp">TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-buy-eur">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small id="prox-buy-eur"></small><div class="hidden-tp">TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></div></div>
                 </div>
             </div>
             <div class="currency-box" id="box-usd">
@@ -50,7 +55,7 @@
                 <div id="price-usd" class="price-display">--</div>
                 <div class="zone-container">
                     <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small id="prox-sell-usd"></small><div class="hidden-tp">TP: <span id="tp-sell-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small id="prox-buy-usd"></small><div class="hidden-tp">TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-buy-usd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small id="prox-buy-usd"></small><div class="hidden-tp">TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></div></div>
                 </div>
             </div>
             <div class="currency-box" id="box-nzd">
@@ -64,7 +69,7 @@
         </div>
 
         <div class="sub-box">
-            <strong>MISSION BRIEF:</strong><br>
+            <strong style="letter-spacing: 2px;">MISSION BRIEF:</strong><br><br>
             • <strong>Strategy:</strong> 3:1 Range Trap.<br>
             • <strong>Trigger:</strong> Box Lock = Execution Zone.<br>
             • <strong>Action:</strong> Execute on Reversion.<br>
@@ -80,7 +85,7 @@
         let priceMemory = {};
         
         async function fetchAndCalculate(pair) {
-            const isLive = document.getElementById('session-status').innerText.includes("LIVE");
+            const isLive = document.getElementById('status-text').innerText.includes("LIVE");
             if (!isLive) return;
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
@@ -92,7 +97,7 @@
                     let arrowHTML = "";
                     if (priceMemory[pair.short]) {
                         const diff = Math.abs(p - priceMemory[pair.short]);
-                        const size = Math.min(2 + (diff * 5000), 5); // Dynamic scaling
+                        const size = Math.min(2 + (diff * 5000), 5);
                         const opacity = Math.min(0.5 + (diff * 2000), 1.0);
                         const symbol = p > priceMemory[pair.short] ? "↑" : "↓";
                         const color = p > priceMemory[pair.short] ? "#0f0" : "#f00";
@@ -141,13 +146,13 @@
             let distance = target - now;
             
             if (distance < 0) {
-                document.getElementById('session-status').innerText = "[STATUS: LIVE]";
+                document.getElementById('status-text').innerHTML = "[STATUS: LIVE]";
                 updateDashboard(); 
             } else {
                 const h = Math.floor(distance / (1000 * 60 * 60));
                 const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('session-status').innerText = `[MONITORING] OPEN IN: ${h}h ${m}m ${s}s`;
+                document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
             }
         }, 1000);
 
@@ -155,7 +160,3 @@
     </script>
 </body>
 </html>
-
-
-
-
