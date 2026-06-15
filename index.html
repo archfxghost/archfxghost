@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHFXGHOST | 2:1 PRECISION HUD</title>
+    <title>ARCHFXGHOST | 15M AUTO-ANCHOR HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; }
@@ -11,63 +10,81 @@
         .banner { width: 100%; margin-bottom: 15px; filter: drop-shadow(0 0 5px #0f0); }
         .header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         h1 { color: #0f0; letter-spacing: 2px; font-size: 1.1em; margin: 0; }
-        .refresh-btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px 10px; cursor: pointer; font-size: 0.7em; }
+        .refresh-btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; }
         .status-box { text-align: center; background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 15px; font-size: 0.75em; color: #0f0; text-transform: uppercase; border-style: dashed; }
         .card-stack { display: flex; flex-direction: column; gap: 15px; }
-        .pair-card { border: 2px solid #333; padding: 10px; background: #000; min-height: 160px; position: relative; transition: 0.4s; }
-        .interaction-blocker { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background: transparent; cursor: default; }
+        .pair-card { border: 2px solid #333; padding: 10px; background: #000; position: relative; transition: 0.4s; }
         .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15); }
         .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 255, 0, 0.15); }
-        .reveal-data { display: none; margin-top: 10px; font-size: 0.8em; font-weight: bold; border-top: 1px solid #333; padding-top: 5px; color: #fff; position: relative; z-index: 1000; }
+        .reveal-data { display: none; margin-top: 10px; font-size: 0.8em; font-weight: bold; border-top: 1px solid #333; padding-top: 5px; color: #fff; }
         .history-log { border: 1px solid #333; padding: 10px; margin-top: 15px; color: #aaa; font-size: 0.7em; background: #080808; height: 120px; overflow-y: auto; }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="banner.jpg" class="banner" alt="ARCHFXGHOST">
+        <img src="5962.jpg" class="banner" alt="ARCHFXGHOST">
         <div class="header-wrap">
             <h1>ARCHFXGHOST</h1>
             <button class="refresh-btn" onclick="location.reload()">FORCE REFRESH</button>
         </div>
-        <div class="status-box">ACTIVE HUNTING: 6:00 PM SESSION<br>SENSITIVITY: 2:1 TRAP RATIO</div>
+        <div class="status-box">SYSTEM: ACTIVE ANCHORING<br>SCANNING 15M RANGE TRAPS</div>
         <div class="card-stack">
+            <!-- Slot 1 -->
             <div id="slot-1" class="pair-card">
-                <div class="interaction-blocker"></div>
-                <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">GBP/JPY</div>
                 <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
                 { "symbol": "OANDA:GBPJPY", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
                 </script>
                 <div id="reveal-1" class="reveal-data"></div>
             </div>
+            <!-- Slot 2 -->
             <div id="slot-2" class="pair-card">
-                <div class="interaction-blocker"></div>
-                <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">EUR/USD</div>
                 <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
                 { "symbol": "OANDA:EURUSD", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
                 </script>
                 <div id="reveal-2" class="reveal-data"></div>
             </div>
+            <!-- Slot 3 -->
             <div id="slot-3" class="pair-card">
-                <div class="interaction-blocker"></div>
-                <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">XAU/USD</div>
                 <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
                 { "symbol": "OANDA:XAUUSD", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
                 </script>
                 <div id="reveal-3" class="reveal-data"></div>
             </div>
         </div>
-        <div class="history-log" id="history-log"><strong>AUTO-LOCK LOG:</strong><br>Sensitivity set to 2:1. Monitoring for breaches...</div>
+        <div class="history-log" id="history-log"><strong>AUTO-LOCK LOG:</strong><br>Initializing 15m scan...</div>
     </div>
+
     <script>
+        let history = { 1: [], 2: [], 3: [] };
+
         function triggerLock(slotIndex, id, type, price, sl, tp) {
             const box = document.getElementById('slot-' + slotIndex);
             const reveal = document.getElementById('reveal-' + slotIndex);
             const log = document.getElementById('history-log');
-            box.classList.add(type === 'SHORT' ? 'locked-short' : 'locked-long');
+            
+            // This applies the red or green color based on the type
+            box.className = 'pair-card ' + (type === 'SHORT' ? 'locked-short' : 'locked-long');
             reveal.style.display = 'block';
-            reveal.innerHTML = `${type.toUpperCase()} TRAP BREACHED (2:1)<br>ENTRY: ${price} | SL: ${sl} | TP: ${tp}`;
+            reveal.innerHTML = `${type} BREACHED | PRICE: ${price}<br>FLOOR: ${sl.toFixed(4)} | CEILING: ${tp.toFixed(4)}`;
             log.innerHTML += `<br>• ${new Date().toLocaleTimeString()} | ${id} ${type} | ${price}`;
         }
+
+        setInterval(() => {
+            for (let i = 1; i <= 3; i++) {
+                // Placeholder price action (simulated)
+                let currentPrice = 192.50 + (Math.random() - 0.5); 
+                history[i].push({price: currentPrice, time: Date.now()});
+                
+                // 15-minute rolling window (900,000 ms)
+                history[i] = history[i].filter(p => Date.now() - p.time < 900000);
+                
+                let high = Math.max(...history[i].map(p => p.price));
+                let low = Math.min(...history[i].map(p => p.price));
+                
+                if (currentPrice > high) triggerLock(i, 'PAIR ' + i, 'LONG', currentPrice.toFixed(3), low, high);
+                if (currentPrice < low) triggerLock(i, 'PAIR ' + i, 'SHORT', currentPrice.toFixed(3), low, high);
+            }
+        }, 5000);
     </script>
 </body>
 </html>
