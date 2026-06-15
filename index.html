@@ -3,127 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHFX👻 | PRECISION HUD</title>
+    <title>ARCHFXGHOST | PRECISION HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        *, *::before, *::after { box-sizing: border-box; }
-        body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
-        .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
-        .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
-        .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.05); text-align: left; }
+        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; }
+        .banner { width: 100%; margin-bottom: 15px; filter: drop-shadow(0 0 5px #0f0); }
         
-        /* Wait Prompt Restored */
-        .wait-prompt { border: 1px dashed #0f0; padding: 10px; margin-bottom: 20px; color: #fff; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px; }
+        .header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        h1 { color: #0f0; letter-spacing: 2px; font-size: 1.1em; margin: 0; }
+        .refresh-btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px 10px; cursor: pointer; font-size: 0.7em; }
         
-        .currency-box { border: 1px solid #222; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; }
+        .status-box { text-align: center; background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 15px; font-size: 0.75em; color: #0f0; text-transform: uppercase; border-style: dashed; }
         
-        /* Glowing Lock-in Styles */
-        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15) !important; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
-        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); }
+        .card-stack { display: flex; flex-direction: column; gap: 15px; }
+        .pair-card { border: 2px solid #333; padding: 10px; background: #000; min-height: 160px; position: relative; transition: 0.4s; }
         
-        .symbol-name { font-weight: bold; color: #fff; font-size: 1.1em; letter-spacing: 2px; }
-        .price-display { font-size: 2.2em; margin: 10px 0; color: #0f0; text-shadow: 0 0 8px #0f0; min-height: 1.2em; }
-        .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
-        .zone { background: #080808; border: 1px solid #222; padding: 10px; font-size: 0.7em; color: #888; flex: 1; }
+        /* INTERACTION BLOCKER: Forces display-only */
+        .interaction-blocker { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background: transparent; cursor: default; }
         
-        /* TP/SL Reveal */
-        .exit-data { display: none; margin-top: 5px; color: #fff; font-size: 0.9em; border-top: 1px solid #444; padding-top: 5px; font-weight: bold; }
-        .locked-short .exit-data, .locked-long .exit-data { display: block; }
+        .bullish { border-color: #0f0 !important; box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
+        .bearish { border-color: #f00 !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); }
         
-        .refresh-btn { background: #0f0; color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
-        .arrow-indicator { display: inline-block; margin-left: 10px; }
+        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15); }
+        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 255, 0, 0.15); }
+        
+        .reveal-data { display: none; margin-top: 10px; font-size: 0.8em; font-weight: bold; border-top: 1px solid #333; padding-top: 5px; color: #fff; position: relative; z-index: 1000; }
+        .history-log { border: 1px solid #333; padding: 10px; margin-top: 15px; color: #aaa; font-size: 0.7em; background: #080808; height: 100px; overflow-y: auto; }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="banner.jpg" class="banner" alt="ARCHFX👻 | HUD">
-
-        <div class="insight-box">
-            <div style="color: #0f0; font-weight: bold;">[STATUS: LIVE]</div>
-            <button class="refresh-btn" onclick="updateDashboard()">FORCE REFRESH</button>
+        <img src="banner.jpg" class="banner" alt="ARCHFXGHOST">
+        
+        <div class="header-wrap">
+            <h1>ARCHFXGHOST</h1>
+            <button class="refresh-btn" onclick="location.reload()">FORCE REFRESH</button>
         </div>
 
-        <div class="wait-prompt">Waiting for glowing lock-in...</div>
-
-        <div id="pairs-container">
-            <div class="currency-box" id="box-eur">
-                <div class="symbol-name">EUR/GBP</div>
-                <div id="price-eur" class="price-display">-- <span id="arrow-eur" class="arrow-indicator"></span></div>
-                <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><div class="exit-data">TP:<span id="tp-sell-eur">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><div class="exit-data">TP:<span id="tp-buy-eur">--</span></div></div>
-                </div>
+        <div class="status-box">ACTIVE HUNTING: 15M ACTION MODE<br>WAITING FOR LOCK AND GLOW PRICE REVEAL</div>
+        
+        <div class="card-stack">
+            <!-- GBP/JPY -->
+            <div id="slot-1" class="pair-card">
+                <div class="interaction-blocker"></div>
+                <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">GBP/JPY</div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                { "symbol": "OANDA:GBPJPY", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
+                </script>
+                <div id="reveal-1" class="reveal-data"></div>
             </div>
-            <div class="currency-box" id="box-usd">
-                <div class="symbol-name">USD/CHF</div>
-                <div id="price-usd" class="price-display">-- <span id="arrow-usd" class="arrow-indicator"></span></div>
-                <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><div class="exit-data">TP:<span id="tp-sell-usd">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><div class="exit-data">TP:<span id="tp-buy-usd">--</span></div></div>
-                </div>
+            <!-- EUR/USD -->
+            <div id="slot-2" class="pair-card">
+                <div class="interaction-blocker"></div>
+                <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">EUR/USD</div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                { "symbol": "OANDA:EURUSD", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
+                </script>
+                <div id="reveal-2" class="reveal-data"></div>
             </div>
-            <div class="currency-box" id="box-nzd">
-                <div class="symbol-name">NZD/USD</div>
-                <div id="price-nzd" class="price-display">-- <span id="arrow-nzd" class="arrow-indicator"></span></div>
-                <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><div class="exit-data">TP:<span id="tp-sell-nzd">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><div class="exit-data">TP:<span id="tp-buy-nzd">--</span></div></div>
-                </div>
+            <!-- XAU/USD -->
+            <div id="slot-3" class="pair-card">
+                <div class="interaction-blocker"></div>
+                <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">XAU/USD</div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                { "symbol": "OANDA:XAUUSD", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
+                </script>
+                <div id="reveal-3" class="reveal-data"></div>
             </div>
         </div>
+        
+        <div class="history-log" id="history-log"><strong>AUTO-LOCK LOG:</strong></div>
     </div>
 
     <script>
-        const apiKey = '5c69a9ca120143c299f38f521ac9a999';
-        const vol = 0.001; 
-        let priceMemory = {};
-
-        async function fetchAndCalculate(pair) {
-            const priceEl = document.getElementById(pair.id);
-            const arrowEl = document.getElementById(`arrow-${pair.short}`);
-            const boxEl = document.getElementById(`box-${pair.short}`);
-            try {
-                const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
-                const data = await res.json();
-                
-                if (data.close) {
-                    const p = parseFloat(data.close);
-                    
-                    // Directional Strength Arrows
-                    if (priceMemory[pair.short]) {
-                        const diff = (p - priceMemory[pair.short]) * 10000;
-                        const symbol = p >= priceMemory[pair.short] ? "▲" : "▼";
-                        const color = p >= priceMemory[pair.short] ? "#0f0" : "#f00";
-                        const size = Math.min(1 + Math.abs(diff) * 2, 3);
-                        arrowEl.innerHTML = `<span style="color:${color}; font-size:${size}em;">${symbol}</span>`;
-                    }
-                    priceMemory[pair.short] = p;
-
-                    priceEl.firstChild.textContent = p.toFixed(5);
-                    
-                    const sellZone = p + (p * vol);
-                    const buyZone = p - (p * vol);
-                    
-                    document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
-                    document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
-                    document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (p * vol * 3)).toFixed(4);
-                    document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (p * vol * 3)).toFixed(4);
-
-                    boxEl.classList.remove('locked-short', 'locked-long');
-                    if (p >= sellZone) boxEl.classList.add('locked-short');
-                    else if (p <= buyZone) boxEl.classList.add('locked-long');
-                }
-            } catch (e) { priceEl.firstChild.textContent = "CONN ERR"; }
+        function updateMomentum(slotIndex, direction) {
+            const box = document.getElementById('slot-' + slotIndex);
+            box.classList.remove('bullish', 'bearish');
+            if (direction === 'UP') box.classList.add('bullish');
+            else if (direction === 'DOWN') box.classList.add('bearish');
         }
 
-        function updateDashboard() {
-            fetchAndCalculate({ sym: 'EUR/GBP', id: 'price-eur', short: 'eur' });
-            fetchAndCalculate({ sym: 'USD/CHF', id: 'price-usd', short: 'usd' });
-            fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' });
+        function triggerLock(slotIndex, id, type, price, sl, tp) {
+            const box = document.getElementById('slot-' + slotIndex);
+            const reveal = document.getElementById('reveal-' + slotIndex);
+            const log = document.getElementById('history-log');
+            box.classList.add(type === 'SHORT' ? 'locked-short' : 'locked-long');
+            reveal.style.display = 'block';
+            reveal.innerHTML = `${type.toUpperCase()} LOCKED | ENTRY: ${price} | SL: ${sl} | TP: ${tp}`;
+            log.innerHTML += `<br>• ${new Date().toLocaleTimeString()} | ${id} ${type} | ${price}`;
         }
-
-        updateDashboard();
-        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>
+
