@@ -12,14 +12,13 @@
         
         .header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         h1 { color: #0f0; letter-spacing: 2px; font-size: 1.1em; margin: 0; }
-        .refresh-btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px 10px; cursor: pointer; font-size: 0.7em; }
+        .refresh-btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; }
         
         .status-box { text-align: center; background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 15px; font-size: 0.75em; color: #0f0; text-transform: uppercase; border-style: dashed; }
         
         .card-stack { display: flex; flex-direction: column; gap: 15px; }
         .pair-card { border: 2px solid #333; padding: 10px; background: #000; min-height: 160px; position: relative; transition: 0.4s; }
         
-        /* INTERACTION BLOCKER: Forces display-only */
         .interaction-blocker { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background: transparent; cursor: default; }
         
         .bullish { border-color: #0f0 !important; box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
@@ -41,10 +40,9 @@
             <button class="refresh-btn" onclick="location.reload()">FORCE REFRESH</button>
         </div>
 
-        <div class="status-box">ACTIVE HUNTING: 15M ACTION MODE<br>WAITING FOR LOCK AND GLOW PRICE REVEAL</div>
+        <div class="status-box">ACTIVE HUNTING: 6:00 PM SESSION<br>WAITING FOR LOCK AND GLOW PRICE REVEAL</div>
         
         <div class="card-stack">
-            <!-- GBP/JPY -->
             <div id="slot-1" class="pair-card">
                 <div class="interaction-blocker"></div>
                 <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">GBP/JPY</div>
@@ -53,7 +51,6 @@
                 </script>
                 <div id="reveal-1" class="reveal-data"></div>
             </div>
-            <!-- EUR/USD -->
             <div id="slot-2" class="pair-card">
                 <div class="interaction-blocker"></div>
                 <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">EUR/USD</div>
@@ -62,7 +59,6 @@
                 </script>
                 <div id="reveal-2" class="reveal-data"></div>
             </div>
-            <!-- XAU/USD -->
             <div id="slot-3" class="pair-card">
                 <div class="interaction-blocker"></div>
                 <div style="font-weight:bold; font-size: 0.8em; margin-bottom: 5px;">XAU/USD</div>
@@ -96,4 +92,3 @@
     </script>
 </body>
 </html>
-
