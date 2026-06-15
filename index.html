@@ -11,71 +11,58 @@
         .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
         .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
         .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.05); text-align: left; }
-        .sub-box { border: 2px solid #0f0; padding: 20px; margin-top: 15px; text-align: left; background: #0a0a00; }
+        .wait-prompt { border: 1px dashed #0f0; padding: 10px; margin-bottom: 20px; color: #fff; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px; }
         .currency-box { border: 1px solid #222; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; }
-        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.1) !important; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
-        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.1) !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.1); }
+        
+        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15) !important; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); }
+        
         .symbol-name { font-weight: bold; color: #fff; font-size: 1.1em; letter-spacing: 2px; }
-        .price-display { font-size: 2.5em; margin: 10px 0; color: #0f0; text-shadow: 0 0 8px #0f0; }
+        .price-display { font-size: 2.2em; margin: 10px 0; color: #0f0; text-shadow: 0 0 8px #0f0; }
         .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
-        .zone { background: #080808; border: 1px solid #222; padding: 10px; font-size: 0.75em; color: #888; flex: 1; }
-        .hidden-tp { display: none; margin-top: 8px; color: #fff; font-size: 1em; border-top: 1px solid #333; padding-top: 8px; font-weight: bold; }
-        .locked-short .hidden-tp, .locked-long .hidden-tp { display: block; }
-        .live-tag { font-size: 0.6em; background: #0f0; color: #000; padding: 2px 6px; vertical-align: middle; border-radius: 2px; }
-        .footer-link { display: block; margin-top: 20px; padding: 12px; border: 1px solid #0f0; color: #0f0; text-decoration: none; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; width: 100%; text-align: center; }
-        .ref-link { display: block; color: #555; font-size: 0.7em; margin-top: 15px; text-decoration: none; text-align: center; }
-        .timestamp { font-size: 0.7em; color: #444; margin-left: 10px; }
+        .zone { background: #080808; border: 1px solid #222; padding: 10px; font-size: 0.7em; color: #888; flex: 1; }
+        .exit-data { display: none; margin-top: 5px; color: #fff; font-size: 0.9em; border-top: 1px solid #444; padding-top: 5px; }
+        .locked-short .exit-data, .locked-long .exit-data { display: block; }
+        .refresh-btn { background: #0f0; color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="banner.jpg" class="banner" alt="ARCHFX👻">
-        
+        <!-- Banner restored -->
+        <img src="banner.jpg" class="banner" alt="ARCHFX👻 | HUD">
+
         <div class="insight-box">
-            <div id="status-text" style="color: #0f0; font-weight: bold; letter-spacing: 1px;">[STATUS: LIVE]</div>
-            <div style="font-size: 0.9em; margin-top: 8px; color: #fff;">
-                <strong>SYDNEY SESSION:</strong> ACTIVE
-            </div>
-            <div style="font-size: 0.75em; margin-top: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;">
-                // Tracking: Sydney · Tokyo · London Liquidity Flow
-            </div>
+            <div style="color: #0f0; font-weight: bold;">[STATUS: LIVE]</div>
+            <button class="refresh-btn" onclick="updateDashboard()">FORCE REFRESH</button>
         </div>
+
+        <div class="wait-prompt">Waiting for glowing lock-in...</div>
 
         <div id="pairs-container">
             <div class="currency-box" id="box-eur">
-                <div class="symbol-name">EUR/GBP <span class="live-tag">LIVE</span><span id="ts-eur" class="timestamp"></span></div>
+                <div class="symbol-name">EUR/GBP</div>
                 <div id="price-eur" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><br><small id="prox-sell-eur"></small><div class="hidden-tp">TP: <span id="tp-sell-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><br><small id="prox-buy-eur"></small><div class="hidden-tp">TP: <span id="tp-buy-eur">--</span><br>SL: <span id="sl-sell-eur">--</span></div></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><div class="exit-data">TP:<span id="tp-sell-eur">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><div class="exit-data">TP:<span id="tp-buy-eur">--</span></div></div>
                 </div>
             </div>
             <div class="currency-box" id="box-usd">
-                <div class="symbol-name">USD/CHF <span class="live-tag">LIVE</span><span id="ts-usd" class="timestamp"></span></div>
+                <div class="symbol-name">USD/CHF</div>
                 <div id="price-usd" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><br><small id="prox-sell-usd"></small><div class="hidden-tp">TP: <span id="tp-sell-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><br><small id="prox-buy-usd"></small><div class="hidden-tp">TP: <span id="tp-buy-usd">--</span><br>SL: <span id="sl-sell-usd">--</span></div></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><div class="exit-data">TP:<span id="tp-sell-usd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><div class="exit-data">TP:<span id="tp-buy-usd">--</span></div></div>
                 </div>
             </div>
             <div class="currency-box" id="box-nzd">
-                <div class="symbol-name">NZD/USD <span class="live-tag">LIVE</span><span id="ts-nzd" class="timestamp"></span></div>
+                <div class="symbol-name">NZD/USD</div>
                 <div id="price-nzd" class="price-display">--</div>
                 <div class="zone-container">
-                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><br><small id="prox-sell-nzd"></small><div class="hidden-tp">TP: <span id="tp-sell-nzd">--</span><br>SL: <span id="sl-nzd">--</span></div></div>
-                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><br><small id="prox-buy-nzd"></small><div class="hidden-tp">TP: <span id="tp-buy-nzd">--</span><br>SL: <span id="sl-nzd">--</span></div></div>
+                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><div class="exit-data">TP:<span id="tp-sell-nzd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><div class="exit-data">TP:<span id="tp-buy-nzd">--</span></div></div>
                 </div>
             </div>
-        </div>
-
-        <div class="sub-box">
-            <strong style="letter-spacing: 2px;">MISSION BRIEF:</strong><br><br>
-            • <strong>Strategy:</strong> 3:1 Range Trap.<br>
-            • <strong>Trigger:</strong> Box Lock = Execution Zone.<br>
-            • <strong>Action:</strong> Execute on Reversion.<br>
-            • <strong>Risk Control:</strong> Mechanical TP/SL entry mandatory.<br>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=7GQTLSSDPLSZS" target="_blank" class="footer-link">SUPPORT ARCHFX👻</a>
-            <a href="https://www.webull.com/s/FCxusy4fc5lMXBdVcb" target="_blank" class="ref-link">TRADING PARTNER: WEBULL</a>
         </div>
     </div>
 
@@ -83,60 +70,151 @@
         const apiKey = '5c69a9ca120143c299f38f521ac9a999';
         const vol = 0.001; 
         let priceMemory = {};
-        
+
         async function fetchAndCalculate(pair) {
+            const priceEl = document.getElementById(pair.id);
+            const boxEl = document.getElementById(`box-${pair.short}`);
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
                 const data = await res.json();
+                
                 if (data.close) {
                     const p = parseFloat(data.close);
-                    const now = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    priceEl.innerText = p.toFixed(5);
                     
-                    let arrowHTML = "";
-                    if (priceMemory[pair.short]) {
-                        const diff = Math.abs(p - priceMemory[pair.short]);
-                        const size = Math.min(2 + (diff * 5000), 5);
-                        const opacity = Math.min(0.5 + (diff * 2000), 1.0);
-                        const symbol = p > priceMemory[pair.short] ? "↑" : "↓";
-                        const color = p > priceMemory[pair.short] ? "#0f0" : "#f00";
-                        arrowHTML = `<span style="font-size: ${size}em; color: ${color}; opacity: ${opacity}; text-shadow: 0 0 10px ${color};">${symbol}</span>`;
-                    }
-                    priceMemory[pair.short] = p;
-
-                    document.getElementById(pair.id).innerHTML = `${p.toFixed(5)} ${arrowHTML}`;
-                    document.getElementById(`ts-${pair.short}`).innerText = now;
-                    
-                    const risk = (p * vol);
-                    const sellZone = p + risk;
-                    const buyZone = p - risk;
+                    const sellZone = p + (p * vol);
+                    const buyZone = p - (p * vol);
                     
                     document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
                     document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
-                    document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (risk * 3)).toFixed(4);
-                    document.getElementById(`sl-sell-${pair.short}`).innerText = (sellZone + risk).toFixed(4);
-                    document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (risk * 3)).toFixed(4);
-                    document.getElementById(`sl-buy-${pair.short}`).innerText = (buyZone - risk).toFixed(4);
-                    
-                    document.getElementById(`prox-sell-${pair.short}`).innerText = (((sellZone - p) / p) * 100).toFixed(3) + "% to Ceiling";
-                    document.getElementById(`prox-buy-${pair.short}`).innerText = (((p - buyZone) / p) * 100).toFixed(3) + "% to Floor";
-                    
-                    const box = document.getElementById(`box-${pair.short}`);
-                    box.classList.remove('locked-short', 'locked-long');
-                    if (p >= sellZone) box.classList.add('locked-short');
-                    else if (p <= buyZone) box.classList.add('locked-long');
+                    document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (p * vol * 3)).toFixed(4);
+                    document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (p * vol * 3)).toFixed(4);
+
+                    boxEl.classList.remove('locked-short', 'locked-long');
+                    if (p >= sellZone) boxEl.classList.add('locked-short');
+                    else if (p <= buyZone) boxEl.classList.add('locked-long');
                 }
-            } catch (e) { document.getElementById(pair.id).innerText = 'ERR'; }
+            } catch (e) { priceEl.innerText = "CONN ERR"; }
         }
 
         function updateDashboard() {
             fetchAndCalculate({ sym: 'EUR/GBP', id: 'price-eur', short: 'eur' });
-            setTimeout(() => { fetchAndCalculate({ sym: 'USD/CHF', id: 'price-usd', short: 'usd' }); }, 500);
-            setTimeout(() => { fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' }); }, 1000);
+            fetchAndCalculate({ sym: 'USD/CHF', id: 'price-usd', short: 'usd' });
+            fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' });
         }
 
-        // Initialize and poll every 50 seconds
         updateDashboard();
-        setInterval(updateDashboard, 50000);
+        setInterval(updateDashboard, 60000);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHFX👻 | PRECISION HUD</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
+        .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+        .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
+        .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.05); text-align: left; }
+        .wait-prompt { border: 1px dashed #0f0; padding: 10px; margin-bottom: 20px; color: #fff; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px; }
+        .currency-box { border: 1px solid #222; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; }
+        
+        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15) !important; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); }
+        
+        .symbol-name { font-weight: bold; color: #fff; font-size: 1.1em; letter-spacing: 2px; }
+        .price-display { font-size: 2.2em; margin: 10px 0; color: #0f0; text-shadow: 0 0 8px #0f0; }
+        .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
+        .zone { background: #080808; border: 1px solid #222; padding: 10px; font-size: 0.7em; color: #888; flex: 1; }
+        .exit-data { display: none; margin-top: 5px; color: #fff; font-size: 0.9em; border-top: 1px solid #444; padding-top: 5px; }
+        .locked-short .exit-data, .locked-long .exit-data { display: block; }
+        .refresh-btn { background: #0f0; color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Banner restored -->
+        <img src="banner.jpg" class="banner" alt="ARCHFX👻 | HUD">
+
+        <div class="insight-box">
+            <div style="color: #0f0; font-weight: bold;">[STATUS: LIVE]</div>
+            <button class="refresh-btn" onclick="updateDashboard()">FORCE REFRESH</button>
+        </div>
+
+        <div class="wait-prompt">Waiting for glowing lock-in...</div>
+
+        <div id="pairs-container">
+            <div class="currency-box" id="box-eur">
+                <div class="symbol-name">EUR/GBP</div>
+                <div id="price-eur" class="price-display">--</div>
+                <div class="zone-container">
+                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><div class="exit-data">TP:<span id="tp-sell-eur">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><div class="exit-data">TP:<span id="tp-buy-eur">--</span></div></div>
+                </div>
+            </div>
+            <div class="currency-box" id="box-usd">
+                <div class="symbol-name">USD/CHF</div>
+                <div id="price-usd" class="price-display">--</div>
+                <div class="zone-container">
+                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><div class="exit-data">TP:<span id="tp-sell-usd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><div class="exit-data">TP:<span id="tp-buy-usd">--</span></div></div>
+                </div>
+            </div>
+            <div class="currency-box" id="box-nzd">
+                <div class="symbol-name">NZD/USD</div>
+                <div id="price-nzd" class="price-display">--</div>
+                <div class="zone-container">
+                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><div class="exit-data">TP:<span id="tp-sell-nzd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><div class="exit-data">TP:<span id="tp-buy-nzd">--</span></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = '5c69a9ca120143c299f38f521ac9a999';
+        const vol = 0.001; 
+        let priceMemory = {};
+
+        async function fetchAndCalculate(pair) {
+            const priceEl = document.getElementById(pair.id);
+            const boxEl = document.getElementById(`box-${pair.short}`);
+            try {
+                const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
+                const data = await res.json();
+                
+                if (data.close) {
+                    const p = parseFloat(data.close);
+                    priceEl.innerText = p.toFixed(5);
+                    
+                    const sellZone = p + (p * vol);
+                    const buyZone = p - (p * vol);
+                    
+                    document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
+                    document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
+                    document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (p * vol * 3)).toFixed(4);
+                    document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (p * vol * 3)).toFixed(4);
+
+                    boxEl.classList.remove('locked-short', 'locked-long');
+                    if (p >= sellZone) boxEl.classList.add('locked-short');
+                    else if (p <= buyZone) boxEl.classList.add('locked-long');
+                }
+            } catch (e) { priceEl.innerText = "CONN ERR"; }
+        }
+
+        function updateDashboard() {
+            fetchAndCalculate({ sym: 'EUR/GBP', id: 'price-eur', short: 'eur' });
+            fetchAndCalculate({ sym: 'USD/CHF', id: 'price-usd', short: 'usd' });
+            fetchAndCalculate({ sym: 'NZD/USD', id: 'price-nzd', short: 'nzd' });
+        }
+
+        updateDashboard();
+        setInterval(updateDashboard, 60000);
     </script>
 </body>
 </html>
