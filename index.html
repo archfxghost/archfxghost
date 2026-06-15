@@ -6,36 +6,69 @@
     <title>ARCHFX👻 | PRECISION HUD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; }
-        .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); }
-        .banner { width: 100%; margin-bottom: 20px; }
-        .currency-box { border: 1px solid #222; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.6); }
-        .price-display { font-size: 2.2em; margin: 10px 0; color: #0f0; min-height: 1.2em; }
-        .arrow-indicator { display: inline-block; margin-left: 10px; font-weight: bold; }
-        .locked-short { border: 2px solid #f00 !important; }
-        .locked-long { border: 2px solid #0f0 !important; }
-        .exit-data { font-size: 0.8em; color: #fff; margin-top: 5px; }
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #050505; color: #0f0; font-family: 'Share Tech Mono', monospace; padding: 10px; text-align: center; background-image: linear-gradient(rgba(0, 20, 0, 0.2) 1px, transparent 1px); background-size: 100% 4px; }
+        .container { border: 1px solid #0f0; padding: 25px; width: 95%; margin: auto; background: rgba(0, 10, 0, 0.9); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+        .banner { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 0 5px #0f0); }
+        .insight-box { border: 2px solid #ff0000; padding: 15px; margin-bottom: 25px; background: rgba(255, 0, 0, 0.05); text-align: left; }
+        
+        /* Wait Prompt Restored */
+        .wait-prompt { border: 1px dashed #0f0; padding: 10px; margin-bottom: 20px; color: #fff; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .currency-box { border: 1px solid #222; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.6); transition: all 0.3s ease; }
+        
+        /* Glowing Lock-in Styles */
+        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15) !important; box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 50, 0, 0.2) !important; box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); }
+        
+        .symbol-name { font-weight: bold; color: #fff; font-size: 1.1em; letter-spacing: 2px; }
+        .price-display { font-size: 2.2em; margin: 10px 0; color: #0f0; text-shadow: 0 0 8px #0f0; min-height: 1.2em; }
+        .zone-container { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
+        .zone { background: #080808; border: 1px solid #222; padding: 10px; font-size: 0.7em; color: #888; flex: 1; }
+        
+        /* TP/SL Reveal */
+        .exit-data { display: none; margin-top: 5px; color: #fff; font-size: 0.9em; border-top: 1px solid #444; padding-top: 5px; font-weight: bold; }
+        .locked-short .exit-data, .locked-long .exit-data { display: block; }
+        
+        .refresh-btn { background: #0f0; color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
+        .arrow-indicator { display: inline-block; margin-left: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="banner.jpg" class="banner" alt="ARCHFX👻 | HUD">
-        <button onclick="updateDashboard()">FORCE REFRESH</button>
+
+        <div class="insight-box">
+            <div style="color: #0f0; font-weight: bold;">[STATUS: LIVE]</div>
+            <button class="refresh-btn" onclick="updateDashboard()">FORCE REFRESH</button>
+        </div>
+
+        <div class="wait-prompt">Waiting for glowing lock-in...</div>
+
         <div id="pairs-container">
             <div class="currency-box" id="box-eur">
                 <div class="symbol-name">EUR/GBP</div>
                 <div id="price-eur" class="price-display">-- <span id="arrow-eur" class="arrow-indicator"></span></div>
-                <div class="exit-data" id="exits-eur"></div>
+                <div class="zone-container">
+                    <div class="zone">SELL CEILING<br><span id="sell-eur">--</span><div class="exit-data">TP:<span id="tp-sell-eur">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-eur">--</span><div class="exit-data">TP:<span id="tp-buy-eur">--</span></div></div>
+                </div>
             </div>
             <div class="currency-box" id="box-usd">
                 <div class="symbol-name">USD/CHF</div>
                 <div id="price-usd" class="price-display">-- <span id="arrow-usd" class="arrow-indicator"></span></div>
-                <div class="exit-data" id="exits-usd"></div>
+                <div class="zone-container">
+                    <div class="zone">SELL CEILING<br><span id="sell-usd">--</span><div class="exit-data">TP:<span id="tp-sell-usd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-usd">--</span><div class="exit-data">TP:<span id="tp-buy-usd">--</span></div></div>
+                </div>
             </div>
             <div class="currency-box" id="box-nzd">
                 <div class="symbol-name">NZD/USD</div>
                 <div id="price-nzd" class="price-display">-- <span id="arrow-nzd" class="arrow-indicator"></span></div>
-                <div class="exit-data" id="exits-nzd"></div>
+                <div class="zone-container">
+                    <div class="zone">SELL CEILING<br><span id="sell-nzd">--</span><div class="exit-data">TP:<span id="tp-sell-nzd">--</span></div></div>
+                    <div class="zone">BUY FLOOR<br><span id="buy-nzd">--</span><div class="exit-data">TP:<span id="tp-buy-nzd">--</span></div></div>
+                </div>
             </div>
         </div>
     </div>
@@ -46,17 +79,19 @@
         let priceMemory = {};
 
         async function fetchAndCalculate(pair) {
+            const priceEl = document.getElementById(pair.id);
+            const arrowEl = document.getElementById(`arrow-${pair.short}`);
+            const boxEl = document.getElementById(`box-${pair.short}`);
             try {
                 const res = await fetch(`https://api.twelvedata.com/quote?symbol=${pair.sym}&apikey=${apiKey}`);
                 const data = await res.json();
                 
                 if (data.close) {
                     const p = parseFloat(data.close);
-                    const arrowEl = document.getElementById(`arrow-${pair.short}`);
                     
-                    // Logic: If we have history, calculate movement
+                    // Directional Strength Arrows
                     if (priceMemory[pair.short]) {
-                        const diff = (p - priceMemory[pair.short]) * 10000; 
+                        const diff = (p - priceMemory[pair.short]) * 10000;
                         const symbol = p >= priceMemory[pair.short] ? "▲" : "▼";
                         const color = p >= priceMemory[pair.short] ? "#0f0" : "#f00";
                         const size = Math.min(1 + Math.abs(diff) * 2, 3);
@@ -64,19 +99,21 @@
                     }
                     priceMemory[pair.short] = p;
 
-                    document.getElementById(pair.id).firstChild.textContent = p.toFixed(5);
+                    priceEl.firstChild.textContent = p.toFixed(5);
                     
-                    // Lock-in and Exit Targets
                     const sellZone = p + (p * vol);
                     const buyZone = p - (p * vol);
-                    document.getElementById(`exits-${pair.short}`).innerHTML = `SELL CEILING: ${sellZone.toFixed(4)} | BUY FLOOR: ${buyZone.toFixed(4)}`;
                     
-                    const boxEl = document.getElementById(`box-${pair.short}`);
+                    document.getElementById(`sell-${pair.short}`).innerText = sellZone.toFixed(4);
+                    document.getElementById(`buy-${pair.short}`).innerText = buyZone.toFixed(4);
+                    document.getElementById(`tp-sell-${pair.short}`).innerText = (sellZone - (p * vol * 3)).toFixed(4);
+                    document.getElementById(`tp-buy-${pair.short}`).innerText = (buyZone + (p * vol * 3)).toFixed(4);
+
                     boxEl.classList.remove('locked-short', 'locked-long');
                     if (p >= sellZone) boxEl.classList.add('locked-short');
                     else if (p <= buyZone) boxEl.classList.add('locked-long');
                 }
-            } catch (e) { console.error(e); }
+            } catch (e) { priceEl.firstChild.textContent = "CONN ERR"; }
         }
 
         function updateDashboard() {
