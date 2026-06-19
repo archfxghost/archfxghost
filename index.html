@@ -31,9 +31,22 @@
         .pair-card { border: 2px solid #333; padding: 4px; background: #000; height: 360px; box-sizing: border-box; }
         .card-label { color: #0f0; font-size: 0.8em; padding: 4px 4px 6px 4px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Streamlined Mobile News Card */
+        /* Streamlined Mobile News Card with Link Suppression */
         .news-card { border: 2px solid #333; padding: 4px; background: #000; height: 260px; margin-bottom: 12px; position: relative; overflow: hidden; box-sizing: border-box; }
-        .history-log { border: 1px solid #0f0; padding: 10px; color: #aaa; font-size: 0.72em; background: #000; height: auto; border-style: dashed; line-height: 1.4; box-sizing: border-box; }
+        
+        /* Dynamic Dual Menu Interface Layout */
+        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        
+        .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 12px 5px; font-family: 'Share Tech Mono', monospace; font-size: 0.75em; text-align: center; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; box-sizing: border-box; transition: all 0.2s; }
+        .playbook-trigger:hover { background: #1a1a1a; color: #0f0; border-color: #0f0; }
+        
+        /* Pop-Open Content Blocks */
+        .history-log { display: none; border: 1px solid #aaa; padding: 10px; color: #aaa; font-size: 0.72em; background: #000; height: auto; border-style: dashed; line-height: 1.4; box-sizing: border-box; margin-bottom: 10px; }
+        .history-log a { color: #00ffff; text-decoration: none; font-weight: bold; }
+        .history-log a:hover { text-decoration: underline; color: #0f0; }
+        .playbook-content { display: none; background: #000; border: 1px solid #333; padding: 12px; font-size: 0.75em; color: #ccc; line-height: 1.5; box-sizing: border-box; margin-bottom: 20px; }
+        .playbook-content h3 { color: #0f0; font-size: 1em; margin-top: 12px; margin-bottom: 4px; text-transform: uppercase; }
+        .playbook-content ul { margin: 0; padding-left: 15px; }
 
         /* Advanced DOM element override to crop text blurbs and external links out */
         .news-card iframe, .tradingview-widget-container iframe {
@@ -64,9 +77,9 @@
         
         <!-- Stacked Execution Panels Grid -->
         <div class="hud-grid">
-            <!-- 5-Minute Execution Panel -->
+            <!-- 5-Minute Execution Panel with Native Dual-Line Stoch RSI Configuration -->
             <div class="pair-card">
-                <div class="card-label">EURUSD 5M VIEW // ATR 5</div>
+                <div class="card-label">EURUSD 5M VIEW // ATR 5 + DUAL-LINE STOCH RSI (CYAN/YELLOW)</div>
                 <div id="tradingview_5m" style="height:calc(100% - 22px);width:100%;"></div>
             </div>
             
@@ -90,9 +103,9 @@
                 </div>
             </div>
             
-            <!-- 15-Minute Structural Panel (Length 10 Extended Range Boxes) -->
+            <!-- 15-Minute Structural Panel with Extended High/Low Boxes and Single Line RSI Added below -->
             <div class="pair-card">
-                <div class="card-label">EURUSD 15M VIEW // ATR 5 + EXTENDED RANGE BOUNDS</div>
+                <div class="card-label">EURUSD 15M VIEW // ATR 5 + RED/GREEN BOUNDS + SINGLE RSI</div>
                 <div id="tradingview_15m" style="height:calc(100% - 22px);width:100%;"></div>
             </div>
         </div>
@@ -120,12 +133,45 @@
                 </script>
             </div>
         </div>
+
+        <!-- TWO-COLUMN TACTICAL CONTROLS BUTTON MATRIX -->
+        <div class="control-panel-grid">
+            <button class="playbook-trigger" onclick="toggleMissionLog()" id="log-btn">[ + ] MISSION LOG</button>
+            <button class="playbook-trigger" onclick="togglePlaybook()" id="playbook-btn" style="color: #0f0; border-color: #222;">[ + ] PLAYBOOK</button>
+        </div>
         
-        <!-- Mobile Baseline Mission Log -->
+        <!-- Pop-Open Mobile Baseline Mission Log -->
         <div class="history-log" id="history-log">
-            <strong>MISSION LOG:</strong><br>
-            HUD initialized for account growth roadmap. Scalp trading parameters active with low bids targeting sub-15 pip bounds. Length 10 confirmation lines deployed for high-probability structural floor/ceiling bounces.<br>
-            <strong>EXECUTION PROTOCOL:</strong> When the center gauge shifts to NEUTRAL, place the system on HIGH ALERT. Closely track price validation on the 5M panel and prepare to take profit immediately upon any confirmed trend flip or momentum breakdown. Always cross-reference Live Headlines above to verify currency dominance before entering structural breaks.
+            <strong>MISSION LOG PROFILE:</strong><br>
+            HUD operational for account growth roadmap. Scalp trading profiles active with target bounds managed under sub-15 pip rules. Length 10 confirmation boundaries deployed across 5M and 15M matrices for real-time tracking.<br><br>
+            <strong>TRADING PLATFORM GATEWAY:</strong><br>
+            <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank">LAUNCH WEBULL SCALP INTERFACE</a>
+        </div>
+
+        <!-- Pop-Open Tactical Playbook Instruction Manual -->
+        <div class="playbook-content" id="playbook-content">
+            <strong>ARCHFXGHOST USER MANUAL // SIMPLIFIED STRATEGY GUIDE</strong>
+            
+            <h3>1. Check Global Dominance First</h3>
+            <ul>
+                <li>Look at the <strong>Live Headlines</strong> box. If headlines praise the Euro, look for <strong>BUYS</strong>. If headlines support the US Dollar, look for <strong>SELLS</strong>.</li>
+            </ul>
+
+            <h3>2. Identify Your Boundary Walls</h3>
+            <ul>
+                <li>Look at the <strong>15M View</strong>. Watch for the price to reach either the locked <strong>Red Ceiling</strong> or <strong>Green Floor</strong> lines. Never take a trade in the middle of the channel.</li>
+            </ul>
+
+            <h3>3. When to Enter a Trade</h3>
+            <ul>
+                <li><span style="color:#00ff66;font-weight:bold;">BUY SIGNAL:</span> Price touches the Green Floor line + Center Gauge shifts away from Strong Sell + 5M bottom <strong>Cyan line crosses UP over Yellow line</strong>.</li>
+                <li><span style="color:#ff0033;font-weight:bold;">SELL SIGNAL:</span> Price touches the Red Ceiling line + Center Gauge shifts away from Strong Buy + 5M bottom <strong>Cyan line crosses DOWN under Yellow line</strong>.</li>
+            </ul>
+
+            <h3>4. High-Alert Profit Target (The Exit)</h3>
+            <ul>
+                <li>The absolute moment your running trade is active and the Center Gauge drops to <strong>NEUTRAL</strong>, go on high alert. If the 5M Cyan/Yellow lines cross backward against your trade, exit immediately on your broker app and bank your pips.</li>
+            </ul>
         </div>
     </div>
 
@@ -137,6 +183,7 @@
             inputs: { length: 5 }
         };
 
+        // Render 5m Chart with Stochastic RSI to guarantee two distinct crossover lines
         new TradingView.widget({
             "autosize": true,
             "symbol": "OANDA:EURUSD",
@@ -149,9 +196,22 @@
             "hide_side_toolbar": true,
             "allow_symbol_change": false,
             "container_id": "tradingview_5m",
-            "studies": [ atrStudyConfig ]
+            "studies": [ 
+                atrStudyConfig,
+                {
+                    id: "StochasticRSI@tv-basicstudies",
+                    inputs: { lengthRSI: 14, lengthStoch: 14, smoothK: 3, smoothD: 3 }
+                }
+            ],
+            "studies_overrides": {
+                "Stochastic RSI.k.color": "#00ffff",    // Fast Line: Cyan
+                "Stochastic RSI.d.color": "#ffff00",    // Slow Signal Line: Yellow
+                "Stochastic RSI.k.linewidth": 2,
+                "Stochastic RSI.d.linewidth": 2
+            }
         });
 
+        // Render 15m Chart with Extended Structural Range Line Colors AND Single Line RSI Added below
         new TradingView.widget({
             "autosize": true,
             "symbol": "OANDA:EURUSD",
@@ -168,12 +228,53 @@
                 atrStudyConfig,
                 {
                     id: "PivotPointsHighLow@tv-basicstudies",
-                    inputs: {
-                        "length": 10
-                    }
+                    inputs: { length: 10 }
+                },
+                {
+                    id: "RSI@tv-basicstudies",
+                    inputs: { length: 14 }
                 }
-            ]
+            ],
+            "studies_overrides": {
+                "Pivot Points High Low.highs.color": "#ff0033", // Ceiling box: RED
+                "Pivot Points High Low.lows.color": "#00ff66",  // Floor box: GREEN
+                "Relative Strength Index.rsi.color": "#00ffff"  // Single macro line: Cyan
+            }
         });
+
+        // Interactive toggle function for the Mission Log panel
+        function toggleMissionLog() {
+            const logContent = document.getElementById('history-log');
+            const logBtn = document.getElementById('log-btn');
+            if (logContent.style.display === 'block') {
+                logContent.style.display = 'none';
+                logBtn.innerText = '[ + ] MISSION LOG';
+                logBtn.style.color = '#888';
+                logBtn.style.borderColor = '#333';
+            } else {
+                logContent.style.display = 'block';
+                logBtn.innerText = '[ - ] CLOSE LOG';
+                logBtn.style.color = '#fff';
+                logBtn.style.borderColor = '#aaa';
+            }
+        }
+
+        // Interactive toggle function for the tactical user guide
+        function togglePlaybook() {
+            const playbookContent = document.getElementById('playbook-content');
+            const playbookBtn = document.getElementById('playbook-btn');
+            if (playbookContent.style.display === 'block') {
+                playbookContent.style.display = 'none';
+                playbookBtn.innerText = '[ + ] PLAYBOOK';
+                playbookBtn.style.color = '#0f0';
+                playbookBtn.style.borderColor = '#222';
+            } else {
+                playbookContent.style.display = 'block';
+                playbookBtn.innerText = '[ - ] CLOSE PLAYBOOK';
+                playbookBtn.style.color = '#ff0';
+                playbookBtn.style.borderColor = '#ff0';
+            }
+        }
 
         function updateMarketClock() {
             const now = new Date();
