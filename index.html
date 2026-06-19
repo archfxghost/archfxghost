@@ -2,22 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ARCHFXGHOST | 15M AUTO-ANCHOR HUD</title>
+    <title>ARCHFXGHOST | EURUSD ENGINE</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; }
-        .container { width: 100%; max-width: 600px; margin: 0 auto; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; }
         .banner { width: 100%; margin-bottom: 15px; filter: drop-shadow(0 0 5px #0f0); }
         .header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         h1 { color: #0f0; letter-spacing: 2px; font-size: 1.1em; margin: 0; }
-        .refresh-btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; }
-        .status-box { text-align: center; background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 15px; font-size: 0.75em; color: #0f0; text-transform: uppercase; border-style: dashed; }
-        .card-stack { display: flex; flex-direction: column; gap: 15px; }
-        .pair-card { border: 2px solid #333; padding: 10px; background: #000; position: relative; transition: 0.4s; }
-        .locked-short { border: 2px solid #f00 !important; background: rgba(255, 0, 0, 0.15); }
-        .locked-long { border: 2px solid #0f0 !important; background: rgba(0, 255, 0, 0.15); }
-        .reveal-data { display: none; margin-top: 10px; font-size: 0.8em; font-weight: bold; border-top: 1px solid #333; padding-top: 5px; color: #fff; }
-        .history-log { border: 1px solid #333; padding: 10px; margin-top: 15px; color: #aaa; font-size: 0.7em; background: #080808; height: 120px; overflow-y: auto; }
+        
+        /* Master HUD status box config */
+        .status-box { background: #000; border: 1px solid #0f0; padding: 12px; margin-bottom: 15px; font-size: 0.8em; color: #0f0; text-transform: uppercase; border-style: dashed; display: grid; grid-template-columns: 1fr 1fr; align-items: center; text-align: left; gap: 10px; }
+        .countdown-timer { text-align: right; font-weight: bold; font-size: 1.05em; letter-spacing: 1px; line-height: 1.4; }
+        .status-closed { color: #f00 !important; }
+        .status-open { color: #0f0 !important; }
+        .status-overlap { color: #ff0 !important; animation: blink 2s infinite; }
+
+        @keyframes blink { 50% { opacity: 0.6; } }
+
+        /* Structural Grid Panels */
+        .hud-grid { display: grid; grid-template-columns: 1fr 280px 1fr; gap: 15px; margin-bottom: 15px; }
+        @media (max-width: 1024px) { .hud-grid { grid-template-columns: 1fr; } }
+        
+        .pair-card { border: 2px solid #333; padding: 5px; background: #000; height: 420px; }
+        .card-label { color: #0f0; font-size: 0.85em; padding: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Streamlined Headline Container + Native Link Suppression Layer */
+        .news-card { border: 2px solid #333; padding: 5px; background: #000; height: 260px; margin-bottom: 15px; position: relative; overflow: hidden; }
+        .history-log { border: 1px solid #0f0; padding: 12px; color: #aaa; font-size: 0.75em; background: #000; height: auto; border-style: dashed; line-height: 1.5; }
+
+        /* Advanced DOM element override to crop text blurbs and external links out */
+        .news-card iframe, .tradingview-widget-container iframe {
+            margin-bottom: -40px !important; 
+        }
     </style>
 </head>
 <body>
@@ -25,66 +42,215 @@
         <img src="5962.jpg" class="banner" alt="ARCHFXGHOST">
         <div class="header-wrap">
             <h1>ARCHFXGHOST</h1>
-            <button class="refresh-btn" onclick="location.reload()">FORCE REFRESH</button>
         </div>
-        <div class="status-box">SYSTEM: ACTIVE ANCHORING<br>SCANNING 15M RANGE TRAPS</div>
-        <div class="card-stack">
-            <!-- Slot 1 -->
-            <div id="slot-1" class="pair-card">
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                { "symbol": "OANDA:GBPJPY", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
-                </script>
-                <div id="reveal-1" class="reveal-data"></div>
+        
+        <!-- Top Banner Monitoring Automated Rules & Calibrated Session Updates -->
+        <div class="status-box">
+            <div>SYSTEM: EURUSD SCALE INTERFACE<br>RISK PROTOCOL: MICRO TARGETS // ATR: 5</div>
+            <div class="countdown-timer" id="market-countdown">ROUTING TIME PROTOCOLS...</div>
+        </div>
+        
+        <!-- Main Core Technical Grid Layout -->
+        <div class="hud-grid">
+            <!-- 5-Minute Execution Panel -->
+            <div class="pair-card">
+                <div class="card-label">EURUSD 5M VIEW // ATR 5</div>
+                <div id="tradingview_5m" style="height:calc(100% - 25px);width:100%;"></div>
             </div>
-            <!-- Slot 2 -->
-            <div id="slot-2" class="pair-card">
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                { "symbol": "OANDA:EURUSD", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
-                </script>
-                <div id="reveal-2" class="reveal-data"></div>
+            
+            <!-- Technical Analysis Gauge Matrix -->
+            <div class="pair-card">
+                <div class="card-label" style="color: #0ff;">15M RANGE CONTROLS</div>
+                <div class="tradingview-widget-container" style="height:calc(100% - 25px); width:100%;">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                    {
+                        "interval": "15m",
+                        "width": "100%",
+                        "isTransparent": true,
+                        "height": "100%",
+                        "symbol": "OANDA:EURUSD",
+                        "showPropertiesWidget": false,
+                        "locale": "en",
+                        "colorTheme": "dark"
+                    }
+                    </script>
+                </div>
             </div>
-            <!-- Slot 3 -->
-            <div id="slot-3" class="pair-card">
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                { "symbol": "OANDA:XAUUSD", "width": "100%", "height": 110, "colorTheme": "dark", "isTransparent": true }
-                </script>
-                <div id="reveal-3" class="reveal-data"></div>
+            
+            <!-- 15-Minute Structural Panel (Configured with Length 10 Extended Range Boxes) -->
+            <div class="pair-card">
+                <div class="card-label">EURUSD 15M VIEW // ATR 5 + EXTENDED RANGE BOUNDS</div>
+                <div id="tradingview_15m" style="height:calc(100% - 25px);width:100%;"></div>
             </div>
         </div>
-        <div class="history-log" id="history-log"><strong>AUTO-LOCK LOG:</strong><br>Initializing 15m scan...</div>
+
+        <!-- FIXED BOX: Real-Time Currency Headlines Matrix (Adaptive Clean View) -->
+        <div class="news-card">
+            <div class="card-label" style="color: #ff0;">EUR / USD LIVE HEADLINES // DOMINANCE RADAR</div>
+            <div class="tradingview-widget-container" style="height:calc(100% - 25px); width:100%;">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                {
+                    "feedMode": "symbols",
+                    "symbols": [
+                        "FX_IDC:EURUSD",
+                        "ECONOMICS:USIR",
+                        "ECONOMICS:EUIR"
+                    ],
+                    "colorTheme": "dark",
+                    "isTransparent": true,
+                    "displayMode": "adaptive",
+                    "width": "100%",
+                    "height": "100%",
+                    "locale": "en"
+                }
+                </script>
+            </div>
+        </div>
+        
+        <!-- Remastered Mission Log and Execution Protocols -->
+        <div class="history-log" id="history-log">
+            <strong>MISSION LOG:</strong><br>
+            HUD initialized for account growth roadmap. Scalp trading parameters active with low bids targeting sub-15 pip bounds. Length 10 confirmation lines deployed for high-probability structural floor/ceiling bounces.<br>
+            <strong>EXECUTION PROTOCOL:</strong> When the center gauge shifts to NEUTRAL, place the system on HIGH ALERT. Closely track price validation on the 5M panel and prepare to take profit immediately upon any confirmed trend flip or momentum breakdown. Always cross-reference Live Headlines above to verify currency dominance before entering structural breaks.
+        </div>
     </div>
 
-    <script>
-        let history = { 1: [], 2: [], 3: [] };
+    <!-- Core Widget Library Hook -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+        const atrStudyConfig = {
+            id: "ATR@tv-basicstudies",
+            inputs: { length: 5 }
+        };
 
-        function triggerLock(slotIndex, id, type, price, sl, tp) {
-            const box = document.getElementById('slot-' + slotIndex);
-            const reveal = document.getElementById('reveal-' + slotIndex);
-            const log = document.getElementById('history-log');
+        new TradingView.widget({
+            "autosize": true,
+            "symbol": "OANDA:EURUSD",
+            "interval": "5",
+            "timezone": "Etc/UTC",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "enable_publishing": false,
+            "hide_side_toolbar": true,
+            "allow_symbol_change": false,
+            "container_id": "tradingview_5m",
+            "studies": [ atrStudyConfig ]
+        });
+
+        new TradingView.widget({
+            "autosize": true,
+            "symbol": "OANDA:EURUSD",
+            "interval": "15",
+            "timezone": "Etc/UTC",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "enable_publishing": false,
+            "hide_side_toolbar": true,
+            "allow_symbol_change": false,
+            "container_id": "tradingview_15m",
+            "studies": [ 
+                atrStudyConfig,
+                {
+                    id: "PivotPointsHighLow@tv-basicstudies",
+                    inputs: {
+                        "length": 10
+                    }
+                }
+            ]
+        });
+
+        function updateMarketClock() {
+            const now = new Date();
+            const utcDay = now.getUTCDay();
+            const utcHour = now.getUTCHours();
+            const display = document.getElementById('market-countdown');
             
-            // This applies the red or green color based on the type
-            box.className = 'pair-card ' + (type === 'SHORT' ? 'locked-short' : 'locked-long');
-            reveal.style.display = 'block';
-            reveal.innerHTML = `${type} BREACHED | PRICE: ${price}<br>FLOOR: ${sl.toFixed(4)} | CEILING: ${tp.toFixed(4)}`;
-            log.innerHTML += `<br>• ${new Date().toLocaleTimeString()} | ${id} ${type} | ${price}`;
-        }
+            let isClosed = false;
+            if (utcDay === 5 && utcHour >= 21) isClosed = true;
+            else if (utcDay === 6) isClosed = true;
+            else if (utcDay === 0 && utcHour < 21) isClosed = true;
 
-        setInterval(() => {
-            for (let i = 1; i <= 3; i++) {
-                // Placeholder price action (simulated)
-                let currentPrice = 192.50 + (Math.random() - 0.5); 
-                history[i].push({price: currentPrice, time: Date.now()});
+            if (isClosed) {
+                let target = new Date(now);
+                let daysToSunday = 0;
+                if (utcDay === 5) daysToSunday = 2; 
+                else if (utcDay === 6) daysToSunday = 1; 
+                else if (utcDay === 0) daysToSunday = 0; 
                 
-                // 15-minute rolling window (900,000 ms)
-                history[i] = history[i].filter(p => Date.now() - p.time < 900000);
-                
-                let high = Math.max(...history[i].map(p => p.price));
-                let low = Math.min(...history[i].map(p => p.price));
-                
-                if (currentPrice > high) triggerLock(i, 'PAIR ' + i, 'LONG', currentPrice.toFixed(3), low, high);
-                if (currentPrice < low) triggerLock(i, 'PAIR ' + i, 'SHORT', currentPrice.toFixed(3), low, high);
+                target.setUTCDate(now.getUTCDate() + daysToSunday);
+                target.setUTCHours(21, 0, 0, 0); 
+
+                let diff = target - now;
+                if (diff <= 0) {
+                    isClosed = false;
+                } else {
+                    let hours = Math.floor(diff / (1000 * 60 * 60));
+                    let mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    let secs = Math.floor((diff % (1000 * 60)) / 1000);
+                    display.innerHTML = `MARKET: <span class="status-closed">CLOSED</span><br>OPENS IN: ${hours}h ${mins}m ${secs}s`;
+                    return;
+                }
             }
-        }, 5000);
+
+            let sessions = [];
+            if (utcHour >= 21 || utcHour < 6) sessions.push("SYDNEY");
+            if (utcHour >= 23 || utcHour < 8) sessions.push("TOKYO");
+            if (utcHour >= 7 && utcHour < 16) sessions.push("LONDON");
+            if (utcHour >= 12 && utcHour < 21) sessions.push("NEW YORK");
+
+            let nextMilestoneHour = 0;
+            let milestoneLabel = "";
+            let statusClass = "status-open";
+            let statusLabel = `SESSION: ${sessions.join(" + ")}`;
+
+            if (utcHour >= 12 && utcHour < 16) {
+                statusLabel = `OVERLAP: LDN + NY`;
+                statusClass = "status-overlap";
+                nextMilestoneHour = 16;
+                milestoneLabel = "LDN CLOSE";
+            } else if (utcHour >= 23 || utcHour < 6) {
+                statusLabel = `OVERLAP: SYD + TOK`;
+                statusClass = "status-overlap";
+                nextMilestoneHour = 6;
+                milestoneLabel = "SYD CLOSE";
+            } else if (utcHour === 7) {
+                statusLabel = `OVERLAP: TOK + LDN`;
+                statusClass = "status-overlap";
+                nextMilestoneHour = 8;
+                milestoneLabel = "TOK CLOSE";
+            } else if (utcHour >= 20 && utcHour < 21) {
+                statusLabel = `MARKET PAUSE`;
+                statusClass = "status-closed";
+                nextMilestoneHour = 21;
+                milestoneLabel = "SYDNEY OPEN";
+            } else {
+                if (utcHour >= 16 && utcHour < 20) { nextMilestoneHour = 20; milestoneLabel = "NY WIND-DOWN"; }
+                else if (utcHour >= 8 && utcHour < 12) { nextMilestoneHour = 12; milestoneLabel = "NY OPEN"; }
+                else if (utcHour >= 6 && utcHour < 7) { nextMilestoneHour = 7; milestoneLabel = "LONDON OPEN"; }
+            }
+
+            if (utcDay === 5 && utcHour >= 16 && utcHour < 21) {
+                nextMilestoneHour = 21;
+                milestoneLabel = "WEEKEND CLOSE";
+            }
+
+            let targetTime = new Date(now);
+            targetTime.setUTCHours(nextMilestoneHour, 0, 0, 0);
+            let diff = targetTime - now;
+            
+            let h = Math.floor(diff / (1000 * 60 * 60));
+            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            display.innerHTML = `MARKET: <span class="${statusClass}">${statusLabel}</span><br>${milestoneLabel} IN: ${h}h ${m}m ${s}s`;
+        }
+        
+        setInterval(updateMarketClock, 1000);
+        updateMarketClock();
     </script>
 </body>
 </html>
