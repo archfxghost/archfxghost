@@ -6,28 +6,23 @@
     <title>ARCHFXGHOST | EURUSD PRO SNIPER</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; transition: all 0.3s ease; }
+        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; }
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
-        
         .banner { width: 100%; height: auto; display: block; margin-bottom: 5px; filter: drop-shadow(0 0 5px #0f0); }
-        .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+        .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 1fr 1.5fr; align-items: center; }
         .countdown-timer { text-align: right; font-weight: bold; font-size: 1em; color: #ff0; }
-        
         .hud-grid { display: flex; flex-direction: column; gap: 5px; margin-bottom: 5px; }
         .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 400px; }
         .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 150px; }
         .card-label { color: #0f0; font-size: 0.65em; padding: 2px; text-transform: uppercase; }
-        
         .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 5px; height: 140px; }
         #master-log-container { height: 110px; overflow-y: auto; font-size: 0.6em; color: #0f0; }
-
-        .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; }
+        .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; text-align: center;}
         .permanent-reminder-bar span { color: #ff0033; font-weight: bold; }
-
+        .ref-link { color: #fff; text-decoration: none; border-bottom: 1px solid #fff; margin-top: 5px; display: inline-block; cursor: pointer; }
         .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
         .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 8px 2px; font-family: 'Share Tech Mono', monospace; font-size: 0.6em; text-align: center; cursor: pointer; text-transform: uppercase; }
-        
         .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
         .pop-box ul { padding-left: 20px; line-height: 1.4; }
     </style>
@@ -35,12 +30,10 @@
 <body>
     <div class="container">
         <img src="5962.jpg" class="banner" alt="ARCHFXGHOST">
-        
         <div class="status-box">
-            <div id="session-display">SESSION: ROUTING...</div>
+            <div id="session-display">ROUTING...</div>
             <div class="countdown-timer" id="market-countdown">00:00:00</div>
         </div>
-        
         <div class="hud-grid">
             <div class="pair-card-large">
                 <div class="card-label">SNIPER PANE // 5M PRICE + BOUNDARIES + STOCH RSI</div>
@@ -59,27 +52,25 @@
                 <div id="master-log-container"></div>
             </div>
         </div>
-
         <div class="permanent-reminder-bar">
-            <span>[ 🚦 ] PRO SNIPER RULE:</span> CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER -- SYNC LOCK.
+            <span>[ 🚦 ] PRO SNIPER RULE:</span> CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER -- SYNC LOCK.<br>
+            <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank" class="ref-link">[ START YOUR MISSION // CLAIM FREE TRADES ]</a>
         </div>
-
         <div class="control-panel-grid">
             <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK')">[ + ] PLAYBOOK</button>
             <button class="playbook-trigger" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #300; font-weight: bold;">[ + ] SYNC LOCK</button>
         </div>
-        
         <div class="pop-box" id="playbook-content" style="display:block;">
-            <strong>OPERATOR MANUAL // THE TRAP ENGINE</strong>
+            <strong>THE SNIPER 101 // STEP-BY-STEP</strong>
             <ul>
-                <li><strong>1. Observe Trap State:</strong> Price pierces boundary; Momentum Gauge confirms "Strong".</li>
-                <li><strong>2. Wait for Exhaustion:</strong> Watch Gauge until status rolls back to "Neutral".</li>
-                <li><strong>3. Verify Crossover:</strong> Confirm Stoch RSI Blue/Red cross in Sniper Pane.</li>
-                <li><strong>4. Final Execution:</strong> Place trade in broker app immediately, then click <strong>[ + ] SYNC LOCK</strong> to record entry.</li>
+                <li><strong>1. The Trap:</strong> Wait for price to hit a Red Ceiling or Green Floor line.</li>
+                <li><strong>2. The Momentum:</strong> Check the Gauge. If it says "Strong", the market is tired.</li>
+                <li><strong>3. The Wait:</strong> Do NOT act yet. Wait for the Gauge to move from "Strong" back to "Neutral".</li>
+                <li><strong>4. The Signal:</strong> Look at the Blue and Red lines on the chart. They must cross each other while the Gauge is in "Neutral".</li>
+                <li><strong>5. The Action:</strong> Open your broker app, place your trade, then come back here and click [ + ] SYNC LOCK.</li>
             </ul>
         </div>
     </div>
-
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
         const baseConfig = { "autosize": true, "symbol": "OANDA:EURUSD", "timezone": "America/Chicago", "theme": "dark", "style": "1", "locale": "en", "hide_side_toolbar": true };
@@ -87,16 +78,21 @@
             "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ],
             "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66" }
         });
-
+        function getSessionName(utcHour) {
+            if (utcHour >= 22 || utcHour < 6) return "SYDNEY SESSION";
+            if (utcHour >= 6 && utcHour < 12) return "TOKYO SESSION";
+            if (utcHour >= 12 && utcHour < 16) return "LONDON SESSION";
+            return "NY SESSION";
+        }
         function updateClock() {
             const now = new Date();
             const day = now.getDay(), hour = now.getHours();
+            const utcHour = now.getUTCHours();
             const display = document.getElementById('market-countdown');
             const session = document.getElementById('session-display');
             const isMarketOpen = !(day === 5 && hour >= 16) && !(day === 6) && !(day === 0 && hour < 17);
-
             if (isMarketOpen) {
-                session.innerText = "SESSION: MARKET ACTIVE";
+                session.innerText = getSessionName(utcHour) + " // ACTIVE";
                 display.innerText = "LIVE // WATCH WALL";
             } else {
                 const target = new Date();
@@ -104,7 +100,6 @@
                 if (day === 0 && hour >= 17) daysUntilSunday = 7;
                 target.setDate(target.getDate() + daysUntilSunday);
                 target.setHours(17, 0, 0, 0);
-                
                 const diff = target - now;
                 const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
                 session.innerText = "SESSION: WEEKEND PAUSE";
@@ -113,23 +108,19 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
-
         function logStatus(msg) {
             const container = document.getElementById('master-log-container');
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             container.innerHTML += `<div>[${time}] ${msg}</div>`;
             container.scrollTop = container.scrollHeight;
         }
-
         window.onload = () => logStatus("SYSTEM: MONITORING MOMENTUM & CROSSOVERS");
-
         function toggleElement(id, btn, tP, tM) {
             const el = document.getElementById(id);
             const isOpen = el.style.display === 'block';
             el.style.display = isOpen ? 'none' : 'block';
             btn.innerText = isOpen ? tP : tM;
         }
-
         function toggleSellLock() {
             const state = document.body.classList.toggle('sell-locked');
             document.getElementById('lock-btn').innerText = state ? '[ - ] RELEASE' : '[ + ] SYNC LOCK';
@@ -138,4 +129,5 @@
     </script>
 </body>
 </html>
+
 
