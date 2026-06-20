@@ -2,366 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ARCHFXGHOST | EURUSD MOBILE ENGINE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ARCHFXGHOST | EURUSD PRO SNIPER</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; -webkit-text-size-adjust: 100%; }
+        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; transition: box-shadow 0.4s ease; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; }
+        body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
         
-        /* Scalable Banner for Mobile Screens */
-        .banner { width: 100%; height: auto; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 5px #0f0); }
-        .header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 5px; }
-        h1 { color: #0f0; letter-spacing: 2px; font-size: 1.1em; margin: 0; }
+        .banner { width: 100%; height: auto; display: block; margin-bottom: 5px; filter: drop-shadow(0 0 5px #0f0); }
+        h1 { color: #0f0; letter-spacing: 2px; font-size: 1em; margin: 0 0 5px 5px; }
         
-        /* Mobile-Responsive Status Box Layout */
-        .status-box { background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 12px; font-size: 0.75em; color: #0f0; text-transform: uppercase; border-style: dashed; display: grid; grid-template-columns: 1fr 1fr; align-items: center; text-align: left; gap: 8px; }
-        .countdown-timer { text-align: right; font-weight: bold; font-size: 1.05em; letter-spacing: 0.5px; line-height: 1.3; }
+        .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+        .countdown-timer { text-align: right; font-weight: bold; font-size: 1em; }
         .status-closed { color: #f00 !important; }
         .status-open { color: #0f0 !important; }
-        .status-overlap { color: #ff0 !important; animation: blink 2s infinite; }
+        
+        .hud-grid { display: flex; flex-direction: column; gap: 5px; margin-bottom: 5px; }
+        .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 500px; }
+        .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 150px; }
+        .card-label { color: #0f0; font-size: 0.65em; padding: 2px; text-transform: uppercase; }
+        .tradingview-widget-container iframe { margin-bottom: -40px !important; }
 
-        @keyframes blink { 50% { opacity: 0.6; } }
+        .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; }
+        .permanent-reminder-bar span { color: #ff0033; font-weight: bold; }
 
-        /* Mobile-First Stacked Grid Layout */
-        .hud-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
-        @media (min-width: 1025px) { .hud-grid { grid-template-columns: 1fr 280px 1fr; } }
+        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 10px; }
+        .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 8px 2px; font-family: 'Share Tech Mono', monospace; font-size: 0.6em; text-align: center; cursor: pointer; text-transform: uppercase; }
         
-        /* Mobile Optimized Card Sizes */
-        .pair-card { border: 2px solid #333; padding: 4px; background: #000; height: 360px; box-sizing: border-box; }
-        .card-label { color: #0f0; font-size: 0.8em; padding: 4px 4px 6px 4px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* Streamlined Mobile News Card with Link Suppression */
-        .news-card { border: 2px solid #333; padding: 4px; background: #000; height: 260px; margin-bottom: 12px; position: relative; overflow: hidden; box-sizing: border-box; }
-        
-        /* Dynamic Dual Menu Interface Layout */
-        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        
-        .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 12px 5px; font-family: 'Share Tech Mono', monospace; font-size: 0.75em; text-align: center; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; box-sizing: border-box; transition: all 0.2s; }
-        .playbook-trigger:hover { background: #1a1a1a; color: #0f0; border-color: #0f0; }
-        
-        /* Pop-Open Content Blocks */
-        .history-log { display: none; border: 1px solid #aaa; padding: 10px; color: #aaa; font-size: 0.72em; background: #000; height: auto; border-style: dashed; line-height: 1.4; box-sizing: border-box; margin-bottom: 10px; }
-        .history-log a { color: #00ffff; text-decoration: none; font-weight: bold; }
-        .history-log a:hover { text-decoration: underline; color: #0f0; }
-        .playbook-content { display: none; background: #000; border: 1px solid #333; padding: 12px; font-size: 0.75em; color: #ccc; line-height: 1.5; box-sizing: border-box; margin-bottom: 20px; }
-        .playbook-content h3 { color: #0f0; font-size: 1em; margin-top: 12px; margin-bottom: 4px; text-transform: uppercase; }
-        .playbook-content ul { margin: 0; padding-left: 15px; }
-
-        /* Advanced DOM element override to crop text blurbs and external links out */
-        .news-card iframe, .tradingview-widget-container iframe {
-            margin-bottom: -40px !important; 
-        }
-
-        /* Phone Screen Media Adjustments */
-        @media (max-width: 480px) {
-            .status-box { grid-template-columns: 1fr; text-align: center; }
-            .countdown-timer { text-align: center; margin-top: 2px; }
-            body { padding: 4px; }
-            .pair-card { height: 340px; }
-        }
+        .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
+        .pop-box h3 { color: #0f0; font-size: 0.9em; margin: 5px 0; }
+        .pop-box ul { margin: 0; padding-left: 15px; }
+        .pop-box a { color: #00ffff; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="5962.jpg" class="banner" alt="ARCHFXGHOST">
-        <div class="header-wrap">
-            <h1>ARCHFXGHOST</h1>
+        
+        <div class="status-box" id="master-status-box">
+            <div id="system-diagnostic">SYSTEM: PRO CONFLUENCE STACK</div>
+            <div class="countdown-timer" id="market-countdown">ROUTING...</div>
         </div>
         
-        <!-- Mobile Status & Session Tracking -->
-        <div class="status-box">
-            <div>SYSTEM: EURUSD SCALE INTERFACE<br>RISK PROTOCOL: MICRO TARGETS // ATR: 5</div>
-            <div class="countdown-timer" id="market-countdown">ROUTING TIME PROTOCOLS...</div>
-        </div>
-        
-        <!-- Stacked Execution Panels Grid -->
         <div class="hud-grid">
-            <!-- 5-Minute Execution Panel with Native Dual-Line Stoch RSI Configuration -->
-            <div class="pair-card">
-                <div class="card-label">EURUSD 5M VIEW // ATR 5 + DUAL-LINE STOCH RSI (CYAN/YELLOW)</div>
-                <div id="tradingview_5m" style="height:calc(100% - 22px);width:100%;"></div>
+            <div class="pair-card-large" id="card-5m">
+                <div class="card-label">SNIPER PANE // 5M PRICE + BOUNDARIES + STOCH RSI</div>
+                <div id="tradingview_5m" style="height:calc(100% - 15px);width:100%;"></div>
             </div>
-            
-            <!-- Technical Analysis Gauge Matrix -->
-            <div class="pair-card">
-                <div class="card-label" style="color: #0ff;">15M RANGE CONTROLS</div>
-                <div class="tradingview-widget-container" style="height:calc(100% - 22px); width:100%;">
-                    <div class="tradingview-widget-container__widget"></div>
+            <div class="pair-card-small" id="card-gauge">
+                <div class="card-label" style="color: #0ff;">15M MOMENTUM GAUGE</div>
+                <div class="tradingview-widget-container" style="height:calc(100% - 15px); width:100%;">
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                    {
-                        "interval": "15m",
-                        "width": "100%",
-                        "isTransparent": true,
-                        "height": "100%",
-                        "symbol": "OANDA:EURUSD",
-                        "showPropertiesWidget": false,
-                        "locale": "en",
-                        "colorTheme": "dark"
-                    }
+                    {"interval": "15m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "OANDA:EURUSD", "showPropertiesWidget": false, "locale": "en", "colorTheme": "dark"}
                     </script>
                 </div>
             </div>
-            
-            <!-- 15-Minute Structural Panel with Extended High/Low Boxes and Single Line RSI Added below -->
-            <div class="pair-card">
-                <div class="card-label">EURUSD 15M VIEW // ATR 5 + RED/GREEN BOUNDS + SINGLE RSI</div>
-                <div id="tradingview_15m" style="height:calc(100% - 22px);width:100%;"></div>
-            </div>
         </div>
 
-        <!-- Real-Time Currency Headlines Matrix (Adaptive Mobile View) -->
-        <div class="news-card">
-            <div class="card-label" style="color: #ff0;">EUR / USD LIVE HEADLINES // DOMINANCE RADAR</div>
-            <div class="tradingview-widget-container" style="height:calc(100% - 22px); width:100%;">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
-                {
-                    "feedMode": "symbols",
-                    "symbols": [
-                        "FX_IDC:EURUSD",
-                        "ECONOMICS:USIR",
-                        "ECONOMICS:EUIR"
-                    ],
-                    "colorTheme": "dark",
-                    "isTransparent": true,
-                    "displayMode": "adaptive",
-                    "width": "100%",
-                    "height": "100%",
-                    "locale": "en"
-                }
-                </script>
-            </div>
+        <div class="permanent-reminder-bar">
+            <span>[ 🚦 ] PRO SNIPER RULE:</span> SET TRAP (WALL) -- WAIT FOR NEUTRAL (GAUGE) -- PULL TRIGGER (CROSS) -- SYNC LOCK. 
+            <br><a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank" style="color: #fff; text-decoration: underline;">SUPPORT US // JOIN WEBULL HERE</a>
         </div>
 
-        <!-- TWO-COLUMN TACTICAL CONTROLS BUTTON MATRIX -->
         <div class="control-panel-grid">
-            <button class="playbook-trigger" onclick="toggleMissionLog()" id="log-btn">[ + ] MISSION LOG</button>
-            <button class="playbook-trigger" onclick="togglePlaybook()" id="playbook-btn" style="color: #0f0; border-color: #222;">[ + ] PLAYBOOK</button>
+            <button class="playbook-trigger" onclick="toggleElement('history-log', this, '[ + ] LOG', '[ - ] CLOSE LOG', '#fff', '#aaa')" id="log-btn">[ + ] LOG</button>
+            <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK', '#ff0', '#ff0')" id="playbook-btn" style="color: #0f0; border-color: #222;">[ + ] PLAYBOOK</button>
+            <button class="playbook-trigger" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #300; font-weight: bold;">[ + ] SYNC LOCK</button>
         </div>
         
-        <!-- Pop-Open Mobile Baseline Mission Log -->
-        <div class="history-log" id="history-log">
-            <strong>MISSION LOG PROFILE:</strong><br>
-            HUD operational for account growth roadmap. Scalp trading profiles active with target bounds managed under sub-15 pip rules. Length 10 confirmation boundaries deployed across 5M and 15M matrices for real-time tracking.<br><br>
-            <strong>TRADING PLATFORM GATEWAY:</strong><br>
-            <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank">LAUNCH WEBULL SCALP INTERFACE</a>
+        <div class="pop-box" id="history-log">
+            <strong>MISSION LOG:</strong> HUD operational. <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank">LAUNCH WEBULL</a>
         </div>
 
-        <!-- Pop-Open Tactical Playbook Instruction Manual -->
-        <div class="playbook-content" id="playbook-content">
-            <strong>ARCHFXGHOST USER MANUAL // SIMPLIFIED STRATEGY GUIDE</strong>
-            
-            <h3>1. Check Global Dominance First</h3>
+        <div class="pop-box" id="playbook-content">
+            <strong>ARCHFXGHOST // OPERATOR MANUAL</strong>
+            <h3>THE TRAP ENGINE</h3>
             <ul>
-                <li>Look at the <strong>Live Headlines</strong> box. If headlines praise the Euro, look for <strong>BUYS</strong>. If headlines support the US Dollar, look for <strong>SELLS</strong>.</li>
-            </ul>
-
-            <h3>2. Identify Your Boundary Walls</h3>
-            <ul>
-                <li>Look at the <strong>15M View</strong>. Watch for the price to reach either the locked <strong>Red Ceiling</strong> or <strong>Green Floor</strong> lines. Never take a trade in the middle of the channel.</li>
-            </ul>
-
-            <h3>3. When to Enter a Trade</h3>
-            <ul>
-                <li><span style="color:#00ff66;font-weight:bold;">BUY SIGNAL:</span> Price touches the Green Floor line + Center Gauge shifts away from Strong Sell + 5M bottom <strong>Cyan line crosses UP over Yellow line</strong>.</li>
-                <li><span style="color:#ff0033;font-weight:bold;">SELL SIGNAL:</span> Price touches the Red Ceiling line + Center Gauge shifts away from Strong Buy + 5M bottom <strong>Cyan line crosses DOWN under Yellow line</strong>.</li>
-            </ul>
-
-            <h3>4. High-Alert Profit Target (The Exit)</h3>
-            <ul>
-                <li>The absolute moment your running trade is active and the Center Gauge drops to <strong>NEUTRAL</strong>, go on high alert. If the 5M Cyan/Yellow lines cross backward against your trade, exit immediately on your broker app and bank your pips.</li>
+                <li><strong>1. Set Trap (Wall):</strong> Price touches Red Ceiling or Green Floor. <em>Note: Gauge will spike to "Strong" (Buy/Sell).</em></li>
+                <li><strong>2. Monitor Roll-off:</strong> Watch for the Blue line to cross the Red line as momentum rolls back to <strong>Neutral</strong>.</li>
+                <li><strong>3. Pull Trigger (Cross):</strong> As the Gauge hits <strong>Neutral</strong>, execute: 
+                <br>• For <strong>Sell</strong>: Blue line crosses <strong>down</strong> under Red. 
+                <br>• For <strong>Buy</strong>: Blue line crosses <strong>up</strong> over Red.
+                <br>Press [ + ] SYNC LOCK.</li>
             </ul>
         </div>
     </div>
 
-    <!-- Core Widget Library Hook -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
-        const atrStudyConfig = {
-            id: "ATR@tv-basicstudies",
-            inputs: { length: 5 }
-        };
-
-        // Render 5m Chart with Stochastic RSI to guarantee two distinct crossover lines
-        new TradingView.widget({
-            "autosize": true,
-            "symbol": "OANDA:EURUSD",
-            "interval": "5",
-            "timezone": "Etc/UTC",
-            "theme": "dark",
-            "style": "1",
-            "locale": "en",
-            "enable_publishing": false,
-            "hide_side_toolbar": true,
-            "allow_symbol_change": false,
-            "container_id": "tradingview_5m",
-            "studies": [ 
-                atrStudyConfig,
-                {
-                    id: "StochasticRSI@tv-basicstudies",
-                    inputs: { lengthRSI: 14, lengthStoch: 14, smoothK: 3, smoothD: 3 }
-                }
-            ],
-            "studies_overrides": {
-                "Stochastic RSI.k.color": "#00ffff",    // Fast Line: Cyan
-                "Stochastic RSI.d.color": "#ffff00",    // Slow Signal Line: Yellow
-                "Stochastic RSI.k.linewidth": 2,
-                "Stochastic RSI.d.linewidth": 2
-            }
+        const baseConfig = { "autosize": true, "symbol": "OANDA:EURUSD", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "enable_publishing": false, "hide_side_toolbar": true, "allow_symbol_change": false };
+        new TradingView.widget({ ...baseConfig, "interval": "5", "container_id": "tradingview_5m",
+            "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14, smoothK: 3, smoothD: 3 } } ],
+            "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66", "Pivot Points High Low.highs.linewidth": 3, "Pivot Points High Low.lows.linewidth": 3 }
         });
 
-        // Render 15m Chart with Extended Structural Range Line Colors AND Single Line RSI Added below
-        new TradingView.widget({
-            "autosize": true,
-            "symbol": "OANDA:EURUSD",
-            "interval": "15",
-            "timezone": "Etc/UTC",
-            "theme": "dark",
-            "style": "1",
-            "locale": "en",
-            "enable_publishing": false,
-            "hide_side_toolbar": true,
-            "allow_symbol_change": false,
-            "container_id": "tradingview_15m",
-            "studies": [ 
-                atrStudyConfig,
-                {
-                    id: "PivotPointsHighLow@tv-basicstudies",
-                    inputs: { length: 10 }
-                },
-                {
-                    id: "RSI@tv-basicstudies",
-                    inputs: { length: 14 }
-                }
-            ],
-            "studies_overrides": {
-                "Pivot Points High Low.highs.color": "#ff0033", // Ceiling box: RED
-                "Pivot Points High Low.lows.color": "#00ff66",  // Floor box: GREEN
-                "Relative Strength Index.rsi.color": "#00ffff"  // Single macro line: Cyan
-            }
-        });
-
-        // Interactive toggle function for the Mission Log panel
-        function toggleMissionLog() {
-            const logContent = document.getElementById('history-log');
-            const logBtn = document.getElementById('log-btn');
-            if (logContent.style.display === 'block') {
-                logContent.style.display = 'none';
-                logBtn.innerText = '[ + ] MISSION LOG';
-                logBtn.style.color = '#888';
-                logBtn.style.borderColor = '#333';
-            } else {
-                logContent.style.display = 'block';
-                logBtn.innerText = '[ - ] CLOSE LOG';
-                logBtn.style.color = '#fff';
-                logBtn.style.borderColor = '#aaa';
-            }
+        function toggleElement(id, btn, textPlus, textMinus, colorOn, borderOn) {
+            const el = document.getElementById(id);
+            const isOpen = el.style.display === 'block';
+            el.style.display = isOpen ? 'none' : 'block';
+            btn.innerText = isOpen ? textPlus : textMinus;
         }
 
-        // Interactive toggle function for the tactical user guide
-        function togglePlaybook() {
-            const playbookContent = document.getElementById('playbook-content');
-            const playbookBtn = document.getElementById('playbook-btn');
-            if (playbookContent.style.display === 'block') {
-                playbookContent.style.display = 'none';
-                playbookBtn.innerText = '[ + ] PLAYBOOK';
-                playbookBtn.style.color = '#0f0';
-                playbookBtn.style.borderColor = '#222';
-            } else {
-                playbookContent.style.display = 'block';
-                playbookBtn.innerText = '[ - ] CLOSE PLAYBOOK';
-                playbookBtn.style.color = '#ff0';
-                playbookBtn.style.borderColor = '#ff0';
-            }
+        function toggleSellLock() {
+            const state = document.body.classList.toggle('sell-locked');
+            document.getElementById('lock-btn').innerText = state ? '[ - ] RELEASE' : '[ + ] SYNC LOCK';
         }
 
         function updateMarketClock() {
             const now = new Date();
-            const utcDay = now.getUTCDay();
-            const utcHour = now.getUTCHours();
+            const day = now.getUTCDay(), hour = now.getUTCHours();
             const display = document.getElementById('market-countdown');
-            
-            let isClosed = false;
-            if (utcDay === 5 && utcHour >= 21) isClosed = true;
-            else if (utcDay === 6) isClosed = true;
-            else if (utcDay === 0 && utcHour < 21) isClosed = true;
-
-            if (isClosed) {
-                let target = new Date(now);
-                let daysToSunday = 0;
-                if (utcDay === 5) daysToSunday = 2; 
-                else if (utcDay === 6) daysToSunday = 1; 
-                else if (utcDay === 0) daysToSunday = 0; 
-                
-                target.setUTCDate(now.getUTCDate() + daysToSunday);
-                target.setUTCHours(21, 0, 0, 0); 
-
-                let diff = target - now;
-                if (diff <= 0) {
-                    isClosed = false;
-                } else {
-                    let hours = Math.floor(diff / (1000 * 60 * 60));
-                    let mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    let secs = Math.floor((diff % (1000 * 60)) / 1000);
-                    display.innerHTML = `MARKET: <span class="status-closed">CLOSED</span><br>OPENS IN: ${hours}h ${mins}m ${secs}s`;
-                    return;
-                }
+            if ((day === 5 && hour >= 21) || day === 6 || (day === 0 && hour < 21)) {
+                display.innerHTML = `MARKET: <span class="status-closed">CLOSED</span>`;
+                return;
             }
-
-            let sessions = [];
-            if (utcHour >= 21 || utcHour < 6) sessions.push("SYDNEY");
-            if (utcHour >= 23 || utcHour < 8) sessions.push("TOKYO");
-            if (utcHour >= 7 && utcHour < 16) sessions.push("LONDON");
-            if (utcHour >= 12 && utcHour < 21) sessions.push("NEW YORK");
-
-            let nextMilestoneHour = 0;
-            let milestoneLabel = "";
-            let statusClass = "status-open";
-            let statusLabel = `SESSION: ${sessions.join(" + ")}`;
-
-            if (utcHour >= 12 && utcHour < 16) {
-                statusLabel = `OVERLAP: LDN + NY`;
-                statusClass = "status-overlap";
-                nextMilestoneHour = 16;
-                milestoneLabel = "LDN CLOSE";
-            } else if (utcHour >= 23 || utcHour < 6) {
-                statusLabel = `OVERLAP: SYD + TOK`;
-                statusClass = "status-overlap";
-                nextMilestoneHour = 6;
-                milestoneLabel = "SYD CLOSE";
-            } else if (utcHour === 7) {
-                statusLabel = `OVERLAP: TOK + LDN`;
-                statusClass = "status-overlap";
-                nextMilestoneHour = 8;
-                milestoneLabel = "TOK CLOSE";
-            } else if (utcHour >= 20 && utcHour < 21) {
-                statusLabel = `MARKET PAUSE`;
-                statusClass = "status-closed";
-                nextMilestoneHour = 21;
-                milestoneLabel = "SYDNEY OPEN";
-            } else {
-                if (utcHour >= 16 && utcHour < 20) { nextMilestoneHour = 20; milestoneLabel = "NY WIND-DOWN"; }
-                else if (utcHour >= 8 && utcHour < 12) { nextMilestoneHour = 12; milestoneLabel = "NY OPEN"; }
-                else if (utcHour >= 6 && utcHour < 7) { nextMilestoneHour = 7; milestoneLabel = "LONDON OPEN"; }
-            }
-
-            if (utcDay === 5 && utcHour >= 16 && utcHour < 21) {
-                nextMilestoneHour = 21;
-                milestoneLabel = "WEEKEND CLOSE";
-            }
-
-            let targetTime = new Date(now);
-            targetTime.setUTCHours(nextMilestoneHour, 0, 0, 0);
-            let diff = targetTime - now;
-            
-            let h = Math.floor(diff / (1000 * 60 * 60));
-            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            let s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            display.innerHTML = `MARKET: <span class="${statusClass}">${statusLabel}</span><br>${milestoneLabel} IN: ${h}h ${m}m ${s}s`;
+            display.innerHTML = `MARKET: <span class="status-open">ACTIVE</span>`;
         }
-        
         setInterval(updateMarketClock, 1000);
         updateMarketClock();
     </script>
