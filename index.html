@@ -8,10 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; transition: all 0.3s ease; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; }
-        
-        /* EXECUTION MODES */
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
-        body.standby-mode { opacity: 0.6; pointer-events: none; }
         
         .banner { width: 100%; height: auto; display: block; margin-bottom: 5px; filter: drop-shadow(0 0 5px #0f0); }
         .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
@@ -28,10 +25,11 @@
         .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; }
         .permanent-reminder-bar span { color: #ff0033; font-weight: bold; }
 
-        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 10px; }
+        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
         .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 8px 2px; font-family: 'Share Tech Mono', monospace; font-size: 0.6em; text-align: center; cursor: pointer; text-transform: uppercase; }
         
         .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
+        .pop-box ul { padding-left: 20px; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -67,7 +65,6 @@
         </div>
 
         <div class="control-panel-grid">
-            <button class="playbook-trigger" onclick="toggleStandby()" id="standby-btn">[ + ] STANDBY // EXECUTE</button>
             <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK')">[ + ] PLAYBOOK</button>
             <button class="playbook-trigger" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #300; font-weight: bold;">[ + ] SYNC LOCK</button>
         </div>
@@ -75,10 +72,10 @@
         <div class="pop-box" id="playbook-content" style="display:block;">
             <strong>OPERATOR MANUAL // THE TRAP ENGINE</strong>
             <ul>
-                <li><strong>1. Set Trap:</strong> Price touches Boundary Wall.</li>
-                <li><strong>2. Verify Exhaustion:</strong> Gauge hits "Strong", then rolls to "Neutral".</li>
-                <li><strong>3. Execution Leeway:</strong> Click <strong>[ STANDBY // EXECUTE ]</strong> to pause the engine. This gives you time to focus entirely on your broker app.</li>
-                <li><strong>4. Finalize:</strong> Place trade, then return to ARCHFXGHOST and click [ + ] SYNC LOCK.</li>
+                <li><strong>1. Observe Trap State:</strong> Price pierces boundary; Momentum Gauge confirms "Strong".</li>
+                <li><strong>2. Wait for Exhaustion:</strong> Watch Gauge until status rolls back to "Neutral".</li>
+                <li><strong>3. Verify Crossover:</strong> Confirm Stoch RSI Blue/Red cross in Sniper Pane.</li>
+                <li><strong>4. Final Execution:</strong> Place trade in broker app immediately, then click <strong>[ + ] SYNC LOCK</strong> to record entry.</li>
             </ul>
         </div>
     </div>
@@ -90,12 +87,6 @@
             "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ],
             "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66" }
         });
-
-        function toggleStandby() {
-            const isStandby = document.body.classList.toggle('standby-mode');
-            document.getElementById('standby-btn').innerText = isStandby ? '[ RESUME ]' : '[ + ] STANDBY // EXECUTE';
-            logStatus(isStandby ? "MODE: STANDBY // BROKER FOCUS" : "MODE: MONITORING RESUMED");
-        }
 
         function updateClock() {
             const now = new Date();
@@ -147,3 +138,4 @@
     </script>
 </body>
 </html>
+
