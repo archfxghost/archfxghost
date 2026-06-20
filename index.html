@@ -7,51 +7,15 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
-        body { 
-            background-color: #050505; 
-            color: #fff; 
-            font-family: 'Share Tech Mono', monospace; 
-            padding: 5px; 
-            margin: 0; 
-        }
-        
-        .container { 
-            width: 100%; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 10px;
-        }
-        
+        body { background-color: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; }
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
         
-        .mission-header { 
-            background: url('6365.jpg') no-repeat center center; 
-            background-size: cover;
-            border: 1px solid #0f0; 
-            padding: 20px; 
-            margin-bottom: 5px; 
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .mission-header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7); 
-            z-index: 1;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
+        .mission-header { background: url('6385.jpg') no-repeat center center; background-size: cover; border: 1px solid #0f0; padding: 20px; margin-bottom: 5px; text-align: center; position: relative; overflow: hidden; }
+        .mission-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1; }
+        .header-content { position: relative; z-index: 2; }
         .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; }
+        .edition-tag { color: #0f0; font-size: 0.8em; margin-top: 5px; letter-spacing: 3px; }
         .social-link { font-size: 0.7em; color: #aaa; margin-top: 8px; display: block; text-decoration: none; border-bottom: 1px solid #aaa; width: fit-content; margin-left: auto; margin-right: auto; }
         .sync-light { font-size: 0.6em; color: #aaa; margin-top: 5px; border: 1px dashed #aaa; display: inline-block; padding: 2px 8px; }
         
@@ -60,7 +24,7 @@
         
         .hud-grid { display: flex; flex-direction: column; gap: 5px; margin-bottom: 5px; }
         .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 400px; }
-        .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 150px; }
+        .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 165px; }
         .card-label { color: #0f0; font-size: 0.65em; padding: 2px; text-transform: uppercase; }
         
         .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 5px; height: 140px; }
@@ -71,18 +35,28 @@
         .ref-link { color: #fff; text-decoration: none; border-bottom: 1px solid #fff; margin-top: 5px; display: inline-block; cursor: pointer; }
 
         .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
-        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); width: 100%; }
-        .cta-button:hover { background: #0f0; color: #000; box-shadow: 0 0 15px rgba(0, 255, 0, 1); }
+        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); width: 100%; }
+        .cta-button:hover { background: #0f0; color: #000; }
         
         .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
         .pop-box ul { padding-left: 20px; line-height: 1.4; }
+        .risk-key { background: #111; border: 1px solid #444; padding: 5px; margin-top: 5px; color: #0f0; font-size: 0.6em; }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .status-box { font-size: 0.55em; }
+            .pair-card-large { height: 300px; }
+            .control-panel-grid { grid-template-columns: 1fr; }
+            .brand-title { font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="mission-header">
             <div class="header-content">
-                <div class="brand-title">UNIVERSAL TRADING H.U.D.</div>
+                <div class="brand-title">ARCHFXGHOST // UNIVERSAL TRADING H.U.D.</div>
+                <div class="edition-tag">[ FREE EDITION ]</div>
                 <a href="https://x.com/ARCHFXGHOST" target="_blank" class="social-link">@ARCHFXGHOST // X.COM</a>
                 <div id="sync-status" class="sync-light">SYSTEM: IDLE</div>
             </div>
@@ -99,11 +73,14 @@
                 <div id="tradingview_5m" style="height:calc(100% - 15px);width:100%;"></div>
             </div>
             <div class="pair-card-small">
-                <div class="card-label">15M MOMENTUM GAUGE</div>
+                <div class="card-label">15M MOMENTUM GAUGE // RANGE: [ 40 // 70 ]</div>
                 <div class="tradingview-widget-container" style="height:calc(100% - 15px); width:100%;">
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
                     { "interval": "15m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
                     </script>
+                </div>
+                <div style="font-size: 0.55em; color: #aaa; text-align: center; margin-top: -10px; padding: 2px;">
+                    SNIPER TRIGGER ZONE: 40 (MIN) // 70 (MAX)
                 </div>
             </div>
             <div class="log-box">
@@ -113,13 +90,13 @@
         </div>
 
         <div class="permanent-reminder-bar">
-            <span>[ 🚦 ] PRO SNIPER RULE:</span> CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER -- SYNC LOCK.<br>
+            <span>[ 🚦 ] PRO SNIPER RULE:</span> CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER (40/70) -- SYNC LOCK.<br>
             <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank" class="ref-link">[ START YOUR MISSION // CLAIM FREE TRADES ]</a>
         </div>
 
         <div class="control-panel-grid">
-            <button class="cta-button" onclick="toggleElement('playbook-content', this, 'UNLOCK MARKET DATA', 'CLOSE MARKET DATA')">UNLOCK MARKET DATA</button>
-            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #ff0033; box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);">START TRADING STRATEGY</button>
+            <button class="cta-button" onclick="toggleElement('playbook-content', this, 'ACCESS MISSION PLAYBOOK', 'CLOSE MISSION PLAYBOOK')">ACCESS MISSION PLAYBOOK</button>
+            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn">START TRADING STRATEGY</button>
         </div>
         
         <div class="pop-box" id="playbook-content" style="display:block;">
@@ -128,9 +105,16 @@
                 <li><strong>1. The Trap:</strong> Wait for price to hit a Red Ceiling or Green Floor line.</li>
                 <li><strong>2. The Momentum:</strong> Check the Gauge. If it says "Strong", the market is tired.</li>
                 <li><strong>3. The Wait:</strong> Do NOT act yet. Wait for the Gauge to move from "Strong" back to "Neutral".</li>
-                <li><strong>4. The Signal:</strong> Look at the Blue and Red lines on the chart. <strong>They MUST cross</strong> while the Gauge is in "Neutral". If no cross, no trade.</li>
-                <li><strong>5. The Action:</strong> Open your broker app, place your trade, then come back here and click START TRADING STRATEGY.</li>
+                <li><strong>4. The Signal:</strong> Look at the Blue and Red lines on the chart. They MUST cross while the Gauge is in the <strong>40-70 range</strong>. If no cross, no trade.</li>
+                <li><strong>5. The Action:</strong> Open your broker app, place your trade.</li>
             </ul>
+            <div class="risk-key">
+                <strong>MISSION RISK PARAMETERS:</strong><br>
+                • MAX RISK: 1-2% PER TRADE<br>
+                • R:R RATIO: 1:1.5 TO 1:2<br>
+                • STOP LOSS: BEYOND TRIGGER "WALL"<br>
+                • DYNAMIC EXIT: TARGET OR MOMENTUM SHIFT
+            </div>
         </div>
     </div>
 
@@ -138,28 +122,19 @@
     <script type="text/javascript">
         const baseConfig = { "autosize": true, "symbol": "OANDA:EURUSD", "timezone": "America/Chicago", "theme": "dark", "style": "1", "locale": "en", "hide_side_toolbar": true };
         new TradingView.widget({ ...baseConfig, "interval": "5", "container_id": "tradingview_5m",
-            "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ],
-            "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66" }
+            "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ]
         });
-
-        function getSessionName(utcHour) {
-            if (utcHour >= 22 || utcHour < 6) return "SYDNEY SESSION";
-            if (utcHour >= 6 && utcHour < 12) return "TOKYO SESSION";
-            if (utcHour >= 12 && utcHour < 16) return "LONDON SESSION";
-            return "NY SESSION";
-        }
 
         function updateClock() {
             const now = new Date();
             const day = now.getDay(), hour = now.getHours();
-            const utcHour = now.getUTCHours();
-            const display = document.getElementById('market-countdown');
-            const session = document.getElementById('session-display');
-            
             const isMarketOpen = !(day === 5 && hour >= 16) && !(day === 6) && !(day === 0 && hour < 17);
 
+            const display = document.getElementById('market-countdown');
+            const session = document.getElementById('session-display');
+
             if (isMarketOpen) {
-                session.innerText = getSessionName(utcHour) + " // ACTIVE";
+                session.innerText = "SESSION: LIVE // ACTIVE";
                 display.innerText = "LIVE // WATCH WALL";
             } else {
                 const target = new Date();
@@ -169,9 +144,9 @@
                 target.setHours(17, 0, 0, 0);
                 
                 const diff = target - now;
-                const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+                const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000);
                 session.innerText = "SESSION: WEEKEND PAUSE";
-                display.innerText = `OPEN IN: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                display.innerText = `OPEN IN: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
             }
         }
         setInterval(updateClock, 1000);
@@ -184,7 +159,7 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        window.onload = () => logStatus("SYSTEM: MONITORING MOMENTUM & CROSSOVERS");
+        window.onload = () => logStatus("SYSTEM: MONITORING MOMENTUM // FILTER: 40/70 ACTIVE");
 
         function toggleElement(id, btn, tP, tM) {
             const el = document.getElementById(id);
@@ -202,4 +177,3 @@
     </script>
 </body>
 </html>
-
