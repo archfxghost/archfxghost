@@ -6,11 +6,51 @@
     <title>ARCHFXGHOST | EURUSD PRO SNIPER</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; }
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; }
+        
+        body { 
+            background-color: #050505; 
+            color: #fff; 
+            font-family: 'Share Tech Mono', monospace; 
+            padding: 5px; 
+            margin: 0; 
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 10px;
+        }
+        
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
         
-        .mission-header { background:#000; border: 1px solid #0f0; padding: 10px; margin-bottom: 5px; text-align: center; }
+        .mission-header { 
+            background: url('6365.jpg') no-repeat center center; 
+            background-size: cover;
+            border: 1px solid #0f0; 
+            padding: 20px; 
+            margin-bottom: 5px; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); 
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
         .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; }
         .social-link { font-size: 0.7em; color: #aaa; margin-top: 8px; display: block; text-decoration: none; border-bottom: 1px solid #aaa; width: fit-content; margin-left: auto; margin-right: auto; }
         .sync-light { font-size: 0.6em; color: #aaa; margin-top: 5px; border: 1px dashed #aaa; display: inline-block; padding: 2px 8px; }
@@ -31,20 +71,23 @@
         .ref-link { color: #fff; text-decoration: none; border-bottom: 1px solid #fff; margin-top: 5px; display: inline-block; cursor: pointer; }
 
         .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
-        .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 8px 2px; font-family: 'Share Tech Mono', monospace; font-size: 0.6em; text-align: center; cursor: pointer; text-transform: uppercase; }
+        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); width: 100%; }
+        .cta-button:hover { background: #0f0; color: #000; box-shadow: 0 0 15px rgba(0, 255, 0, 1); }
         
         .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
         .pop-box ul { padding-left: 20px; line-height: 1.4; }
     </style>
 </head>
 <body>
-    <div class="mission-header">
-        <div class="brand-title">ARCHFXGHOST // OPERATIONAL HUD</div>
-        <a href="https://x.com/ARCHFXGHOST" target="_blank" class="social-link">@ARCHFXGHOST // X.COM</a>
-        <div id="sync-status" class="sync-light">SYSTEM: IDLE</div>
-    </div>
-    
     <div class="container">
+        <div class="mission-header">
+            <div class="header-content">
+                <div class="brand-title">UNIVERSAL TRADING H.U.D.</div>
+                <a href="https://x.com/ARCHFXGHOST" target="_blank" class="social-link">@ARCHFXGHOST // X.COM</a>
+                <div id="sync-status" class="sync-light">SYSTEM: IDLE</div>
+            </div>
+        </div>
+        
         <div class="status-box">
             <div id="session-display">ROUTING...</div>
             <div class="countdown-timer" id="market-countdown">00:00:00</div>
@@ -75,8 +118,8 @@
         </div>
 
         <div class="control-panel-grid">
-            <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK')">[ + ] PLAYBOOK</button>
-            <button class="playbook-trigger" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #300; font-weight: bold;">[ + ] SYNC LOCK</button>
+            <button class="cta-button" onclick="toggleElement('playbook-content', this, 'UNLOCK MARKET DATA', 'CLOSE MARKET DATA')">UNLOCK MARKET DATA</button>
+            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #ff0033; box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);">START TRADING STRATEGY</button>
         </div>
         
         <div class="pop-box" id="playbook-content" style="display:block;">
@@ -86,7 +129,7 @@
                 <li><strong>2. The Momentum:</strong> Check the Gauge. If it says "Strong", the market is tired.</li>
                 <li><strong>3. The Wait:</strong> Do NOT act yet. Wait for the Gauge to move from "Strong" back to "Neutral".</li>
                 <li><strong>4. The Signal:</strong> Look at the Blue and Red lines on the chart. <strong>They MUST cross</strong> while the Gauge is in "Neutral". If no cross, no trade.</li>
-                <li><strong>5. The Action:</strong> Open your broker app, place your trade, then come back here and click [ + ] SYNC LOCK.</li>
+                <li><strong>5. The Action:</strong> Open your broker app, place your trade, then come back here and click START TRADING STRATEGY.</li>
             </ul>
         </div>
     </div>
@@ -152,10 +195,11 @@
 
         function toggleSellLock() {
             const state = document.body.classList.toggle('sell-locked');
-            document.getElementById('lock-btn').innerText = state ? '[ - ] RELEASE' : '[ + ] SYNC LOCK';
+            document.getElementById('lock-btn').innerText = state ? 'RELEASE STRATEGY' : 'START TRADING STRATEGY';
             document.getElementById('sync-status').innerText = state ? 'SYSTEM: SYNCED // LOCKED' : 'SYSTEM: IDLE';
-            logStatus(state ? "CRITICAL: SYNC LOCK ACTIVATED" : "SYSTEM: SYNC LOCK RELEASED");
+            logStatus(state ? "CRITICAL: STRATEGY ENGAGED" : "SYSTEM: STRATEGY RELEASED");
         }
     </script>
 </body>
 </html>
+
