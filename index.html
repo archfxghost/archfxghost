@@ -11,18 +11,16 @@
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
         
         .banner { width: 100%; height: auto; display: block; margin-bottom: 5px; filter: drop-shadow(0 0 5px #0f0); }
-        h1 { color: #0f0; letter-spacing: 2px; font-size: 1em; margin: 0 0 5px 5px; }
-        
         .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
-        .countdown-timer { text-align: right; font-weight: bold; font-size: 1em; }
-        .status-closed { color: #f00 !important; }
-        .status-open { color: #0f0 !important; }
+        .countdown-timer { text-align: right; font-weight: bold; font-size: 1em; color: #ff0; }
         
         .hud-grid { display: flex; flex-direction: column; gap: 5px; margin-bottom: 5px; }
-        .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 500px; }
+        .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 400px; }
         .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 150px; }
         .card-label { color: #0f0; font-size: 0.65em; padding: 2px; text-transform: uppercase; }
-        .tradingview-widget-container iframe { margin-bottom: -40px !important; }
+        
+        .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 5px; height: 140px; }
+        #master-log-container { height: 110px; overflow-y: auto; font-size: 0.6em; color: #0f0; }
 
         .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; }
         .permanent-reminder-bar span { color: #ff0033; font-weight: bold; }
@@ -31,96 +29,118 @@
         .playbook-trigger { background: #111; border: 1px solid #333; color: #888; width: 100%; padding: 8px 2px; font-family: 'Share Tech Mono', monospace; font-size: 0.6em; text-align: center; cursor: pointer; text-transform: uppercase; }
         
         .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
-        .pop-box h3 { color: #0f0; font-size: 0.9em; margin: 5px 0; }
-        .pop-box ul { margin: 0; padding-left: 15px; }
-        .pop-box a { color: #00ffff; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="5962.jpg" class="banner" alt="ARCHFXGHOST">
         
-        <div class="status-box" id="master-status-box">
-            <div id="system-diagnostic">SYSTEM: PRO CONFLUENCE STACK</div>
-            <div class="countdown-timer" id="market-countdown">ROUTING...</div>
+        <div class="status-box">
+            <div id="session-display">SESSION: ROUTING...</div>
+            <div class="countdown-timer" id="market-countdown">00:00:00</div>
         </div>
         
         <div class="hud-grid">
-            <div class="pair-card-large" id="card-5m">
+            <div class="pair-card-large">
                 <div class="card-label">SNIPER PANE // 5M PRICE + BOUNDARIES + STOCH RSI</div>
                 <div id="tradingview_5m" style="height:calc(100% - 15px);width:100%;"></div>
             </div>
-            <div class="pair-card-small" id="card-gauge">
-                <div class="card-label" style="color: #0ff;">15M MOMENTUM GAUGE</div>
+            <div class="pair-card-small">
+                <div class="card-label">15M MOMENTUM GAUGE</div>
                 <div class="tradingview-widget-container" style="height:calc(100% - 15px); width:100%;">
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                    {"interval": "15m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "OANDA:EURUSD", "showPropertiesWidget": false, "locale": "en", "colorTheme": "dark"}
+                    { "interval": "15m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
                     </script>
                 </div>
+            </div>
+            <div class="log-box">
+                <div class="card-label">MASTER AUTOMATED LOG // MOMENTUM & CROSSOVER</div>
+                <div id="master-log-container"></div>
             </div>
         </div>
 
         <div class="permanent-reminder-bar">
-            <span>[ 🚦 ] PRO SNIPER RULE:</span> SET TRAP (WALL) -- WAIT FOR NEUTRAL (GAUGE) -- PULL TRIGGER (CROSS) -- SYNC LOCK. 
-            <br><a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank" style="color: #fff; text-decoration: underline;">SUPPORT US // JOIN WEBULL HERE</a>
+            <span>[ 🚦 ] PRO SNIPER RULE:</span> CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER -- SYNC LOCK.
         </div>
 
         <div class="control-panel-grid">
-            <button class="playbook-trigger" onclick="toggleElement('history-log', this, '[ + ] LOG', '[ - ] CLOSE LOG', '#fff', '#aaa')" id="log-btn">[ + ] LOG</button>
-            <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK', '#ff0', '#ff0')" id="playbook-btn" style="color: #0f0; border-color: #222;">[ + ] PLAYBOOK</button>
+            <button class="playbook-trigger" onclick="toggleElement('history-log', this, '[ + ] LOG', '[ - ] CLOSE LOG')">[ + ] LOG</button>
+            <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK')">[ + ] PLAYBOOK</button>
             <button class="playbook-trigger" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #300; font-weight: bold;">[ + ] SYNC LOCK</button>
         </div>
         
-        <div class="pop-box" id="history-log">
-            <strong>MISSION LOG:</strong> HUD operational. <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank">LAUNCH WEBULL</a>
-        </div>
-
+        <div class="pop-box" id="history-log"><strong>MISSION LOG:</strong> System Active.</div>
+        
         <div class="pop-box" id="playbook-content">
-            <strong>ARCHFXGHOST // OPERATOR MANUAL</strong>
-            <h3>THE TRAP ENGINE</h3>
+            <strong>OPERATOR MANUAL // THE TRAP ENGINE</strong>
             <ul>
-                <li><strong>1. Set Trap (Wall):</strong> Price touches Red Ceiling or Green Floor. <em>Note: Gauge will spike to "Strong" (Buy/Sell).</em></li>
-                <li><strong>2. Monitor Roll-off:</strong> Watch for the Blue line to cross the Red line as momentum rolls back to <strong>Neutral</strong>.</li>
-                <li><strong>3. Pull Trigger (Cross):</strong> As the Gauge hits <strong>Neutral</strong>, execute: 
-                <br>• For <strong>Sell</strong>: Blue line crosses <strong>down</strong> under Red. 
-                <br>• For <strong>Buy</strong>: Blue line crosses <strong>up</strong> over Red.
-                <br>Press [ + ] SYNC LOCK.</li>
+                <li><strong>Step 1: The Trap (Wall):</strong> Price must hit a structural boundary (Floor or Ceiling) on the 5M chart.</li>
+                <li><strong>Step 2: Momentum Spike:</strong> Wait for the 15M Momentum Gauge to register a "Strong" state.</li>
+                <li><strong>Step 3: The Roll-off:</strong> Watch for momentum to fall back from "Strong" towards "Neutral" (volume exhaustion).</li>
+                <li><strong>Step 4: The Trigger (Cross):</strong> As momentum enters the Neutral zone, monitor the Stoch RSI for a Blue/Red line cross.</li>
+                <li><strong>Step 5: The Execution:</strong> Click [ + ] SYNC LOCK to enter the trade.</li>
             </ul>
         </div>
     </div>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
-        const baseConfig = { "autosize": true, "symbol": "OANDA:EURUSD", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "enable_publishing": false, "hide_side_toolbar": true, "allow_symbol_change": false };
+        const baseConfig = { "autosize": true, "symbol": "OANDA:EURUSD", "timezone": "America/Chicago", "theme": "dark", "style": "1", "locale": "en", "hide_side_toolbar": true };
         new TradingView.widget({ ...baseConfig, "interval": "5", "container_id": "tradingview_5m",
-            "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14, smoothK: 3, smoothD: 3 } } ],
-            "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66", "Pivot Points High Low.highs.linewidth": 3, "Pivot Points High Low.lows.linewidth": 3 }
+            "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ],
+            "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66" }
         });
 
-        function toggleElement(id, btn, textPlus, textMinus, colorOn, borderOn) {
+        function updateClock() {
+            const now = new Date();
+            const day = now.getDay(); // 0 = Sunday
+            const hour = now.getHours(); // Local Time
+            const display = document.getElementById('market-countdown');
+            const session = document.getElementById('session-display');
+            
+            // Market closes Friday at 4 PM (16:00) CDT, opens Sunday at 5 PM (17:00) CDT
+            const isMarketOpen = !(day === 5 && hour >= 16) && !(day === 6) && !(day === 0 && hour < 17);
+
+            if (isMarketOpen) {
+                session.innerText = "SESSION: MARKET ACTIVE";
+                display.innerText = "LIVE // WATCH WALL";
+            } else {
+                const target = new Date();
+                let daysUntilSunday = (7 - day) % 7;
+                if (day === 0 && hour >= 17) daysUntilSunday = 7;
+                target.setDate(target.getDate() + daysUntilSunday);
+                target.setHours(17, 0, 0, 0);
+                
+                const diff = target - now;
+                const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+                session.innerText = "SESSION: WEEKEND PAUSE";
+                display.innerText = `OPEN IN: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function logStatus(msg) {
+            const container = document.getElementById('master-log-container');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            container.innerHTML += `<div>[${time}] ${msg}</div>`;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        window.onload = () => logStatus("SYSTEM: MONITORING MOMENTUM & CROSSOVERS");
+
+        function toggleElement(id, btn, tP, tM) {
             const el = document.getElementById(id);
             const isOpen = el.style.display === 'block';
             el.style.display = isOpen ? 'none' : 'block';
-            btn.innerText = isOpen ? textPlus : textMinus;
+            btn.innerText = isOpen ? tP : tM;
         }
 
         function toggleSellLock() {
             const state = document.body.classList.toggle('sell-locked');
             document.getElementById('lock-btn').innerText = state ? '[ - ] RELEASE' : '[ + ] SYNC LOCK';
+            logStatus(state ? "CRITICAL: SYNC LOCK ACTIVATED" : "SYSTEM: SYNC LOCK RELEASED");
         }
-
-        function updateMarketClock() {
-            const now = new Date();
-            const day = now.getUTCDay(), hour = now.getUTCHours();
-            const display = document.getElementById('market-countdown');
-            if ((day === 5 && hour >= 21) || day === 6 || (day === 0 && hour < 21)) {
-                display.innerHTML = `MARKET: <span class="status-closed">CLOSED</span>`;
-                return;
-            }
-            display.innerHTML = `MARKET: <span class="status-open">ACTIVE</span>`;
-        }
-        setInterval(updateMarketClock, 1000);
-        updateMarketClock();
     </script>
 </body>
 </html>
