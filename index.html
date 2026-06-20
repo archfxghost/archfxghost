@@ -6,9 +6,12 @@
     <title>ARCHFXGHOST | EURUSD PRO SNIPER</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; transition: box-shadow 0.4s ease; }
+        body { background: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; transition: all 0.3s ease; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; }
+        
+        /* EXECUTION MODES */
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
+        body.standby-mode { opacity: 0.6; pointer-events: none; }
         
         .banner { width: 100%; height: auto; display: block; margin-bottom: 5px; filter: drop-shadow(0 0 5px #0f0); }
         .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
@@ -64,21 +67,18 @@
         </div>
 
         <div class="control-panel-grid">
-            <button class="playbook-trigger" onclick="toggleElement('history-log', this, '[ + ] LOG', '[ - ] CLOSE LOG')">[ + ] LOG</button>
+            <button class="playbook-trigger" onclick="toggleStandby()" id="standby-btn">[ + ] STANDBY // EXECUTE</button>
             <button class="playbook-trigger" onclick="toggleElement('playbook-content', this, '[ + ] PLAYBOOK', '[ - ] CLOSE PLAYBOOK')">[ + ] PLAYBOOK</button>
             <button class="playbook-trigger" onclick="toggleSellLock()" id="lock-btn" style="color: #ff0033; border-color: #300; font-weight: bold;">[ + ] SYNC LOCK</button>
         </div>
         
-        <div class="pop-box" id="history-log"><strong>MISSION LOG:</strong> System Active.</div>
-        
-        <div class="pop-box" id="playbook-content">
+        <div class="pop-box" id="playbook-content" style="display:block;">
             <strong>OPERATOR MANUAL // THE TRAP ENGINE</strong>
             <ul>
-                <li><strong>Step 1: The Trap (Wall):</strong> Price must hit a structural boundary (Floor or Ceiling) on the 5M chart.</li>
-                <li><strong>Step 2: Momentum Spike:</strong> Wait for the 15M Momentum Gauge to register a "Strong" state.</li>
-                <li><strong>Step 3: The Roll-off:</strong> Watch for momentum to fall back from "Strong" towards "Neutral" (volume exhaustion).</li>
-                <li><strong>Step 4: The Trigger (Cross):</strong> As momentum enters the Neutral zone, monitor the Stoch RSI for a Blue/Red line cross.</li>
-                <li><strong>Step 5: The Execution:</strong> Click [ + ] SYNC LOCK to enter the trade.</li>
+                <li><strong>1. Set Trap:</strong> Price touches Boundary Wall.</li>
+                <li><strong>2. Verify Exhaustion:</strong> Gauge hits "Strong", then rolls to "Neutral".</li>
+                <li><strong>3. Execution Leeway:</strong> Click <strong>[ STANDBY // EXECUTE ]</strong> to pause the engine. This gives you time to focus entirely on your broker app.</li>
+                <li><strong>4. Finalize:</strong> Place trade, then return to ARCHFXGHOST and click [ + ] SYNC LOCK.</li>
             </ul>
         </div>
     </div>
@@ -91,14 +91,17 @@
             "studies_overrides": { "Pivot Points High Low.highs.color": "#ff0033", "Pivot Points High Low.lows.color": "#00ff66" }
         });
 
+        function toggleStandby() {
+            const isStandby = document.body.classList.toggle('standby-mode');
+            document.getElementById('standby-btn').innerText = isStandby ? '[ RESUME ]' : '[ + ] STANDBY // EXECUTE';
+            logStatus(isStandby ? "MODE: STANDBY // BROKER FOCUS" : "MODE: MONITORING RESUMED");
+        }
+
         function updateClock() {
             const now = new Date();
-            const day = now.getDay(); // 0 = Sunday
-            const hour = now.getHours(); // Local Time
+            const day = now.getDay(), hour = now.getHours();
             const display = document.getElementById('market-countdown');
             const session = document.getElementById('session-display');
-            
-            // Market closes Friday at 4 PM (16:00) CDT, opens Sunday at 5 PM (17:00) CDT
             const isMarketOpen = !(day === 5 && hour >= 16) && !(day === 6) && !(day === 0 && hour < 17);
 
             if (isMarketOpen) {
