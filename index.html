@@ -33,7 +33,6 @@
 
         .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; text-align: center;}
         .permanent-reminder-bar span { color: #ff0033; font-weight: bold; }
-        /* Link color updated to yellow for high visibility */
         .ref-link { color: #ff0; text-decoration: underline; margin-top: 5px; display: inline-block; cursor: pointer; font-weight: bold; }
 
         .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
@@ -96,26 +95,21 @@
         </div>
 
         <div class="control-panel-grid">
-            <button class="cta-button" onclick="toggleElement('playbook-content', this, 'ACCESS MISSION PLAYBOOK', 'CLOSE MISSION PLAYBOOK')">ACCESS MISSION PLAYBOOK</button>
-            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn">START TRADING STRATEGY</button>
+            <button class="cta-button" onclick="toggleElement('playbook-content', this, 'ACCESS PLAYBOOK', 'CLOSE PLAYBOOK')">ACCESS PLAYBOOK</button>
+            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn">LOCK & LOG 🔐</button>
         </div>
         
         <div class="pop-box" id="playbook-content" style="display:block;">
-            <strong>THE SNIPER 101 // STEP-BY-STEP</strong>
+            <strong>THE SNIPER // PRECISION PLAYBOOK</strong>
             <ul>
-                <li><strong>1. The Trap:</strong> Wait for price to hit a Red Ceiling or Green Floor line.</li>
-                <li><strong>2. The Momentum:</strong> Check the Gauge. If it says "Strong", the market is tired.</li>
-                <li><strong>3. The Wait:</strong> Do NOT act yet. Wait for the Gauge to move from "Strong" back to "Neutral".</li>
-                <li><strong>4. The Signal:</strong> Look at the Blue and Red lines on the chart. They MUST cross while the Gauge is in the <strong>33-73 range</strong>. If no cross, no trade.</li>
-                <li><strong>5. The Action:</strong> Open your broker app, place your trade.</li>
+                <li><strong>1. THE WALL:</strong> Wait for price to hit a Floor or Ceiling.</li>
+                <li><strong>2. THE SPIKE:</strong> Check Gauge. Must be "Strong" (pegged at 80/20 extreme). DO NOT TRADE YET.</li>
+                <li><strong>3. THE FULL ROLL:</strong> Watch the gauge drift from "Strong" (80/20) back toward the 33-73 "Neutral" zone.</li>
+                <li><strong>4. THE ATR CROSS:</strong> As the meter enters Neutral, watch indicator lines. They must cross within the 33-73 range.</li>
+                <li><strong>5. EXECUTE:</strong> The moment the cross is confirmed in Neutral, place trade in app.</li>
+                <li><strong>6. LOCK & LOG:</strong> Hit "LOCK & LOG 🔐" to lock the screen and commit mission to log.</li>
+                <li><strong>7. NO-TRADE:</strong> If it crosses outside 33-73, VOID signal.</li>
             </ul>
-            <div class="risk-key">
-                <strong>MISSION RISK PARAMETERS:</strong><br>
-                • MAX RISK: 1-2% PER TRADE<br>
-                • R:R RATIO: 1:1.5 TO 1:2<br>
-                • STOP LOSS: BEYOND TRIGGER "WALL"<br>
-                • DYNAMIC EXIT: TARGET OR MOMENTUM SHIFT
-            </div>
         </div>
     </div>
 
@@ -126,27 +120,27 @@
             "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ]
         });
 
+        function getMarketSession() {
+            const hour = new Date().getUTCHours();
+            if (hour >= 0 && hour < 8) return "TOKYO // ASIA";
+            if (hour >= 8 && hour < 13) return "LONDON // EU";
+            if (hour >= 13 && hour < 17) return "NY // LONDON OVERLAP";
+            if (hour >= 17 && hour < 22) return "NEW YORK";
+            return "LOW VOLUME // PAUSE";
+        }
+
         function updateClock() {
             const now = new Date();
-            const day = now.getDay(), hour = now.getHours();
-            const isMarketOpen = !(day === 5 && hour >= 16) && !(day === 6) && !(day === 0 && hour < 17);
-            const display = document.getElementById('market-countdown');
-            const session = document.getElementById('session-display');
-
-            if (isMarketOpen) {
-                session.innerText = "SESSION: LIVE // ACTIVE";
-                display.innerText = "LIVE // WATCH WALL";
-            } else {
-                const target = new Date();
-                let daysUntilSunday = (7 - day) % 7;
-                if (day === 0 && hour >= 17) daysUntilSunday = 7;
-                target.setDate(target.getDate() + daysUntilSunday);
-                target.setHours(17, 0, 0, 0);
-                const diff = target - now;
-                const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000);
-                session.innerText = "SESSION: WEEKEND PAUSE";
-                display.innerText = `OPEN IN: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
-            }
+            const sessionEl = document.getElementById('session-display');
+            sessionEl.innerText = "SESSION: " + getMarketSession();
+            
+            const target = new Date();
+            target.setUTCHours(22, 0, 0, 0);
+            if (now > target) target.setUTCDate(target.getUTCDate() + 1);
+            
+            const diff = target - now;
+            const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000);
+            document.getElementById('market-countdown').innerText = `EXIT IN: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -169,11 +163,10 @@
 
         function toggleSellLock() {
             const state = document.body.classList.toggle('sell-locked');
-            document.getElementById('lock-btn').innerText = state ? 'RELEASE STRATEGY' : 'START TRADING STRATEGY';
+            document.getElementById('lock-btn').innerText = state ? 'RELEASE LOCK' : 'LOCK & LOG 🔐';
             document.getElementById('sync-status').innerText = state ? 'SYSTEM: SYNCED // LOCKED' : 'SYSTEM: IDLE';
             logStatus(state ? "CRITICAL: STRATEGY ENGAGED" : "SYSTEM: STRATEGY RELEASED");
         }
     </script>
 </body>
 </html>
-
