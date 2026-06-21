@@ -11,17 +11,16 @@
         .container { width: 100%; max-width: 1200px; margin: 0 auto; }
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
         
-        .mission-header { background: #000; border: 1px solid #0f0; padding: 30px; margin-bottom: 10px; text-align: center; }
+        .mission-header { background: #000; border: 1px solid #0f0; padding: 20px; margin-bottom: 10px; text-align: center; }
         .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; }
         
         .status-box { background: #000; border: 1px solid #0f0; padding: 15px; margin-bottom: 5px; text-align: center; }
         #live-badge { color: #0f0; font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
         .countdown-timer { font-weight: bold; font-size: 1.1em; color: #ff0; }
         
-        .diagnostic-box { background: #111; padding: 5px; margin-bottom: 10px; font-size: 0.6em; color: #999; text-align: center; }
         .hud-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
         .pair-card-large { border: 2px solid #333; padding: 5px; background: #000; height: 420px; }
-        .pair-card-small { border: 2px solid #333; padding: 5px; background: #000; height: 250px; }
+        .pair-card-small { border: 2px solid #333; padding: 5px; background: #000; height: 260px; }
         .card-label { color: #0f0; font-size: 0.7em; padding: 5px; text-transform: uppercase; font-weight: bold; }
         
         .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 10px; height: 80px; }
@@ -42,12 +41,10 @@
         </div>
         
         <div class="status-box">
-            <div id="live-badge">MARKET STATUS: LOADING...</div>
+            <div id="live-badge">MARKET: LOADING...</div>
             <div id="session-display" style="font-size: 0.8em; margin-bottom: 10px;">SESSION: INITIALIZING...</div>
             <div class="countdown-timer" id="market-countdown">NEXT: --:--:--</div>
         </div>
-        
-        <div class="diagnostic-box">[ DIAGNOSTICS: ] WIDGET: LIVE | TIMEZONE: UTC</div>
         
         <div class="hud-grid">
             <div class="pair-card-large">
@@ -56,7 +53,11 @@
             </div>
             <div class="pair-card-small">
                 <div id="gauge-label" class="card-label">15M MOMENTUM GAUGE // RANGE: [ 33 // 73 ]</div>
-                <div class="tradingview-widget-container" style="height:calc(100% - 20px); width:100%;"></div>
+                <div class="tradingview-widget-container" style="height:200px; width:100%;">
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                    { "interval": "15m", "width": "100%", "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
+                    </script>
+                </div>
             </div>
             <div class="log-box">
                 <div class="card-label">MASTER AUTOMATED LOG</div>
@@ -100,7 +101,6 @@
             const now = new Date();
             const h = now.getUTCHours();
             const session = getMarketSession();
-            
             document.getElementById('live-badge').innerText = (session === "CLOSED // WEEKEND PAUSE") ? "MARKET: CLOSED" : "MARKET: LIVE // ACTIVE";
             document.getElementById('session-display').innerText = "CURRENT SESSION: " + session;
             
@@ -138,3 +138,4 @@
     </script>
 </body>
 </html>
+
