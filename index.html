@@ -8,67 +8,47 @@
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
         body { background-color: #050505; color: #fff; font-family: 'Share Tech Mono', monospace; padding: 5px; margin: 0; transition: box-shadow 0.5s ease; }
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 5px; }
         
         body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
-        body.verify-pulse { animation: pulse-red 1.5s infinite; }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0px #ff0033; } 50% { box-shadow: 0 0 20px #ff0033; } 100% { box-shadow: 0 0 0px #ff0033; } }
         
-        .mission-header { background: url('free_hud.jpg') no-repeat center center; background-size: cover; border: 1px solid #0f0; padding: 40px; margin-bottom: 5px; text-align: center; position: relative; overflow: hidden; }
-        .mission-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1; }
-        .header-content { position: relative; z-index: 2; }
-        .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; text-shadow: 2px 2px 4px #000, 0 0 10px #000; font-weight: bold; }
-        .edition-tag { color: #0f0; font-size: 0.8em; margin-top: 5px; letter-spacing: 3px; text-shadow: 1px 1px 2px #000; }
+        .mission-header { background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 5px; text-align: center; }
+        .brand-title { font-size: 0.8em; color: #0f0; letter-spacing: 1px; }
         
-        .social-link { font-size: 0.7em; color: #aaa; margin-top: 8px; display: block; text-decoration: none; border-bottom: 1px solid #aaa; width: fit-content; margin-left: auto; margin-right: auto; }
-        .sync-light { font-size: 0.6em; color: #aaa; margin-top: 5px; border: 1px dashed #aaa; display: inline-block; padding: 2px 8px; }
-        
-        .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 5px; font-size: 0.65em; color: #0f0; display: grid; grid-template-columns: 2fr 1fr; align-items: center; }
+        .status-box { background: #000; border: 1px dashed #0f0; padding: 5px; margin-bottom: 2px; font-size: 0.6em; display: grid; grid-template-columns: 2fr 1fr; align-items: center; }
         .countdown-timer { text-align: right; font-weight: bold; font-size: 1em; color: #ff0; }
         
+        .diagnostic-box { background: #111; padding: 2px; margin-bottom: 5px; font-size: 0.5em; color: #999; text-align: center; }
+        
         .hud-grid { display: flex; flex-direction: column; gap: 5px; margin-bottom: 5px; }
-        .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 400px; }
-        .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 165px; }
-        .card-label { color: #0f0; font-size: 0.65em; padding: 2px; text-transform: uppercase; }
+        .pair-card-large { border: 2px solid #333; padding: 2px; background: #000; height: 420px; }
+        .pair-card-small { border: 2px solid #333; padding: 2px; background: #000; height: 220px; }
+        .card-label { color: #0f0; font-size: 0.6em; padding: 2px; text-transform: uppercase; }
         
-        .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 5px; height: 140px; }
-        #master-log-container { height: 110px; overflow-y: auto; font-size: 0.6em; color: #0f0; }
+        .log-box { border: 2px solid #333; background: #000; padding: 2px; margin-bottom: 5px; height: 70px; }
+        #master-log-container { height: 50px; overflow-y: auto; font-size: 0.6em; color: #0f0; }
 
-        .diagnostic-box { border: 1px dashed #555; background: #111; padding: 5px; margin-bottom: 5px; font-size: 0.55em; color: #999; }
-
-        .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 8px; margin-bottom: 5px; font-size: 0.65em; text-transform: uppercase; line-height: 1.2; text-align: center;}
-        .permanent-reminder-bar span { color: #ff0033; font-weight: bold; }
-        .ref-link { color: #ff0; text-decoration: underline; margin-top: 5px; display: inline-block; cursor: pointer; font-weight: bold; }
-
+        .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 5px; margin-bottom: 5px; font-size: 0.6em; text-transform: uppercase; text-align: center; }
+        
         .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px; }
-        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); width: 100%; }
-        .cta-button:hover { background: #0f0; color: #000; }
+        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 10px; font-family: 'Share Tech Mono', monospace; font-size: 0.6em; cursor: pointer; width: 100%; }
         
-        .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.65em; color: #ccc; margin-bottom: 10px; }
-        .pop-box ul { padding-left: 20px; line-height: 1.4; }
-
-        @media (max-width: 768px) {
-            .status-box { font-size: 0.55em; }
-            .pair-card-large { height: 300px; }
-            .control-panel-grid { grid-template-columns: 1fr; }
-            .brand-title { font-size: 0.9em; }
-        }
+        .pop-box { display: none; background: #000; border: 1px dashed #aaa; padding: 8px; font-size: 0.6em; color: #ccc; margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="mission-header">
-            <div class="header-content">
-                <div class="brand-title">ARCHFXGHOST // UNIVERSAL TRADING H.U.D.</div>
-                <div class="edition-tag">[ FREE EDITION ]</div>
-                <a href="https://x.com/ARCHFXGHOST" target="_blank" class="social-link">@ARCHFXGHOST // X.COM</a>
-                <div id="sync-status" class="sync-light">SYSTEM: IDLE</div>
-            </div>
+            <div class="brand-title">ARCHFXGHOST // UNIVERSAL TRADING H.U.D. [ FREE EDITION ]</div>
         </div>
         
         <div class="status-box">
-            <div id="session-display">SESSION: CLOSED // WAITING FOR TOKYO OPEN</div>
+            <div id="session-display">ROUTING...</div>
             <div class="countdown-timer" id="market-countdown">00:00:00</div>
+        </div>
+        
+        <div class="diagnostic-box">
+            [ DIAGNOSTICS: ] WIDGET: LIVE | SCALING: MAXIMIZED | TIMEZONE: US CENTRAL (CDT)
         </div>
         
         <div class="hud-grid">
@@ -77,7 +57,7 @@
                 <div id="tradingview_5m" style="height:calc(100% - 15px);width:100%;"></div>
             </div>
             <div class="pair-card-small">
-                <div class="card-label">15M MOMENTUM GAUGE // RANGE: [ 33 // 73 ]</div>
+                <div id="gauge-label" class="card-label">15M MOMENTUM GAUGE // RANGE: [ 33 // 73 ]</div>
                 <div class="tradingview-widget-container" style="height:calc(100% - 15px); width:100%;">
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
                     { "interval": "15m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
@@ -90,13 +70,8 @@
             </div>
         </div>
 
-        <div class="diagnostic-box">
-            [ DIAGNOSTICS: ] WIDGET: VERIFYING LIVE DATA | SCALING: AUTO-OPTIMIZED | TIMEZONE: US CENTRAL (CDT)
-        </div>
-
         <div class="permanent-reminder-bar">
-            <span>[ 🚦 ] SNIPER RULE:</span> CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER (33/73) -- SYNC LOCK.<br>
-            <a href="https://www.webull.com/s/FCxusy4fc5lMXBdgRu" target="_blank" class="ref-link">[ START YOUR MISSION // CLAIM FREE TRADES ]</a>
+            <span>[ 🚦 ] SNIPER RULE: CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER -- SYNC LOCK.</span>
         </div>
 
         <div class="control-panel-grid">
@@ -108,10 +83,10 @@
             <strong>THE SNIPER // PRECISION PLAYBOOK</strong>
             <ul>
                 <li><strong>1. THE WALL:</strong> Wait for price to hit a Floor or Ceiling.</li>
-                <li><strong>2. THE SPIKE:</strong> Check Gauge. Must be "Strong" (pegged at 80/20 extreme).</li>
-                <li><strong>3. THE FULL ROLL:</strong> Watch the gauge drift from "Strong" (80/20) back toward the 33-73 "Neutral" zone.</li>
-                <li><strong>4. THE ATR CROSS:</strong> As the meter enters Neutral, watch indicator lines. They must cross within the 33-73 range.</li>
-                <li><strong>5. EXECUTE:</strong> The moment the cross is confirmed in Neutral, place trade.</li>
+                <li><strong>2. THE SPIKE:</strong> Check Gauge. Must be "Strong" (pegged at extremes).</li>
+                <li><strong>3. THE FULL ROLL:</strong> Watch the gauge drift back to the range label above.</li>
+                <li><strong>4. THE ATR CROSS:</strong> Lines must cross within the session-dynamic range.</li>
+                <li><strong>5. EXECUTE:</strong> Confirm cross in range, place trade.</li>
             </ul>
         </div>
     </div>
@@ -123,33 +98,41 @@
             "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ]
         });
 
+        function getMarketSession() {
+            const hour = new Date().getHours(); 
+            if (hour >= 19 || hour < 3) return "TOKYO // ASIA";
+            if (hour >= 3 && hour < 8) return "LONDON // EU";
+            if (hour >= 8 && hour < 12) return "NY // LONDON OVERLAP";
+            if (hour >= 12 && hour < 17) return "NEW YORK";
+            return "LOW VOLUME // PAUSE";
+        }
+
+        function getDynamicRange(session) {
+            if (session === "TOKYO // ASIA") return "[ 40 // 60 ]";
+            if (session === "NY // LONDON OVERLAP") return "[ 20 // 80 ]";
+            return "[ 33 // 73 ]";
+        }
+
         function updateClock() {
             const now = new Date();
-            const day = now.getDay();
-            const hour = now.getHours();
+            const session = getMarketSession();
+            document.getElementById('session-display').innerText = "SESSION: " + session;
+            document.getElementById('gauge-label').innerText = "15M MOMENTUM GAUGE // RANGE: " + getDynamicRange(session);
             
-            // Logic: Tokyo Open is Sunday 6:00 PM Central Time
             let target = new Date();
-            target.setHours(18, 0, 0, 0);
-            
-            // If it's already Sunday past 6 PM, or if it's Monday-Friday, calculate next session start
-            if (day === 0 && hour >= 18) {
-                 target.setDate(target.getDate() + 1);
-            } else if (day !== 0) {
-                 // Logic for weekday sessions (if you wanted more granularity)
-            }
+            target.setHours(18, 0, 0, 0); 
+            if (now.getDay() === 0 && now.getHours() >= 18) target.setDate(target.getDate() + 1);
             
             const diff = target - now;
             const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
             document.getElementById('market-countdown').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         }
-
         setInterval(updateClock, 1000);
         updateClock();
 
         function logStatus(msg) {
             const container = document.getElementById('master-log-container');
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             container.innerHTML += `<div>[${time}] ${msg}</div>`;
             container.scrollTop = container.scrollHeight;
         }
@@ -164,11 +147,8 @@
         function toggleSellLock() {
             const state = document.body.classList.toggle('sell-locked');
             document.getElementById('lock-btn').innerText = state ? 'RELEASE LOCK' : 'LOCK & LOG 🔐';
-            document.getElementById('sync-status').innerText = state ? 'SYSTEM: SYNCED // LOCKED' : 'SYSTEM: IDLE';
             logStatus(state ? "CRITICAL: STRATEGY ENGAGED" : "SYSTEM: STRATEGY RELEASED");
         }
     </script>
 </body>
 </html>
-
-
