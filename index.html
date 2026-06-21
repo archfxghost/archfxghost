@@ -49,6 +49,8 @@
         .pop-box { display: none; background: #111; border: 1px solid #444; padding: 15px; font-size: 0.9em; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
         .pop-box strong { color: #ff0; }
         .highlight-action { color: #0f0; font-weight: bold; text-decoration: underline; }
+        .txt-blue { color: #3399ff; font-weight: bold; }
+        .txt-orange { color: #ff9933; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -99,19 +101,13 @@
         </div>
         
         <div class="pop-box" id="playbook-content" style="display:block;">
-            <strong style="font-size: 1.2em;">THE SNIPER // 11-STEP PRECISION PLAYBOOK</strong>
+            <strong style="font-size: 1.2em;">THE SNIPER // 5-PHASE EXECUTION MANTRA</strong>
             <ul style="padding-left: 20px;">
-                <li><strong>1. IDENTIFY THE WALL:</strong> Wait for price to touch a clear Floor or Ceiling.</li>
-                <li><strong>2. CONFIRM EXTREME:</strong> Verify the 15M Gauge is "Strong" (pegged at 80/20).</li>
-                <li><strong>3. WAIT FOR DRIFT:</strong> Let price pull away from the wall; remain patient.</li>
-                <li><strong>4. MONITOR THE ROLL:</strong> Watch the gauge drift back into the session-neutral zone.</li>
-                <li><strong>5. DYNAMIC RANGE RULE:</strong> <span class="highlight-action">ALWAYS check the range label.</span> It filters out market noise.</li>
-                <li><strong>6. PREPARE FOR CROSS:</strong> Watch the Fast Blue Line (K) and Slow Orange Line (D) from 6440.jpg. Wait for them to head toward each other.</li>
-                <li><strong>7. TRIGGER CONFIRMATION:</strong> <span class="highlight-action">Buy when Blue crosses UP over Orange; Sell when Blue crosses DOWN under Orange,</span> inside the neutral zone.</li>
-                <li><strong>8. EXECUTE & LOCK:</strong> <span class="highlight-action">Click trade exactly at the crossover,</span> then hit LOCK & LOG.</li>
-                <li><strong>9. THE NO-TRADE PROTOCOL:</strong> If the lines don't cross cleanly, or market noise is high: <span class="highlight-action">ABORT. Do not force it.</span></li>
-                <li><strong>10. STAY READY:</strong> Keep your trading app open and "at the ready" from Step 6.</li>
-                <li><strong>11. THE EXIT STRATEGY:</strong> Profit at the next opposing Wall or if indicator lines cross opposite. Cut loss if the price breaks decisively through your original Wall.</li>
+                <li><strong>1. CRASH TO WALL:</strong> Wait for price to touch a Floor or Ceiling. <span class="highlight-action">Standby only.</span></li>
+                <li><strong>2. SPIKE TO STRONG:</strong> 15M Gauge must be pegged at 80/20. <span class="highlight-action">Open trade app now.</span></li>
+                <li><strong>3. ROLL TO NEUTRAL:</strong> Price drifts back into range. Watch the RSI indicator lines (<span class="txt-blue">Blue</span>/<span class="txt-orange">Orange</span>).</li>
+                <li><strong>4. TRIGGER CROSSOVER:</strong> Buy when <span class="txt-blue">Blue</span> crosses UP over <span class="txt-orange">Orange</span>; Sell when <span class="txt-blue">Blue</span> crosses DOWN under <span class="txt-orange">Orange</span>. <span class="highlight-action">If it doesn't cross cleanly, ABORT.</span></li>
+                <li><strong>5. EXECUTE & SYNC LOCK:</strong> Place the trade in your app immediately. <span class="highlight-action">Hit LOCK & LOG here</span> to build a permanent record of your discipline and performance accuracy.</li>
             </ul>
         </div>
     </div>
@@ -179,199 +175,21 @@
         }
 
         function toggleSellLock() {
-            const state = document.body.classList.toggle('sell-locked');
-            document.getElementById('lock-btn').innerText = state ? 'RELEASE LOCK' : 'LOCK & LOG 🔐';
-            logStatus(state ? "CRITICAL: STRATEGY ENGAGED" : "SYSTEM: STRATEGY RELEASED");
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ARCHFXGHOST | EURUSD SNIPER // FREE EDITION</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
-        body { background-color: #050505; color: #e0e0e0; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; transition: box-shadow 0.5s ease; }
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; }
-        
-        body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
-        
-        .mission-header { 
-            background: url('free_hud.jpg') no-repeat center center; 
-            background-size: cover; 
-            border: 1px solid #0f0; 
-            padding: 30px; 
-            margin-bottom: 10px; 
-            text-align: center; 
-            position: relative; 
-        }
-        .mission-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1; }
-        .header-content { position: relative; z-index: 2; }
-        
-        .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; text-shadow: 1px 1px 2px #000; }
-        .social-link { font-size: 0.7em; color: #aaa; text-decoration: none; margin-top: 5px; display: block; }
-        .social-link:hover { color: #fff; }
-        
-        .status-box { background: #000; border: 1px dashed #0f0; padding: 10px; margin-bottom: 5px; font-size: 0.8em; display: grid; grid-template-columns: 2fr 1fr; align-items: center; }
-        .countdown-timer { text-align: right; font-weight: bold; font-size: 1.2em; color: #ff0; }
-        
-        .diagnostic-box { background: #111; padding: 5px; margin-bottom: 10px; font-size: 0.6em; color: #999; text-align: center; }
-        
-        .hud-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
-        .pair-card-large { border: 2px solid #333; padding: 5px; background: #000; height: 420px; }
-        .pair-card-small { border: 2px solid #333; padding: 5px; background: #000; height: 250px; }
-        .card-label { color: #0f0; font-size: 0.7em; padding: 5px; text-transform: uppercase; font-weight: bold; }
-        
-        .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 10px; height: 80px; }
-        #master-log-container { height: 60px; overflow-y: auto; font-size: 0.7em; color: #0f0; }
-
-        .permanent-reminder-bar { background: rgba(255, 0, 51, 0.15); border: 1px dashed #ff0033; padding: 10px; margin-bottom: 10px; font-size: 0.7em; text-transform: uppercase; text-align: center; color: #fff; }
-        
-        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; cursor: pointer; width: 100%; font-weight: bold; }
-        
-        .pop-box { display: none; background: #111; border: 1px solid #444; padding: 15px; font-size: 0.9em; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
-        .pop-box strong { color: #ff0; }
-        .highlight-action { color: #0f0; font-weight: bold; text-decoration: underline; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="mission-header">
-            <div class="header-content">
-                <div class="brand-title">ARCHFXGHOST // UNIVERSAL TRADING H.U.D.</div>
-                <div style="font-size: 0.7em; color: #0f0; margin-top: 5px;">[ FREE EDITION ]</div>
-                <a href="https://x.com/ARCHFXGHOST" class="social-link" target="_blank">@ARCHFXGHOST ON X</a>
-            </div>
-        </div>
-        
-        <div class="status-box">
-            <div id="session-display">SESSION: INITIALIZING...</div>
-            <div class="countdown-timer" id="market-countdown">00:00:00</div>
-        </div>
-        
-        <div class="diagnostic-box">
-            [ DIAGNOSTICS: ] WIDGET: LIVE | TIMEZONE: UTC
-        </div>
-        
-        <div class="hud-grid">
-            <div class="pair-card-large">
-                <div class="card-label">SNIPER PANE // 5M PRICE + BOUNDARIES</div>
-                <div id="tradingview_5m" style="height:calc(100% - 20px);width:100%;"></div>
-            </div>
-            <div class="pair-card-small">
-                <div id="gauge-label" class="card-label">15M MOMENTUM GAUGE // RANGE: [ 33 // 73 ]</div>
-                <div class="tradingview-widget-container" style="height:calc(100% - 20px); width:100%;">
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                    { "interval": "15m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
-                    </script>
-                </div>
-            </div>
-            <div class="log-box">
-                <div class="card-label">MASTER AUTOMATED LOG</div>
-                <div id="master-log-container"></div>
-            </div>
-        </div>
-
-        <div class="permanent-reminder-bar">
-            <span>[ 🚦 ] CRASH TO WALL -- SPIKE TO STRONG -- ROLL TO NEUTRAL -- TRIGGER CROSSOVER -- SYNC LOCK.</span>
-        </div>
-
-        <div class="control-panel-grid">
-            <button class="cta-button" onclick="toggleElement('playbook-content', this, 'ACCESS PLAYBOOK', 'CLOSE PLAYBOOK')">ACCESS PLAYBOOK</button>
-            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn">LOCK & LOG 🔐</button>
-        </div>
-        
-        <div class="pop-box" id="playbook-content" style="display:block;">
-            <strong style="font-size: 1.2em;">THE SNIPER // 11-STEP PRECISION PLAYBOOK</strong>
-            <ul style="padding-left: 20px;">
-                <li><strong>1. IDENTIFY THE WALL:</strong> Wait for price to touch a clear Floor or Ceiling.</li>
-                <li><strong>2. CONFIRM EXTREME:</strong> Verify the 15M Gauge is "Strong" (pegged at 80/20).</li>
-                <li><strong>3. WAIT FOR DRIFT:</strong> Let price pull away from the wall; remain patient.</li>
-                <li><strong>4. MONITOR THE ROLL:</strong> Watch the gauge drift back into the session-neutral zone.</li>
-                <li><strong>5. DYNAMIC RANGE RULE:</strong> <span class="highlight-action">ALWAYS check the range label.</span> It filters out market noise.</li>
-                <li><strong>6. PREPARE FOR CROSS:</strong> Watch the Fast Blue Line (K) and Slow Orange Line (D) from 6440.jpg. Wait for them to head toward each other.</li>
-                <li><strong>7. TRIGGER CONFIRMATION:</strong> <span class="highlight-action">Buy when Blue crosses UP over Orange; Sell when Blue crosses DOWN under Orange,</span> inside the neutral zone.</li>
-                <li><strong>8. EXECUTE & LOCK:</strong> <span class="highlight-action">Click trade exactly at the crossover,</span> then hit LOCK & LOG.</li>
-                <li><strong>9. THE NO-TRADE PROTOCOL:</strong> If the lines don't cross cleanly, or market noise is high: <span class="highlight-action">ABORT. Do not force it.</span></li>
-                <li><strong>10. STAY READY:</strong> Keep your trading app open and "at the ready" from Step 6.</li>
-                <li><strong>11. THE EXIT STRATEGY:</strong> Profit at the next opposing Wall or if indicator lines cross opposite. Cut loss if the price breaks decisively through your original Wall.</li>
-            </ul>
-        </div>
-    </div>
-
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script type="text/javascript">
-        const baseConfig = { "autosize": true, "symbol": "OANDA:EURUSD", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "hide_side_toolbar": true };
-        new TradingView.widget({ ...baseConfig, "interval": "5", "container_id": "tradingview_5m",
-            "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ]
-        });
-
-        function getMarketSession() {
-            const now = new Date();
-            const day = now.getUTCDay();
-            const hour = now.getUTCHours();
+            const btn = document.getElementById('lock-btn');
+            const isLocked = document.body.classList.toggle('sell-locked');
             
-            if (day === 6 || day === 0 || (day === 5 && hour >= 22) || (day === 1 && hour < 0)) {
-                return "CLOSED // WEEKEND PAUSE";
+            if (isLocked) {
+                btn.innerText = 'RELEASE LOCK';
+                btn.style.backgroundColor = '#ff0033';
+                btn.style.color = '#fff';
+                logStatus("CRITICAL: STRATEGY ENGAGED // TRADE LOGGED");
+            } else {
+                btn.innerText = 'LOCK & LOG 🔐';
+                btn.style.backgroundColor = '#000';
+                btn.style.color = '#0f0';
+                logStatus("SYSTEM: STRATEGY RELEASED");
             }
-            
-            if (hour >= 19 || hour < 3) return "TOKYO // ASIA";
-            if (hour >= 3 && hour < 8) return "LONDON // EU";
-            if (hour >= 8 && hour < 12) return "NY // LONDON OVERLAP";
-            if (hour >= 12 && hour < 17) return "NEW YORK";
-            return "LOW VOLUME // PAUSE";
-        }
-
-        function getDynamicRange(session) {
-            if (session === "TOKYO // ASIA") return "[ 40 // 60 ]";
-            if (session === "NY // LONDON OVERLAP") return "[ 20 // 80 ]";
-            return "[ 33 // 73 ]";
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const session = getMarketSession();
-            document.getElementById('session-display').innerText = "SESSION: " + session;
-            document.getElementById('gauge-label').innerText = "15M MOMENTUM GAUGE // RANGE: " + getDynamicRange(session);
-            
-            let target = new Date();
-            target.setUTCHours(22, 0, 0, 0);
-            const day = now.getUTCDay();
-            if (day === 0 && now.getUTCHours() >= 22) target.setUTCDate(target.getUTCDate() + 7);
-            else if (day !== 0) target.setUTCDate(target.getUTCDate() + (7 - day));
-            
-            const diff = target - now;
-            const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
-            document.getElementById('market-countdown').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        function logStatus(msg) {
-            const container = document.getElementById('master-log-container');
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            container.innerHTML += `<div>[${time}] ${msg}</div>`;
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function toggleElement(id, btn, tP, tM) {
-            const el = document.getElementById(id);
-            const isOpen = el.style.display === 'block';
-            el.style.display = isOpen ? 'none' : 'block';
-            btn.innerText = isOpen ? tP : tM;
-        }
-
-        function toggleSellLock() {
-            const state = document.body.classList.toggle('sell-locked');
-            document.getElementById('lock-btn').innerText = state ? 'RELEASE LOCK' : 'LOCK & LOG 🔐';
-            logStatus(state ? "CRITICAL: STRATEGY ENGAGED" : "SYSTEM: STRATEGY RELEASED");
         }
     </script>
 </body>
 </html>
-
