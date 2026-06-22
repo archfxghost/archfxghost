@@ -1,118 +1,83 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ARCHFXGHOST | EURUSD SNIPER // FINAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHFXGHOST | MASTER H.U.D.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
         body { background-color: #050505; color: #e0e0e0; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; }
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; }
-        
-        .mission-header { background: #000; border: 1px solid #0f0; padding: 20px; margin-bottom: 10px; text-align: center; }
-        .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; }
-        
-        .status-box { background: #000; border: 1px solid #0f0; padding: 15px; margin-bottom: 10px; text-align: center; }
-        #live-badge { color: #0f0; font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
-        .countdown-timer { font-weight: bold; font-size: 1.1em; color: #ff0; }
-        #zone-tracker { border-top: 1px solid #444; margin-top: 10px; padding-top: 5px; color: #fff; font-size: 0.8em; }
-        
-        .hud-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
-        .pair-card-large { border: 2px solid #333; padding: 5px; background: #000; height: 420px; }
-        .pair-card-small { border: 2px solid #333; padding: 5px; background: #000; height: 320px; }
-        .card-label { color: #0f0; font-size: 0.7em; padding: 5px; text-transform: uppercase; font-weight: bold; }
-        
-        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 0.9em; cursor: pointer; width: 100%; font-weight: bold; }
-        
-        .pop-box { display: none; background: #111; border: 1px solid #444; padding: 15px; font-size: 0.9em; color: #ccc; margin-top: 10px; }
-        .txt-blue { color: #3399ff; font-weight: bold; }
-        .txt-orange { color: #ff9933; font-weight: bold; }
-        .txt-red { color: #ff0033; font-weight: bold; }
-        .txt-yellow { color: #ffff00; font-weight: bold; }
-        .txt-green { color: #00ff00; font-weight: bold; }
+        .container { width: 100%; max-width: 800px; margin: 0 auto; }
+        .mission-header { background: #000; border: 1px solid #0f0; padding: 10px; margin-bottom: 5px; text-align: center; }
+        .brand-title { font-size: 1em; color: #0f0; letter-spacing: 2px; }
+        .status-box { background: #000; border: 1px solid #0f0; padding: 8px; margin-bottom: 5px; text-align: center; font-size: 0.9em; }
+        .countdown-timer { color: #ff0; font-weight: bold; }
+        .protocol-box { background: #000; border: 1px solid #0f0; padding: 10px; color: #fff; font-size: 0.7em; margin-bottom: 5px; line-height: 1.2; }
+        .protocol-box h3 { color: #0f0; margin: 0 0 3px 0; font-size: 0.9em; }
+        .chart-wrapper { height: 350px; margin-bottom: 5px; border: 1px solid #333; }
+        .gauge-wrapper { height: 300px; margin-bottom: 10px; border: 1px solid #333; }
+        .signal-monitor { border: 2px solid #555; padding: 10px; text-align: center; background: #000; }
+        .glow-active { color: #0f0; text-shadow: 0 0 10px #0f0; }
+        .glow-inactive { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="mission-header">
-            <div class="brand-title">ARCHFXGHOST // UNIVERSAL TRADING H.U.D.</div>
-        </div>
+        <div class="mission-header"><div class="brand-title">ARCHFXGHOST // MASTER H.U.D.</div></div>
         
         <div class="status-box">
             <div id="live-badge">MARKET: LIVE // ACTIVE</div>
-            <div id="session-display" style="font-size: 0.8em; margin-bottom: 10px;">SESSION: INITIALIZING...</div>
+            <div id="session-display">SESSION: INITIALIZING...</div>
             <div class="countdown-timer" id="market-countdown">NEXT: --:--:--</div>
-            <div id="zone-tracker">ZONE ORIGIN: <span id="zone-origin" style="color: #666;">WAITING FOR EXTREME...</span></div>
-        </div>
-        
-        <div class="hud-grid">
-            <div class="pair-card-large">
-                <div class="card-label">SNIPER PANE // 5M PRICE + BOUNDARIES</div>
-                <div id="tradingview_5m" style="height:calc(100% - 20px);width:100%;"></div>
-            </div>
-            
-            <div class="pair-card-small">
-                <div class="card-label">15M MOMENTUM GAUGE // RANGE: [ 25 // 75 ]</div>
-                <div class="tradingview-widget-container" style="height:280px; width:100%;">
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                    { "interval": "15m", "width": "100%", "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
-                    </script>
-                </div>
-            </div>
         </div>
 
-        <button class="cta-button" onclick="togglePlaybook()">ACCESS PLAYBOOK</button>
+        <div class="protocol-box">
+            <h3>OPERATIONAL PLAYBOOK</h3>
+            <strong>1. WORKFLOW:</strong> 15M Gauge (Permission) -> 5M Sniper (Trigger).<br>
+            <strong>2. ENTRY:</strong> Gap ≥ 5 // Neutral: 0–5 (Optimal), 6–10 (Caution), >10 (NO TRADE).<br>
+            <strong>3. EXIT:</strong> Neutral > 10 (Reversal) // Pivot Break (Structural Failure).
+        </div>
+
+        <!-- 5M Sniper Chart -->
+        <div class="chart-wrapper" id="tv_chart_container"></div>
+
+        <!-- The Technical Gauge -->
+        <div class="gauge-wrapper">
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+            {
+                "symbol": "OANDA:EURUSD",
+                "interval": "15m",
+                "width": "100%",
+                "height": "100%",
+                "displayMode": "single",
+                "colorTheme": "dark",
+                "locale": "en"
+            }
+            </script>
+        </div>
         
-        <div class="pop-box" id="playbook-content">
-            <strong>THE SNIPER // TRAFFIC LIGHT EXECUTION</strong>
-            <ul style="padding-left: 20px;">
-                <li><span class="txt-red">RED LIGHT (STRONG):</span> Gauge at 25 (BUY) or 75 (SELL). <strong>WAIT!</strong> Market is overextended.</li>
-                <li><span class="txt-yellow">YELLOW LIGHT (ROLL):</span> Gauge moves toward Neutral. Watch RSI lines converge.</li>
-                <li><span class="txt-green">GREEN LIGHT (EXECUTE):</span> Both lines in Neutral (25-75). <br>• <strong>BUY:</strong> <span class="txt-blue">Blue</span> crosses UP <span class="txt-orange">Orange</span>.<br>• <strong>SELL:</strong> <span class="txt-blue">Blue</span> crosses DOWN <span class="txt-orange">Orange</span>.</li>
-            </ul>
+        <div class="signal-monitor">
+            <div id="signal-status" class="glow-active">SYSTEM READY</div>
         </div>
     </div>
-
+    
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
-        new TradingView.widget({ "autosize": true, "symbol": "OANDA:EURUSD", "interval": "5", "timezone": "Etc/UTC", "theme": "dark", "container_id": "tradingview_5m", "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ] });
+        // Sniper Chart Widget
+        new TradingView.widget({
+            "container_id": "tv_chart_container",
+            "autosize": true,
+            "symbol": "OANDA:EURUSD",
+            "interval": "5",
+            "theme": "dark",
+            "studies": ["PivotPointsHighLow@tv-basicstudies", "StochasticRSI@tv-basicstudies"]
+        });
 
-        function updateClock() {
-            const now = new Date();
-            const h = now.getUTCHours();
-            
-            const sessionMap = [
-                { name: "TOKYO", start: 22, label: "10:00 PM" },
-                { name: "LONDON", start: 3, label: "3:00 AM" },
-                { name: "NY/LONDON", start: 8, label: "8:00 AM" },
-                { name: "NEW YORK", start: 12, label: "12:00 PM" }
-            ];
-
-            let next = sessionMap.find(s => s.start > h) || sessionMap[0];
-            let target = new Date();
-            target.setUTCHours(next.start, 0, 0, 0);
-            if (target <= now) target.setUTCDate(target.getUTCDate() + 1);
-
-            const diff = target - now;
-            const hr = Math.floor(diff / 3600000);
-            const min = Math.floor((diff % 3600000) / 60000);
-            const sec = Math.floor((diff % 60000) / 1000);
-
-            document.getElementById('market-countdown').innerText = `NEXT ${next.name} (${next.label}): ${hr}:${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
-            
-            const currentSession = (h >= 22 || h < 3) ? "TOKYO // ASIA" : (h >= 3 && h < 8) ? "LONDON // EU" : (h >= 8 && h < 12) ? "NY // LONDON OVERLAP" : "NEW YORK";
-            document.getElementById('session-display').innerText = "CURRENT SESSION: " + currentSession;
-        }
-
-        function togglePlaybook() {
-            const el = document.getElementById('playbook-content');
-            el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-        }
-
-        setInterval(updateClock, 500);
-        updateClock();
+        // Clock and Session Logic
+        function getMarketSession() { const h = new Date().getUTCHours(), d = new Date().getUTCDay(); if ((d === 5 && h >= 22) || (d === 6) || (d === 0 && h < 22)) return "CLOSED // WEEKEND PAUSE"; if (h >= 22 || h < 3) return "TOKYO // ASIA"; if (h >= 3 && h < 8) return "LONDON // EU"; if (h >= 8 && h < 12) return "NY // LONDON OVERLAP"; return "NEW YORK"; }
+        function updateClock() { const now = new Date(), h = now.getUTCHours(); document.getElementById('session-display').innerText = "SESSION: " + getMarketSession(); const sessions = [ { name: "TOKYO", start: 22 }, { name: "LONDON", start: 3 }, { name: "NY/LONDON", start: 8 }, { name: "NEW YORK", start: 12 } ]; let next = sessions.find(s => s.start > h) || sessions[0]; let target = new Date(); target.setUTCHours(next.start, 0, 0, 0); if (target <= now) target.setUTCDate(target.getUTCDate() + 1); const diff = target - now, hr = Math.floor(diff / 3600000), min = Math.floor((diff % 3600000) / 60000), sec = Math.floor((diff % 60000) / 1000); document.getElementById('market-countdown').innerText = `NEXT ${next.name}: ${hr.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`; }
+        setInterval(updateClock, 1000); updateClock();
     </script>
 </body>
 </html>
+
