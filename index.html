@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ARCHFXGHOST | EURUSD SNIPER // FREE EDITION</title>
+    <title>ARCHFXGHOST | EURUSD SNIPER // FINAL</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
@@ -40,7 +41,7 @@
         </div>
         
         <div class="status-box">
-            <div id="live-badge">MARKET: LOADING...</div>
+            <div id="live-badge">MARKET: LIVE // ACTIVE</div>
             <div id="session-display" style="font-size: 0.8em; margin-bottom: 10px;">SESSION: INITIALIZING...</div>
             <div class="countdown-timer" id="market-countdown">NEXT: --:--:--</div>
             <div id="zone-tracker">ZONE ORIGIN: <span id="zone-origin" style="color: #666;">WAITING FOR EXTREME...</span></div>
@@ -78,45 +79,31 @@
     <script type="text/javascript">
         new TradingView.widget({ "autosize": true, "symbol": "OANDA:EURUSD", "interval": "5", "timezone": "Etc/UTC", "theme": "dark", "container_id": "tradingview_5m", "studies": [ { id: "PivotPointsHighLow@tv-basicstudies", inputs: { length: 10 } }, { id: "StochasticRSI@tv-basicstudies", inputs: { lengthRSI: 14, lengthStoch: 14 } } ] });
 
-        function getMarketSession() {
-            const h = new Date().getUTCHours();
-            const d = new Date().getUTCDay();
-            const closed = (d === 5 && h >= 22) || (d === 6) || (d === 0 && h < 22);
-            if (closed) return "CLOSED // WEEKEND PAUSE";
-            if (h >= 22 || h < 3) return "TOKYO // ASIA";
-            if (h >= 3 && h < 8) return "LONDON // EU";
-            if (h >= 8 && h < 12) return "NY // LONDON OVERLAP";
-            return "NEW YORK";
-        }
-
         function updateClock() {
             const now = new Date();
             const h = now.getUTCHours();
-            const session = getMarketSession();
-            document.getElementById('live-badge').innerText = (session === "CLOSED // WEEKEND PAUSE") ? "MARKET: CLOSED" : "MARKET: LIVE // ACTIVE";
-            document.getElementById('session-display').innerText = "CURRENT SESSION: " + session;
             
-            const sessions = [ { name: "TOKYO", start: 22 }, { name: "LONDON", start: 3 }, { name: "NY/LONDON", start: 8 }, { name: "NEW YORK", start: 12 } ];
-            let next = sessions.find(s => s.start > h) || sessions[0];
+            const sessionMap = [
+                { name: "TOKYO", start: 22, label: "10:00 PM" },
+                { name: "LONDON", start: 3, label: "3:00 AM" },
+                { name: "NY/LONDON", start: 8, label: "8:00 AM" },
+                { name: "NEW YORK", start: 12, label: "12:00 PM" }
+            ];
+
+            let next = sessionMap.find(s => s.start > h) || sessionMap[0];
             let target = new Date();
             target.setUTCHours(next.start, 0, 0, 0);
             if (target <= now) target.setUTCDate(target.getUTCDate() + 1);
-            
-            const diff = target - now;
-            const hr = Math.floor(diff / 3600000), min = Math.floor((diff % 3600000) / 60000);
-            document.getElementById('market-countdown').innerText = `NEXT ${next.name}: ${hr.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`;
-        }
 
-        // Added Zone Origin Monitor Logic
-        function monitorZone(rsiValue) {
-            const el = document.getElementById('zone-origin');
-            if (rsiValue >= 75) {
-                el.innerText = "CEILING // SELL PREP";
-                el.style.color = "#ff0033";
-            } else if (rsiValue <= 25) {
-                el.innerText = "FLOOR // BUY PREP";
-                el.style.color = "#3399ff";
-            }
+            const diff = target - now;
+            const hr = Math.floor(diff / 3600000);
+            const min = Math.floor((diff % 3600000) / 60000);
+            const sec = Math.floor((diff % 60000) / 1000);
+
+            document.getElementById('market-countdown').innerText = `NEXT ${next.name} (${next.label}): ${hr}:${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+            
+            const currentSession = (h >= 22 || h < 3) ? "TOKYO // ASIA" : (h >= 3 && h < 8) ? "LONDON // EU" : (h >= 8 && h < 12) ? "NY // LONDON OVERLAP" : "NEW YORK";
+            document.getElementById('session-display').innerText = "CURRENT SESSION: " + currentSession;
         }
 
         function togglePlaybook() {
@@ -124,7 +111,7 @@
             el.style.display = (el.style.display === 'block') ? 'none' : 'block';
         }
 
-        setInterval(updateClock, 1000);
+        setInterval(updateClock, 500);
         updateClock();
     </script>
 </body>
