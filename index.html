@@ -16,6 +16,7 @@
         .status-box { background: #000; border: 1px solid #0f0; padding: 15px; margin-bottom: 10px; text-align: center; }
         #live-badge { color: #0f0; font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
         .countdown-timer { font-weight: bold; font-size: 1.1em; color: #ff0; }
+        #zone-tracker { border-top: 1px solid #444; margin-top: 10px; padding-top: 5px; color: #fff; font-size: 0.8em; }
         
         .hud-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
         .pair-card-large { border: 2px solid #333; padding: 5px; background: #000; height: 420px; }
@@ -42,6 +43,7 @@
             <div id="live-badge">MARKET: LOADING...</div>
             <div id="session-display" style="font-size: 0.8em; margin-bottom: 10px;">SESSION: INITIALIZING...</div>
             <div class="countdown-timer" id="market-countdown">NEXT: --:--:--</div>
+            <div id="zone-tracker">ZONE ORIGIN: <span id="zone-origin" style="color: #666;">WAITING FOR EXTREME...</span></div>
         </div>
         
         <div class="hud-grid">
@@ -65,9 +67,9 @@
         <div class="pop-box" id="playbook-content">
             <strong>THE SNIPER // TRAFFIC LIGHT EXECUTION</strong>
             <ul style="padding-left: 20px;">
-                <li><span class="txt-red">RED LIGHT (STRONG):</span> Gauge at 25 or 75. <strong>WAIT!</strong> Market is overextended.</li>
+                <li><span class="txt-red">RED LIGHT (STRONG):</span> Gauge at 25 (BUY) or 75 (SELL). <strong>WAIT!</strong> Market is overextended.</li>
                 <li><span class="txt-yellow">YELLOW LIGHT (ROLL):</span> Gauge moves toward Neutral. Watch RSI lines converge.</li>
-                <li><span class="txt-green">GREEN LIGHT (EXECUTE):</span> Both lines in Neutral (25-75). <span class="txt-blue">Blue</span> crosses <span class="txt-orange">Orange</span>. <strong>ENTER TRADE.</strong></li>
+                <li><span class="txt-green">GREEN LIGHT (EXECUTE):</span> Both lines in Neutral (25-75). <br>• <strong>BUY:</strong> <span class="txt-blue">Blue</span> crosses UP <span class="txt-orange">Orange</span>.<br>• <strong>SELL:</strong> <span class="txt-blue">Blue</span> crosses DOWN <span class="txt-orange">Orange</span>.</li>
             </ul>
         </div>
     </div>
@@ -105,6 +107,18 @@
             document.getElementById('market-countdown').innerText = `NEXT ${next.name}: ${hr.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`;
         }
 
+        // Added Zone Origin Monitor Logic
+        function monitorZone(rsiValue) {
+            const el = document.getElementById('zone-origin');
+            if (rsiValue >= 75) {
+                el.innerText = "CEILING // SELL PREP";
+                el.style.color = "#ff0033";
+            } else if (rsiValue <= 25) {
+                el.innerText = "FLOOR // BUY PREP";
+                el.style.color = "#3399ff";
+            }
+        }
+
         function togglePlaybook() {
             const el = document.getElementById('playbook-content');
             el.style.display = (el.style.display === 'block') ? 'none' : 'block';
@@ -115,5 +129,3 @@
     </script>
 </body>
 </html>
-
-
