@@ -7,31 +7,29 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
-        body { background-color: #050505; color: #e0e0e0; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; transition: box-shadow 0.5s ease; }
+        body { background-color: #050505; color: #e0e0e0; font-family: 'Share Tech Mono', monospace; padding: 10px; margin: 0; }
         .container { width: 100%; max-width: 1200px; margin: 0 auto; }
-        body.sell-locked { box-shadow: inset 0 0 20px #ff0033, 0 0 15px #ff0033; }
         
         .mission-header { background: #000; border: 1px solid #0f0; padding: 20px; margin-bottom: 10px; text-align: center; }
         .brand-title { font-size: 1.1em; color: #0f0; letter-spacing: 2px; }
         
-        .status-box { background: #000; border: 1px solid #0f0; padding: 15px; margin-bottom: 5px; text-align: center; }
+        .status-box { background: #000; border: 1px solid #0f0; padding: 15px; margin-bottom: 10px; text-align: center; }
         #live-badge { color: #0f0; font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
         .countdown-timer { font-weight: bold; font-size: 1.1em; color: #ff0; }
         
         .hud-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
         .pair-card-large { border: 2px solid #333; padding: 5px; background: #000; height: 420px; }
-        .pair-card-small { border: 2px solid #333; padding: 5px; background: #000; height: 260px; }
+        .pair-card-small { border: 2px solid #333; padding: 5px; background: #000; height: 320px; }
         .card-label { color: #0f0; font-size: 0.7em; padding: 5px; text-transform: uppercase; font-weight: bold; }
         
-        .log-box { border: 2px solid #333; background: #000; padding: 5px; margin-bottom: 10px; height: 80px; }
-        #master-log-container { height: 60px; overflow-y: auto; font-size: 0.7em; color: #0f0; }
+        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 0.9em; cursor: pointer; width: 100%; font-weight: bold; }
         
-        .control-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .cta-button { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; font-family: 'Share Tech Mono', monospace; font-size: 0.7em; cursor: pointer; width: 100%; font-weight: bold; }
-        
-        .pop-box { display: none; background: #111; border: 1px solid #444; padding: 15px; font-size: 0.9em; color: #ccc; margin-bottom: 15px; }
+        .pop-box { display: none; background: #111; border: 1px solid #444; padding: 15px; font-size: 0.9em; color: #ccc; margin-top: 10px; }
         .txt-blue { color: #3399ff; font-weight: bold; }
         .txt-orange { color: #ff9933; font-weight: bold; }
+        .txt-red { color: #ff0033; font-weight: bold; }
+        .txt-yellow { color: #ffff00; font-weight: bold; }
+        .txt-green { color: #00ff00; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -51,33 +49,25 @@
                 <div class="card-label">SNIPER PANE // 5M PRICE + BOUNDARIES</div>
                 <div id="tradingview_5m" style="height:calc(100% - 20px);width:100%;"></div>
             </div>
+            
             <div class="pair-card-small">
-                <div id="gauge-label" class="card-label">15M MOMENTUM GAUGE // RANGE: [ 33 // 73 ]</div>
-                <div class="tradingview-widget-container" style="height:200px; width:100%;">
+                <div class="card-label">15M MOMENTUM GAUGE // RANGE: [ 25 // 75 ]</div>
+                <div class="tradingview-widget-container" style="height:280px; width:100%;">
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
                     { "interval": "15m", "width": "100%", "height": "100%", "symbol": "OANDA:EURUSD", "locale": "en", "colorTheme": "dark" }
                     </script>
                 </div>
             </div>
-            <div class="log-box">
-                <div class="card-label">MASTER AUTOMATED LOG</div>
-                <div id="master-log-container"></div>
-            </div>
         </div>
 
-        <div class="control-panel-grid">
-            <button class="cta-button" onclick="togglePlaybook()">ACCESS PLAYBOOK</button>
-            <button class="cta-button" onclick="toggleSellLock()" id="lock-btn">LOCK & LOG 🔐</button>
-        </div>
+        <button class="cta-button" onclick="togglePlaybook()">ACCESS PLAYBOOK</button>
         
         <div class="pop-box" id="playbook-content">
-            <strong>THE SNIPER // 5-PHASE EXECUTION MANTRA</strong>
+            <strong>THE SNIPER // TRAFFIC LIGHT EXECUTION</strong>
             <ul style="padding-left: 20px;">
-                <li>1. CRASH TO WALL: Wait for Floor/Ceiling touch.</li>
-                <li>2. SPIKE TO STRONG: 15M Gauge at 80/20.</li>
-                <li>3. ROLL TO NEUTRAL: Watch <span class="txt-blue">Blue</span>/<span class="txt-orange">Orange</span> lines.</li>
-                <li>4. TRIGGER CROSSOVER: Clean cross = Trade.</li>
-                <li>5. EXECUTE & SYNC LOCK.</li>
+                <li><span class="txt-red">RED LIGHT (STRONG):</span> Gauge at 25 or 75. <strong>WAIT!</strong> Market is overextended.</li>
+                <li><span class="txt-yellow">YELLOW LIGHT (ROLL):</span> Gauge moves toward Neutral. Watch RSI lines converge.</li>
+                <li><span class="txt-green">GREEN LIGHT (EXECUTE):</span> Both lines in Neutral (25-75). <span class="txt-blue">Blue</span> crosses <span class="txt-orange">Orange</span>. <strong>ENTER TRADE.</strong></li>
             </ul>
         </div>
     </div>
@@ -120,22 +110,10 @@
             el.style.display = (el.style.display === 'block') ? 'none' : 'block';
         }
 
-        function toggleSellLock() {
-            const btn = document.getElementById('lock-btn');
-            const isLocked = document.body.classList.toggle('sell-locked');
-            btn.innerText = isLocked ? 'RELEASE LOCK' : 'LOCK & LOG 🔐';
-            btn.style.backgroundColor = isLocked ? '#ff0033' : '#000';
-            if(isLocked) logStatus("CRITICAL: STRATEGY ENGAGED");
-        }
-        
-        function logStatus(msg) {
-            const container = document.getElementById('master-log-container');
-            container.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
-        }
-
         setInterval(updateClock, 1000);
         updateClock();
     </script>
 </body>
 </html>
+
 
